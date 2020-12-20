@@ -1,0 +1,9 @@
+<?php
+
+if (false === getenv('TEST_KAFKA_BROKERS')) {
+    putenv('TEST_KAFKA_BROKERS=localhost:9092');
+}
+
+if (false === getenv('TEST_KAFKA_BROKER_VERSION')) {
+    putenv('TEST_KAFKA_BROKER_VERSION=2.3');
+}

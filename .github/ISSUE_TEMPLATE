@@ -1,0 +1,22 @@
+<!--
+Thank you for creating a ticket!
+
+If you have questions, you can also join the Gitter channel.
+https://gitter.im/php-kafka/php-kafka
+
+Please always include the following in an issue, so we can help faster:
+-->
+
+ * PHP version:
+ * librdkafka version:
+ * php-kafka version:
+ * kafka version:
+
+If possible, add debug logs from librdkafka, which you can obtain by adjusting your configuration:
+```php
+<?php
+$conf = new Kafka\Configuration();
+// Add the two settings below for a more verbose output
+$conf->set('log_level', (string) LOG_DEBUG);
+$conf->set('debug', 'all');
+```
