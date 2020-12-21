@@ -28,7 +28,7 @@ void kafka_message_new(zval *return_value, const rd_kafka_message_t *message)
     const void *header_value = NULL;
     size_t header_size = 0;
     zval headers_array;
-    uint i;
+    size_t i;
 
     zend_update_property_long(NULL, Z_KAFKA_PROP_OBJ(return_value), ZEND_STRL("err"), message->err);
 
