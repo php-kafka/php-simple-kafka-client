@@ -1,6 +1,8 @@
 #ifndef PHP_KAFKA_INT_H
 #define PHP_KAFKA_INT_H
 
+#include "librdkafka/rdkafka.h"
+
 typedef struct _kafka_topic_object {
     rd_kafka_topic_t    *rkt;
     zval               zrk;
@@ -36,6 +38,16 @@ typedef struct _kafka_topic_partition_intern {
     zend_object std;
 } kafka_topic_partition_intern;
 
+typedef struct _kafka_object {
+    rd_kafka_type_t         type;
+    rd_kafka_t              *rk;
+    kafka_conf_callbacks    cbs;
+    HashTable               consuming;
+	HashTable				topics;
+	HashTable				queues;
+    zend_object             std;
+} kafka_object;
+
 typedef void (*kafka_metadata_collection_ctor_t)(zval *renurn_value, zval *zmetadata, const void *object);
 
 
@@ -59,6 +71,14 @@ typedef void (*kafka_metadata_collection_ctor_t)(zval *renurn_value, zval *zmeta
 
 #endif
 
+#ifdef PHP_WIN32
+#	define PHP_KAFKA_API __declspec(dllexport)
+#elif defined(__GNUC__) && __GNUC__ >= 4
+#	define PHP_KAFKA_API __attribute__ ((visibility("default")))
+#else
+#	define PHP_KAFKA_API
+#endif
+
 extern zend_class_entry * ce_kafka_conf;
 extern zend_class_entry * ce_kafka_error_exception;
 extern zend_class_entry * ce_kafka_exception;
@@ -68,11 +88,18 @@ extern zend_class_entry * ce_kafka_consumer_topic;
 extern zend_class_entry * ce_kafka_producer_topic;
 extern zend_class_entry * ce_kafka_topic;
 extern zend_class_entry * ce_kafka_topic_partition;
+extern zend_module_entry kafka_module_entry;
+extern zend_object_handlers kafka_default_object_handlers;
 
 #define Z_KAFKA_P(php_kafka_type, zobject) php_kafka_from_obj(php_kafka_type, Z_OBJ_P(zobject))
 
 #define php_kafka_from_obj(php_kafka_type, object) \
     ((php_kafka_type*)((char *)(object) - XtOffsetOf(php_kafka_type, std)))
+
+#define phpext_kafka_ptr &kafka_module_entry
+
+#define PHP_KAFKA_VERSION "1.0.0"
+
 
 static inline void kafka_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache, zval *retval, uint32_t param_count, zval params[])
 {
@@ -144,5 +171,8 @@ kafka_topic_partition_intern * get_topic_partition_object(zval *z);
 rd_kafka_topic_partition_list_t * array_arg_to_kafka_topic_partition_list(int argnum, HashTable *ary);
 kafka_topic_object * get_kafka_topic_object(zval *zrkt);
 kafka_conf_object * get_kafka_conf_object(zval *zconf);
+kafka_object * get_kafka_object(zval *zrk);
+
+ZEND_METHOD(Kafka, __construct);
 
 #endif /* PHP_KAFKA_INT_H */

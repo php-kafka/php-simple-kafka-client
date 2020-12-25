@@ -27,7 +27,6 @@ ltmain.sh
 missing
 mkinstalldirs
 modules
-package.xml
 kafka-*.tgz
 run-tests.php
 tests/*/*.diff

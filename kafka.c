@@ -8,7 +8,6 @@
 #include "php_ini.h"
 #include "ext/standard/info.h"
 #include "librdkafka/rdkafka.h"
-#include "php_kafka.h"
 #include "php_kafka_int.h"
 #include "Zend/zend_exceptions.h"
 #include "ext/spl/spl_exceptions.h"

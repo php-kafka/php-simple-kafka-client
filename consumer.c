@@ -3,7 +3,6 @@
 #endif
 
 #include "php.h"
-#include "php_kafka.h"
 #include "php_kafka_int.h"
 #include "librdkafka/rdkafka.h"
 #include "Zend/zend_exceptions.h"
