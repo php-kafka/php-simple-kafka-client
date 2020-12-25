@@ -14,9 +14,6 @@ $delivered = 0;
 
 $conf = new Kafka\Configuration();
 $conf->set('transactional.id', 'transactional-producer');
-if (RD_KAFKA_VERSION >= 0x090000 && false !== getenv('TEST_KAFKA_BROKER_VERSION')) {
-    $conf->set('broker.version.fallback', getenv('TEST_KAFKA_BROKER_VERSION'));
-}
 
 $conf->setErrorCb(function ($producer, $errorCode, $errstr) {
     printf("%s: %s\n", rd_kafka_err2str($errorCode), $errstr);
