@@ -23,4 +23,4 @@ try {
 _NOT_CONFIGURED
 -145
 %s/tests/init_transaction_not_configured.php
-14
+11
