@@ -4,9 +4,7 @@
 
 #include "php.h"
 #include "php_kafka_int.h"
-#include "librdkafka/rdkafka.h"
 #include "Zend/zend_exceptions.h"
-#include "ext/spl/spl_exceptions.h"
 #include "functions_arginfo.h"
 
 /* {{{ proto array kafka_get_err_descs()
