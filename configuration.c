@@ -5,11 +5,8 @@
 #include "php.h"
 #include "php_ini.h"
 #include "ext/standard/info.h"
-#include "php_kafka.h"
 #include "php_kafka_int.h"
-#include "librdkafka/rdkafka.h"
 #include "Zend/zend_exceptions.h"
-#include "ext/spl/spl_exceptions.h"
 #include "configuration_arginfo.h"
 
 zend_class_entry * ce_kafka_conf;

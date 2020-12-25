@@ -3,9 +3,7 @@
 #endif
 
 #include "php.h"
-#include "php_kafka.h"
 #include "php_kafka_int.h"
-#include "librdkafka/rdkafka.h"
 #include "ext/spl/spl_iterators.h"
 #include "Zend/zend_interfaces.h"
 #include "metadata_collection_arginfo.h"
