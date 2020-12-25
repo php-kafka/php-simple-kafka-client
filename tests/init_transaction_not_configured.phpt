@@ -5,9 +5,6 @@ initTransaction() not configured
 require __DIR__ . '/integration-tests-check.php';
 
 $conf = new Kafka\Configuration();
-if (RD_KAFKA_VERSION >= 0x090000 && false !== getenv('TEST_KAFKA_BROKER_VERSION')) {
-    $conf->set('broker.version.fallback', getenv('TEST_KAFKA_BROKER_VERSION'));
-}
 
 $conf->set('metadata.broker.list', getenv('TEST_KAFKA_BROKERS'));
 
@@ -26,4 +23,4 @@ try {
 _NOT_CONFIGURED
 -145
 %s/tests/init_transaction_not_configured.php
-14
+11
