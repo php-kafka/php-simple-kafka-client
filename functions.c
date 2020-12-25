@@ -56,6 +56,26 @@ ZEND_FUNCTION(kafka_get_err_descs)
 }
 /* }}} */
 
+/* {{{ proto string kafka_err2name(int $err)
+ * Returns a human readable representation of a kafka error.
+ */
+ZEND_FUNCTION(kafka_err2name)
+{
+    zend_long errorCode;
+    const char *errname;
+
+	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+	    Z_PARAM_LONG(errorCode)
+	ZEND_PARSE_PARAMETERS_END();
+
+    errname = rd_kafka_err2name(errorCode);
+
+    if (errname) {
+        RETURN_STRING(errname);
+    }
+}
+/* }}} */
+
 /* {{{ proto string kafka_err2str(int $err)
  * Returns a human readable representation of a kafka error.
  */

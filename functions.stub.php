@@ -9,3 +9,5 @@ function kafka_err2str(int $errorCode): string {}
 function kafka_thread_cnt(): int {}
 
 function kafka_offset_tail(int $offset): int {}
+
+function kafka_err2name(int $errorCode): string {}
