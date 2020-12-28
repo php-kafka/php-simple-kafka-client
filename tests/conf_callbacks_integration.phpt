@@ -2,18 +2,25 @@
 Kafka\Configuration
 --SKIPIF--
 <?php
-(!isset($_ENV['TESTS_DONT_SKIP_RISKY']) || $_ENV['TESTS_DONT_SKIP_RISKY']) && die("skip Risky/broken test");
 require __DIR__ . '/integration-tests-check.php';
 --FILE--
 <?php
 require __DIR__ . '/integration-tests-check.php';
 
 $conf = new Kafka\Configuration();
-
-$conf->set('auto.offset.reset', 'earliest');
 $conf->set('metadata.broker.list', getenv('TEST_KAFKA_BROKERS'));
 
-$conf->set('group.id', sprintf("test_kafka_group_%s", uniqid()));
+$delivered = 0;
+$conf->setDrMsgCb(function (Kafka\Producer $producer, Kafka\Message $message) use (&$delivered) {
+    if (RD_KAFKA_RESP_ERR_NO_ERROR !== $message->err) {
+        $errorStr = rd_kafka_err2str($message->err);
+
+        echo sprintf('Message FAILED (%s, %s) to send with payload => %s', $message->err, $errorStr, $message->payload) . PHP_EOL;
+    } else {
+        // message successfully delivered
+        ++$delivered;
+    }
+});
 
 $producer = new Kafka\Producer($conf);
 
@@ -22,20 +29,18 @@ $topic = $producer->getTopicHandle($topicName);
 
 for ($i = 0; $i < 10; $i++) {
     $topic->produce(0, 0, "message $i");
-    $producer->poll(0);
 }
 
 $producer->flush(10000);
 
-// Make sure there is enough time for the stats_cb to pick up the consumer lag
-sleep(1);
-
 $conf = new Kafka\Configuration();
-
 $conf->set('auto.offset.reset', 'earliest');
 $conf->set('metadata.broker.list', getenv('TEST_KAFKA_BROKERS'));
 $conf->set('group.id', sprintf("test_kafka_group_%s", uniqid()));
+$conf->set('enable.partition.eof', 'true');
 $conf->set('statistics.interval.ms', 10);
+$conf->set('log_level', (string) LOG_DEBUG);
+$conf->set('debug', 'all');
 
 $conf->setOffsetCommitCb(function ($consumer, $error, $topicPartitions) {
     echo "Offset " . $topicPartitions[0]->getOffset() . " committed.\n";
@@ -50,13 +55,43 @@ $conf->setStatsCb(function ($consumer, $json) use (&$statsCbCalled) {
     $statsCbCalled = true;
 });
 
+$logCbCalled = false;
+$conf->setLogCb(function (Kafka\Consumer $consumer, int $level, string $facility, string $message) use (&$logCbCalled) {
+    // suppress current bug in librdkafka https://github.com/edenhill/librdkafka/issues/2767
+    $logCbCalled = true ;
+});
+
+$conf->setErrorCb(function ($kafka, int $errorCode, string $reason) {
+    // suppress current bug in librdkafka https://github.com/edenhill/librdkafka/issues/2767
+});
+
+$topicsAssigned = false;
+$conf->setRebalanceCb(
+    function (Kafka\Consumer $kafka, $err, array $partitions = null) use (&$topicsAssigned){
+        switch ($err) {
+            case RD_KAFKA_RESP_ERR__ASSIGN_PARTITIONS:
+                $kafka->assign($partitions);
+                $topicsAssigned = true;
+                break;
+
+            case RD_KAFKA_RESP_ERR__REVOKE_PARTITIONS:
+                $kafka->assign(NULL);
+                break;
+
+            default:
+                $kafka->assign(NULL); // sync state
+                break;
+        }
+    }
+);
+
 $consumer = new Kafka\Consumer($conf);
 $consumer->subscribe([$topicName]);
 
 while (true) {
     $msg = $consumer->consume(15000);
 
-    if (!$msg || RD_KAFKA_RESP_ERR__PARTITION_EOF === $msg->err) {
+    if (RD_KAFKA_RESP_ERR__PARTITION_EOF === $msg->err) {
         break;
     }
 
@@ -68,6 +103,9 @@ while (true) {
 }
 
 var_dump($statsCbCalled);
+var_dump($logCbCalled);
+var_dump($topicsAssigned);
+var_dump($delivered);
 
 --EXPECT--
 Offset 1 committed.
@@ -81,3 +119,6 @@ Offset 8 committed.
 Offset 9 committed.
 Offset 10 committed.
 bool(true)
+bool(true)
+bool(true)
+int(10)
