@@ -186,9 +186,9 @@ ZEND_METHOD(Kafka_TopicPartition, __construct)
 }
 /* }}} */
 
-/* {{{ proto string Kafka\TopicPartition::getTopic()
+/* {{{ proto string Kafka\TopicPartition::getTopicName()
    Returns topic name */
-ZEND_METHOD(Kafka_TopicPartition, getTopic)
+ZEND_METHOD(Kafka_TopicPartition, getTopicName)
 {
     object_intern *intern;
 
