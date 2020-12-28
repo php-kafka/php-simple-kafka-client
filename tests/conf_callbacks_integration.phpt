@@ -65,6 +65,26 @@ $conf->setErrorCb(function ($kafka, int $errorCode, string $reason) {
     // suppress current bug in librdkafka https://github.com/edenhill/librdkafka/issues/2767
 });
 
+$topicsAssigned = false;
+$conf->setRebalanceCb(
+    function (Kafka\Consumer $kafka, $err, array $partitions = null) use (&$topicsAssigned){
+        switch ($err) {
+            case RD_KAFKA_RESP_ERR__ASSIGN_PARTITIONS:
+                $kafka->assign($partitions);
+                $topicsAssigned = true;
+                break;
+
+            case RD_KAFKA_RESP_ERR__REVOKE_PARTITIONS:
+                $kafka->assign(NULL);
+                break;
+
+            default:
+                $kafka->assign(NULL); // sync state
+                break;
+        }
+    }
+);
+
 $consumer = new Kafka\Consumer($conf);
 $consumer->subscribe([$topicName]);
 
@@ -84,6 +104,7 @@ while (true) {
 
 var_dump($statsCbCalled);
 var_dump($logCbCalled);
+var_dump($topicsAssigned);
 var_dump($delivered);
 
 --EXPECT--
@@ -97,6 +118,7 @@ Offset 7 committed.
 Offset 8 committed.
 Offset 9 committed.
 Offset 10 committed.
+bool(true)
 bool(true)
 bool(true)
 int(10)
