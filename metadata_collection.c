@@ -186,7 +186,7 @@ ZEND_METHOD(Kafka_Metadata_Collection, next)
         return;
     }
 
-    intern->position ++;
+    intern->position++;
 }
 /* }}} */
 
@@ -243,4 +243,5 @@ void kafka_metadata_collection_obj_init(zval *return_value, Z_KAFKA_OBJ *zmetada
     intern->item_cnt = item_cnt;
     intern->item_size = item_size;
     intern->ctor = ctor;
+    intern->position = 0;
 }
