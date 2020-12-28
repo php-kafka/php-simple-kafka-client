@@ -31,8 +31,6 @@ void kafka_conf_callbacks_dtor(kafka_conf_callbacks *cbs) /* {{{ */
     cbs->dr_msg = NULL;
     kafka_conf_callback_dtor(cbs->stats);
     cbs->stats = NULL;
-    kafka_conf_callback_dtor(cbs->consume);
-    cbs->consume = NULL;
     kafka_conf_callback_dtor(cbs->offset_commit);
     cbs->offset_commit = NULL;
     kafka_conf_callback_dtor(cbs->log);
@@ -54,7 +52,6 @@ void kafka_conf_callbacks_copy(kafka_conf_callbacks *to, kafka_conf_callbacks *f
     kafka_conf_callback_copy(&to->rebalance, from->rebalance);
     kafka_conf_callback_copy(&to->dr_msg, from->dr_msg);
     kafka_conf_callback_copy(&to->stats, from->stats);
-    kafka_conf_callback_copy(&to->consume, from->consume);
     kafka_conf_callback_copy(&to->offset_commit, from->offset_commit);
     kafka_conf_callback_copy(&to->log, from->log);
 } /* }}} */
@@ -216,32 +213,6 @@ static void kafka_conf_rebalance_cb(rd_kafka_t *rk, rd_kafka_resp_err_t err, rd_
     zval_ptr_dtor(&args[0]);
     zval_ptr_dtor(&args[1]);
     zval_ptr_dtor(&args[2]);
-}
-
-static void kafka_conf_consume_cb(rd_kafka_message_t *msg, void *opaque)
-{
-    kafka_conf_callbacks *cbs = (kafka_conf_callbacks*) opaque;
-    zval args[2];
-
-    if (!opaque) {
-        return;
-    }
-
-    if (!cbs->consume) {
-        return;
-    }
-
-    ZVAL_NULL(&args[0]);
-    ZVAL_NULL(&args[1]);
-
-    kafka_message_new(&args[0], msg);
-    ZVAL_ZVAL(&args[1], &cbs->zrk, 1, 0);
-
-
-    kafka_call_function(&cbs->consume->fci, &cbs->consume->fcc, NULL, 2, args);
-
-    zval_ptr_dtor(&args[0]);
-    zval_ptr_dtor(&args[1]);
 }
 
 static void kafka_conf_offset_commit_cb(rd_kafka_t *rk, rd_kafka_resp_err_t err, rd_kafka_topic_partition_list_t *partitions, void *opaque)
@@ -506,38 +477,6 @@ ZEND_METHOD(Kafka_Configuration, setRebalanceCb)
     intern->cbs.rebalance->fcc = fcc;
 
     rd_kafka_conf_set_rebalance_cb(intern->conf, kafka_conf_rebalance_cb);
-}
-/* }}} */
-
-/* {{{ proto void Kafka\Configuration::setConsumeCb(callable $callback)
-   Set consume callback to use with poll */
-ZEND_METHOD(Kafka_Configuration, setConsumeCb)
-{
-    zend_fcall_info fci;
-    zend_fcall_info_cache fcc;
-    kafka_conf_object *intern;
-
-	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
-	    Z_PARAM_FUNC(fci, fcc)
-	ZEND_PARSE_PARAMETERS_END();
-
-    intern = get_kafka_conf_object(getThis());
-    if (!intern) {
-        return;
-    }
-
-    Z_ADDREF_P(&fci.function_name);
-
-    if (intern->cbs.consume) {
-        zval_ptr_dtor(&intern->cbs.consume->fci.function_name);
-    } else {
-        intern->cbs.consume = ecalloc(1, sizeof(*intern->cbs.consume));
-    }
-
-    intern->cbs.consume->fci = fci;
-    intern->cbs.consume->fcc = fcc;
-
-    rd_kafka_conf_set_consume_cb(intern->conf, kafka_conf_consume_cb);
 }
 /* }}} */
 

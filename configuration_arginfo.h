@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 8077a6ec354f5333de7ed2e808e970a93f1a5c89 */
+ * Stub hash: 2a9fd8de9f13ef85f4c02373cc6f2dc87114edd0 */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_Kafka_Configuration___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -22,8 +22,6 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_class_Kafka_Configuration_setRebalanceCb arginfo_class_Kafka_Configuration_setErrorCb
 
-#define arginfo_class_Kafka_Configuration_setConsumeCb arginfo_class_Kafka_Configuration_setErrorCb
-
 #define arginfo_class_Kafka_Configuration_setOffsetCommitCb arginfo_class_Kafka_Configuration_setErrorCb
 
 #define arginfo_class_Kafka_Configuration_setLogCb arginfo_class_Kafka_Configuration_setErrorCb
@@ -36,7 +34,6 @@ ZEND_METHOD(Kafka_Configuration, setErrorCb);
 ZEND_METHOD(Kafka_Configuration, setDrMsgCb);
 ZEND_METHOD(Kafka_Configuration, setStatsCb);
 ZEND_METHOD(Kafka_Configuration, setRebalanceCb);
-ZEND_METHOD(Kafka_Configuration, setConsumeCb);
 ZEND_METHOD(Kafka_Configuration, setOffsetCommitCb);
 ZEND_METHOD(Kafka_Configuration, setLogCb);
 
@@ -49,7 +46,6 @@ static const zend_function_entry class_Kafka_Configuration_methods[] = {
 	ZEND_ME(Kafka_Configuration, setDrMsgCb, arginfo_class_Kafka_Configuration_setDrMsgCb, ZEND_ACC_PUBLIC)
 	ZEND_ME(Kafka_Configuration, setStatsCb, arginfo_class_Kafka_Configuration_setStatsCb, ZEND_ACC_PUBLIC)
 	ZEND_ME(Kafka_Configuration, setRebalanceCb, arginfo_class_Kafka_Configuration_setRebalanceCb, ZEND_ACC_PUBLIC)
-	ZEND_ME(Kafka_Configuration, setConsumeCb, arginfo_class_Kafka_Configuration_setConsumeCb, ZEND_ACC_PUBLIC)
 	ZEND_ME(Kafka_Configuration, setOffsetCommitCb, arginfo_class_Kafka_Configuration_setOffsetCommitCb, ZEND_ACC_PUBLIC)
 	ZEND_ME(Kafka_Configuration, setLogCb, arginfo_class_Kafka_Configuration_setLogCb, ZEND_ACC_PUBLIC)
 	ZEND_FE_END
