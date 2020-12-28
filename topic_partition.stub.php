@@ -6,11 +6,11 @@ namespace Kafka;
 
 class TopicPartition
 {
-    public function __construct(string $topic, int $partition, int $offset = 0) {}
+    public function __construct(string $topicName, int $partition, int $offset = 0) {}
 
     public function getTopicName(): ?string {}
 
-    public function setTopic(string $topicName): TopicPartition {}
+    public function setTopicName(string $topicName): TopicPartition {}
 
     public function getPartition(): int {}
 

@@ -208,9 +208,9 @@ ZEND_METHOD(Kafka_TopicPartition, getTopicName)
 }
 /* }}} */
 
-/* {{{ proto TopicPartition Kafka\TopicPartition::setTopic($topicName)
+/* {{{ proto TopicPartition Kafka\TopicPartition::setTopicName($topicName)
    Sets topic name */
-ZEND_METHOD(Kafka_TopicPartition, setTopic)
+ZEND_METHOD(Kafka_TopicPartition, setTopicName)
 {
     char * topic;
     size_t topic_len;
