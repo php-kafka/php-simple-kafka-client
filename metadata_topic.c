@@ -110,9 +110,9 @@ ZEND_METHOD(Kafka_Metadata_Topic, getTopic)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\MetadataTopic::getErr()
+/* {{{ proto int Kafka\MetadataTopic::getErrorCode()
    Error */
-ZEND_METHOD(Kafka_Metadata_Topic, getErr)
+ZEND_METHOD(Kafka_Metadata_Topic, getErrorCode)
 {
     object_intern *intern;
 
