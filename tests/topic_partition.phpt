@@ -12,7 +12,7 @@ $topar = new Kafka\TopicPartition("test", RD_KAFKA_PARTITION_UA, 42);
 var_dump($topar);
 
 var_dump(array(
-    "topic" => $topar->getTopic(),
+    "topic" => $topar->getTopicName(),
     "partition" => $topar->getPartition(),
     "offset" => $topar->getOffset(),
 ));

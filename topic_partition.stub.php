@@ -8,7 +8,7 @@ class TopicPartition
 {
     public function __construct(string $topic, int $partition, int $offset = 0) {}
 
-    public function getTopic(): ?string {}
+    public function getTopicName(): ?string {}
 
     public function setTopic(string $topicName): TopicPartition {}
 
