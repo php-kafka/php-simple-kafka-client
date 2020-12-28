@@ -43,6 +43,21 @@ $conf->setStatsCb(function () { });
 $dump = $conf->dump();
 var_dump(isset($dump["stats_cb"]));
 
+echo "Setting offset_commit callback\n";
+$conf->setOffsetCommitCb(function () { });
+$dump = $conf->dump();
+var_dump(isset($dump["offset_commit_cb"]));
+
+echo "Setting rebalance callback\n";
+$conf->setRebalanceCb(function () { });
+$dump = $conf->dump();
+var_dump(isset($dump["rebalance_cb"]));
+
+echo "Setting log callback\n";
+$conf->setLogCb(function () { });
+$dump = $conf->dump();
+var_dump(isset($dump["log_cb"]));
+
 echo "Dumping conf\n";
 var_dump(array_intersect_key($conf->dump(), array(
     "client.id" => true,
@@ -63,6 +78,12 @@ bool(true)
 Setting dr_msg callback
 bool(true)
 Setting stats callback
+bool(true)
+Setting offset_commit callback
+bool(true)
+Setting rebalance callback
+bool(true)
+Setting log callback
 bool(true)
 Dumping conf
 array(3) {
