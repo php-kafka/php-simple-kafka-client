@@ -39,9 +39,16 @@ $producer->flush(10000);
 printf("%d messages delivered\n", $delivered);
 $metadata = $producer->getMetadata(false, 2*1000, $topic);
 echo $metadata->getOrigBrokerName() . PHP_EOL;
-echo $metadata->getTopics()->current()->getTopic() . PHP_EOL;
-echo $metadata->getTopics()->current()->getPartitions()->count() . PHP_EOL;
-echo $metadata->getTopics()->current()->getPartitions()->current()->getLeader() . PHP_EOL;
+
+$topics = $metadata->getTopics();
+
+while ($topics->valid()) {
+    echo $topics->current()->getTopic() . PHP_EOL;
+    echo $topics->current()->getPartitions()->count() . PHP_EOL;
+    echo $topics->current()->getPartitions()->current()->getLeader() . PHP_EOL;
+    $topics->next();
+}
+
 echo $metadata->getBrokers()->current()->getHost() . PHP_EOL;
 echo $metadata->getBrokers()->current()->getPort() . PHP_EOL;
 --EXPECT--
