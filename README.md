@@ -6,7 +6,7 @@
 [![License: BSD-3](https://img.shields.io/badge/License-BSD--3-green.svg)](https://github.com/php-kafka/php-kafka/blob/main/LICENSE)
 
 ## Documentation
-Please read the documentation [here](https://php-kafka.github.io/)
+Please read the documentation [here](https://php-kafka.github.io/about)
 
 ## Support
 Join the [Slack Workspace](https://join.slack.com/t/php-kafka/shared_invite/zt-a73huj9v-Nl3n9RjGgjrE8OI4bfsH6Q) or [Gitter](https://gitter.im/php-kafka/php-kafka)
