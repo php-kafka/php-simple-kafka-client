@@ -7,7 +7,7 @@
  <lead>
   <name>Nick Chiu</name>
   <user>nick-zh</user>
-  <email>nick@probiers.us</email>
+  <email>coding.nikazu@gmail.com</email>
   <active>yes</active>
  </lead>
  <date>2020-12-06</date>
@@ -26,17 +26,21 @@
  </notes>
  <contents>
   <dir name="/">
-   <file role="doc" name="CREDITS"/>
    <file role="doc" name="LICENSE"/>
    <file role="doc" name="README.md"/>
-   <file role="src" name="configuration.c"/>
+   <file role="doc" name="CONTRIBUTING.md"/>
    <file role="src" name="config.m4"/>
    <file role="src" name="config.w32"/>
-   <file role="src" name="functions.c"/>
-   <file role="src" name="functions_arginfo.h"/>
+   <file role="src" name="configuration.c"/>
+   <file role="src" name="configuration_arginfo.h"/>
    <file role="src" name="consumer.c"/>
    <file role="src" name="consumer_arginfo.h"/>
+   <file role="src" name="functions.c"/>
+   <file role="src" name="functions_arginfo.h"/>
+   <file role="src" name="kafka.c"/>
+   <file role="src" name="kafka_arginfo.h"/>
    <file role="src" name="kafka_exception.c"/>
+   <file role="src" name="kafka_exception_arginfo.h"/>
    <file role="src" name="message.c"/>
    <file role="src" name="message_arginfo.h"/>
    <file role="src" name="metadata.c"/>
@@ -52,7 +56,6 @@
    <file role="src" name="php_kafka_int.h"/>
    <file role="src" name="producer.c"/>
    <file role="src" name="producer_arginfo.h"/>
-   <file role="src" name="kafka.c"/>
    <file role="src" name="topic.c"/>
    <file role="src" name="topic_arginfo.h"/>
    <file role="src" name="topic_partition.c"/>
@@ -61,14 +64,19 @@
     <file role="test" name="allow_null_payload_and_key.phpt"/>
     <file role="test" name="allow_null_payload.phpt"/>
     <file role="test" name="bugConfSetArgument.phpt"/>
-    <file role="test" name="conf_callbacks_integration.phpt"/>
-    <file role="test" name="conf_callbacks.phpt"/>
     <file role="test" name="conf.phpt"/>
+    <file role="test" name="conf_callbacks.phpt"/>
+    <file role="test" name="conf_callbacks_integration.phpt"/>
     <file role="test" name="constants.phpt"/>
+    <file role="test" name="consumer_topic_destruct.phpt"/>
+    <file role="test" name="functions.phpt"/>
+    <file role="test" name="init_transaction_not_configured.phpt"/>
     <file role="test" name="integration-tests-check.php"/>
+    <file role="test" name="kafka_error_exception.phpt"/>
     <file role="test" name="message_headers.phpt"/>
+    <file role="test" name="metadata.phpt"/>
     <file role="test" name="produce_consume.phpt"/>
-    <file role="test" name="produce_consume_queue.phpt"/>
+    <file role="test" name="produce_consume_transactional.phpt"/>
     <file role="test" name="kafka_get_err_descs.phpt"/>
     <file role="test" name="test_env.php.sample"/>
     <file role="test" name="topic_partition.phpt"/>
