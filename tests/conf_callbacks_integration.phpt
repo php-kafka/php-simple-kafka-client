@@ -2,18 +2,13 @@
 Kafka\Configuration
 --SKIPIF--
 <?php
-(!isset($_ENV['TESTS_DONT_SKIP_RISKY']) || $_ENV['TESTS_DONT_SKIP_RISKY']) && die("skip Risky/broken test");
 require __DIR__ . '/integration-tests-check.php';
 --FILE--
 <?php
 require __DIR__ . '/integration-tests-check.php';
 
 $conf = new Kafka\Configuration();
-
-$conf->set('auto.offset.reset', 'earliest');
 $conf->set('metadata.broker.list', getenv('TEST_KAFKA_BROKERS'));
-
-$conf->set('group.id', sprintf("test_kafka_group_%s", uniqid()));
 
 $producer = new Kafka\Producer($conf);
 
@@ -22,19 +17,15 @@ $topic = $producer->getTopicHandle($topicName);
 
 for ($i = 0; $i < 10; $i++) {
     $topic->produce(0, 0, "message $i");
-    $producer->poll(0);
 }
 
 $producer->flush(10000);
 
-// Make sure there is enough time for the stats_cb to pick up the consumer lag
-sleep(1);
-
 $conf = new Kafka\Configuration();
-
 $conf->set('auto.offset.reset', 'earliest');
 $conf->set('metadata.broker.list', getenv('TEST_KAFKA_BROKERS'));
 $conf->set('group.id', sprintf("test_kafka_group_%s", uniqid()));
+$conf->set('enable.partition.eof', 'true');
 $conf->set('statistics.interval.ms', 10);
 
 $conf->setOffsetCommitCb(function ($consumer, $error, $topicPartitions) {
@@ -56,7 +47,7 @@ $consumer->subscribe([$topicName]);
 while (true) {
     $msg = $consumer->consume(15000);
 
-    if (!$msg || RD_KAFKA_RESP_ERR__PARTITION_EOF === $msg->err) {
+    if (RD_KAFKA_RESP_ERR__PARTITION_EOF === $msg->err) {
         break;
     }
 
