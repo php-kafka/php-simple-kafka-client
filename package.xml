@@ -63,9 +63,9 @@
    <dir name="tests">
     <file role="test" name="allow_null_payload_and_key.phpt"/>
     <file role="test" name="allow_null_payload.phpt"/>
-    <file role="test" name="bugConfSetArgument.phpt"/>
     <file role="test" name="conf.phpt"/>
     <file role="test" name="conf_callbacks_integration.phpt"/>
+    <file role="test" name="conf_extend.phpt"/>
     <file role="test" name="constants.phpt"/>
     <file role="test" name="consumer_topic_destruct.phpt"/>
     <file role="test" name="functions.phpt"/>
