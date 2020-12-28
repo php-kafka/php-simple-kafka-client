@@ -80,12 +80,12 @@ ZEND_METHOD(Kafka, __construct)
 }
 /* }}} */
 
-/* {{{ proto Kafka\Metadata::getMetadata(bool $all_topics, Kafka\Topic $only_topic, int $timeout_ms)
+/* {{{ proto Kafka\Metadata::getMetadata(bool $all_topics, int $timeout_ms, Kafka\Topic $topic)
    Request Metadata from broker */
 ZEND_METHOD(Kafka_Kafka, getMetadata)
 {
     zend_bool all_topics;
-    zval *only_zrkt;
+    zval *only_zrkt = NULL;
     zend_long timeout_ms;
     rd_kafka_resp_err_t err;
     kafka_object *intern;
@@ -96,7 +96,7 @@ ZEND_METHOD(Kafka_Kafka, getMetadata)
         Z_PARAM_BOOL(all_topics)
         Z_PARAM_LONG(timeout_ms)
         Z_PARAM_OPTIONAL
-        Z_PARAM_OBJECT_OF_CLASS(only_zrkt, ce_kafka_topic)
+        Z_PARAM_OBJECT_OF_CLASS_EX(only_zrkt, ce_kafka_topic, 1, 0)
     ZEND_PARSE_PARAMETERS_END();
 
     intern = get_kafka_object(getThis());
