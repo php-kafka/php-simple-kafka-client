@@ -43,7 +43,7 @@ echo $metadata->getOrigBrokerName() . PHP_EOL;
 $topics = $metadata->getTopics();
 
 while ($topics->valid()) {
-    echo $topics->current()->getTopic() . PHP_EOL;
+    echo $topics->current()->getName() . PHP_EOL;
     echo $topics->current()->getPartitions()->count() . PHP_EOL;
     echo $topics->current()->getPartitions()->current()->getLeader() . PHP_EOL;
     $topics->next();

@@ -92,9 +92,9 @@ static HashTable *get_debug_info(Z_KAFKA_OBJ *object, int *is_temp) /* {{{ */
 }
 /* }}} */
 
-/* {{{ proto string Kafka\MetadataTopic::getTopic()
+/* {{{ proto string Kafka\MetadataTopic::getName()
    Topic name */
-ZEND_METHOD(Kafka_Metadata_Topic, getTopic)
+ZEND_METHOD(Kafka_Metadata_Topic, getName)
 {
     object_intern *intern;
 

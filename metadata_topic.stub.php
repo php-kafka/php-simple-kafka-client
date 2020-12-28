@@ -6,7 +6,7 @@ namespace Kafka\Metadata;
 
 class Topic
 {
-    public function getTopic(): string {}
+    public function getName(): string {}
 
     public function getErrorCode(): int {}
 
