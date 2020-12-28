@@ -20,8 +20,6 @@ class Configuration
 
     public function setRebalanceCb(callable $callback): void {}
 
-    public function setConsumeCb(callable $callback): void {}
-
     public function setOffsetCommitCb(callable $callback): void {}
 
     public function setLogCb(callable $callback): void {}
