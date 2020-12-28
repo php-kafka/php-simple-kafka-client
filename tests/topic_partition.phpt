@@ -18,7 +18,7 @@ var_dump(array(
 ));
 
 $topar
-    ->setTopic("foo")
+    ->setTopicName("foo")
     ->setPartition(123)
     ->setOffset(43);
 
