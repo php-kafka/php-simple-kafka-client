@@ -8,7 +8,7 @@ class Partition
 {
     public function getId(): int {}
 
-    public function getErr(): int {}
+    public function getErrorCode(): int {}
 
     public function getLeader(): int {}
 

@@ -102,9 +102,9 @@ ZEND_METHOD(Kafka_Metadata_Partition, getId)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Metadata\Partition::getErr()
+/* {{{ proto int Kafka\Metadata\Partition::getErrorCode()
    Partition error reported by broker */
-ZEND_METHOD(Kafka_Metadata_Partition, getErr)
+ZEND_METHOD(Kafka_Metadata_Partition, getErrorCode)
 {
     object_intern *intern;
 

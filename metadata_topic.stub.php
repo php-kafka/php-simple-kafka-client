@@ -6,9 +6,9 @@ namespace Kafka\Metadata;
 
 class Topic
 {
-    public function getTopic(): string {}
+    public function getName(): string {}
 
-    public function getErr(): int {}
+    public function getErrorCode(): int {}
 
     public function getPartitions(): Collection {}
 }
