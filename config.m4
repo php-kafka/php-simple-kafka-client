@@ -1,16 +1,16 @@
 dnl $Id$
-dnl config.m4 for extension kafka
+dnl config.m4 for extension kafka_client
 
-PHP_ARG_WITH(kafka, for kafka support,
-[  --with-kafka             Include kafka support])
+PHP_ARG_WITH(kafka_client, for kafka client support,
+[  --with-kafka-client             Include kafka client support])
 
 dnl Check whether the extension is enabled at all
-if test "$PHP_KAFKA" != "no"; then
+if test "$PHP_KAFKA_CLIENT" != "no"; then
 
   SEARCH_PATH="/usr/local /usr"     # you might want to change this
   SEARCH_FOR="/include/librdkafka/rdkafka.h"  # you most likely want to change this
-  if test -r $PHP_KAFKA/$SEARCH_FOR; then # path given as parameter
-    RDKAFKA_DIR=$PHP_KAFKA
+  if test -r $PHP_KAFKA_CLIENT/$SEARCH_FOR; then # path given as parameter
+    RDKAFKA_DIR=$PHP_KAFKA_CLIENT
   else # search default path list
     AC_MSG_CHECKING([for librdkafka/rdkafka.h" in default path])
     for i in $SEARCH_PATH ; do
@@ -28,14 +28,14 @@ if test "$PHP_KAFKA" != "no"; then
 
   PHP_ADD_INCLUDE($RDKAFKA_DIR/include)
 
-  SOURCES="kafka.c producer.c metadata.c metadata_broker.c metadata_topic.c metadata_partition.c metadata_collection.c configuration.c topic.c message.c functions.c consumer.c topic_partition.c kafka_exception.c"
+  SOURCES="kafka_client.c producer.c metadata.c metadata_broker.c metadata_topic.c metadata_partition.c metadata_collection.c configuration.c topic.c message.c functions.c consumer.c topic_partition.c kafka_exception.c"
 
   LIBNAME=rdkafka
   LIBSYMBOL=rd_kafka_new
 
   PHP_CHECK_LIBRARY($LIBNAME,$LIBSYMBOL,
   [
-    PHP_ADD_LIBRARY_WITH_PATH($LIBNAME, $RDKAFKA_DIR/$PHP_LIBDIR, KAFKA_SHARED_LIBADD)
+    PHP_ADD_LIBRARY_WITH_PATH($LIBNAME, $RDKAFKA_DIR/$PHP_LIBDIR, KAFKA_CLIENT_SHARED_LIBADD)
     AC_DEFINE(HAVE_RDKAFKALIB,1,[ ])
   ],[
     AC_MSG_ERROR([wrong rdkafka lib version or lib not found])
@@ -63,7 +63,7 @@ if test "$PHP_KAFKA" != "no"; then
   LDFLAGS="$ORIG_LDFLAGS"
   CPPFLAGS="$ORIG_CPPFLAGS"
 
-  PHP_SUBST(KAFKA_SHARED_LIBADD)
+  PHP_SUBST(KAFKA_CLIENT_SHARED_LIBADD)
 
-  PHP_NEW_EXTENSION(kafka, $SOURCES, $ext_shared)
+  PHP_NEW_EXTENSION(kafka_client, $SOURCES, $ext_shared)
 fi
