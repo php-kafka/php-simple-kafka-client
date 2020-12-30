@@ -96,7 +96,7 @@ ZEND_METHOD(Kafka_Kafka, getMetadata)
         Z_PARAM_BOOL(all_topics)
         Z_PARAM_LONG(timeout_ms)
         Z_PARAM_OPTIONAL
-        Z_PARAM_OBJECT_OF_CLASS_EX(only_zrkt, ce_kafka_topic, 1, 0)
+        Z_PARAM_OBJECT_OF_CLASS_OR_NULL(only_zrkt, ce_kafka_topic)
     ZEND_PARSE_PARAMETERS_END();
 
     intern = get_kafka_object(getThis());

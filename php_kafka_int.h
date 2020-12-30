@@ -69,6 +69,18 @@ typedef void (*kafka_metadata_collection_ctor_t)(zval *renurn_value, zval *zmeta
 
 #define ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(pass_by_ref, name, type_hint, allow_null, default_value) ZEND_ARG_INFO(pass_by_ref, name)
 
+#define Z_PARAM_ARRAY_HT_OR_NULL(dest) \
+	Z_PARAM_ARRAY_HT_EX(dest, 1, 0)
+
+#define Z_PARAM_LONG_OR_NULL(dest, is_null) \
+	Z_PARAM_LONG_EX(dest, is_null, 1, 0)
+
+#define Z_PARAM_OBJECT_OF_CLASS_OR_NULL(dest, _ce) \
+	Z_PARAM_OBJECT_OF_CLASS_EX(dest, _ce, 1, 0)
+
+#define Z_PARAM_STRING_OR_NULL(dest, dest_len) \
+	Z_PARAM_STRING_EX(dest, dest_len, 1, 0)
+
 #endif
 
 #ifdef PHP_WIN32

@@ -85,8 +85,8 @@ ZEND_METHOD(Kafka_ProducerTopic, produce)
         Z_PARAM_LONG(partition)
         Z_PARAM_LONG(msgflags)
         Z_PARAM_OPTIONAL
-        Z_PARAM_STRING_EX(payload, payload_len, 1, 0)
-        Z_PARAM_STRING_EX(key, key_len, 1, 0)
+        Z_PARAM_STRING_OR_NULL(payload, payload_len)
+        Z_PARAM_STRING_OR_NULL(key, key_len)
     ZEND_PARSE_PARAMETERS_END();
 
     if (partition != RD_KAFKA_PARTITION_UA && (partition < 0 || partition > 0x7FFFFFFF)) {
@@ -136,10 +136,10 @@ ZEND_METHOD(Kafka_ProducerTopic, producev)
         Z_PARAM_LONG(partition)
         Z_PARAM_LONG(msgflags)
         Z_PARAM_OPTIONAL
-        Z_PARAM_STRING_EX(payload, payload_len, 1, 0)
-        Z_PARAM_STRING_EX(key, key_len, 1, 0)
-        Z_PARAM_ARRAY_HT_EX(headersParam, 1, 0)
-        Z_PARAM_LONG_EX(timestamp_ms, timestamp_ms_is_null, 1, 0)
+        Z_PARAM_STRING_OR_NULL(payload, payload_len)
+        Z_PARAM_STRING_OR_NULL(key, key_len)
+        Z_PARAM_ARRAY_HT_OR_NULL(headersParam)
+        Z_PARAM_LONG_OR_NULL(timestamp_ms, timestamp_ms_is_null)
     ZEND_PARSE_PARAMETERS_END();
 
     if (partition != RD_KAFKA_PARTITION_UA && (partition < 0 || partition > 0x7FFFFFFF)) {
