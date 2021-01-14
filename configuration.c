@@ -2,7 +2,7 @@
  *   BSD 3-Clause License
  *
  *  Copyright (c) 2016, Arnaud Le Blanc (Author)
- *  Partial Copyright (c) 2020, Nick Chiu
+ *  Copyright (c) 2020, Nick Chiu
  *  All rights reserved.
  *
  *   Redistribution and use in source and binary forms, with or without
