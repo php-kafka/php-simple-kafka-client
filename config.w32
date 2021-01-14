@@ -7,7 +7,7 @@ if (PHP_KAFKA != "no") {
 	if (CHECK_LIB("librdkafka.lib", "rdkafka", PHP_KAFKA) &&
 		CHECK_HEADER_ADD_INCLUDE("librdkafka/rdkafka.h", "CFLAGS_RDKAFKA")) {
 
-		EXTENSION("rdkafka", "kafka_client.c producer.c metadata.c metadata_broker.c metadata_topic.c \
+		EXTENSION("rdkafka", "simple_kafka_client.c producer.c metadata.c metadata_broker.c metadata_topic.c \
 				metadata_partition.c metadata_collection.c configuration.c \
 				topic.c message.c functions.c consumer.c topic_partition.c kafka_exception.c");
 

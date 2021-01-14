@@ -344,7 +344,7 @@ void register_err_constants(INIT_FUNC_ARGS) /* {{{ */
 
 /* {{{ PHP_MINIT_FUNCTION
  */
-PHP_MINIT_FUNCTION(kafka_client)
+PHP_MINIT_FUNCTION(simple_kafka_client)
 {
     COPY_CONSTANT(RD_KAFKA_OFFSET_BEGINNING);
     COPY_CONSTANT(RD_KAFKA_OFFSET_END);
@@ -397,7 +397,7 @@ PHP_MINIT_FUNCTION(kafka_client)
 
 /* {{{ PHP_MINFO_FUNCTION
  */
-PHP_MINFO_FUNCTION(kafka_client)
+PHP_MINFO_FUNCTION(simple_kafka_client)
 {
     char *rd_kafka_version;
 
@@ -429,20 +429,20 @@ PHP_MINFO_FUNCTION(kafka_client)
 
 /* {{{ kafka_client_module_entry
  */
-zend_module_entry kafka_client_module_entry = {
+zend_module_entry simple_kafka_client_module_entry = {
     STANDARD_MODULE_HEADER,
-    "kafka_client",
+    "simple_kafka_client",
     ext_functions,
-    PHP_MINIT(kafka_client),
+    PHP_MINIT(simple_kafka_client),
     NULL,
     NULL,
     NULL,
-    PHP_MINFO(kafka_client),
+    PHP_MINFO(simple_kafka_client),
     PHP_KAFKA_VERSION,
     STANDARD_MODULE_PROPERTIES
 };
 /* }}} */
 
-#ifdef COMPILE_DL_KAFKA_CLIENT
-ZEND_GET_MODULE(kafka_client)
+#ifdef COMPILE_DL_SIMPLE_KAFKA_CLIENT
+ZEND_GET_MODULE(simple_kafka_client)
 #endif

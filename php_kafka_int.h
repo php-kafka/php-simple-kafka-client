@@ -117,11 +117,11 @@ typedef void (*kafka_metadata_collection_ctor_t)(zval *renurn_value, zval *zmeta
 #endif
 
 #ifdef PHP_WIN32
-#	define PHP_KAFKA_CLIENT_API __declspec(dllexport)
+#	define PHP_SIMPLE_KAFKA_CLIENT_API __declspec(dllexport)
 #elif defined(__GNUC__) && __GNUC__ >= 4
-#	define PHP_KAFKA_CLIENT_API __attribute__ ((visibility("default")))
+#	define PHP_SIMPLE_KAFKA_CLIENT_API __attribute__ ((visibility("default")))
 #else
-#	define PHP_KAFKA_CLIENT_API
+#	define PHP_SIMPLE_KAFKA_CLIENT_API
 #endif
 
 extern zend_class_entry * ce_kafka_conf;
@@ -133,7 +133,7 @@ extern zend_class_entry * ce_kafka_consumer_topic;
 extern zend_class_entry * ce_kafka_producer_topic;
 extern zend_class_entry * ce_kafka_topic;
 extern zend_class_entry * ce_kafka_topic_partition;
-extern zend_module_entry kafka_client_module_entry;
+extern zend_module_entry simple_kafka_client_module_entry;
 extern zend_object_handlers kafka_default_object_handlers;
 
 #define Z_KAFKA_P(php_kafka_type, zobject) php_kafka_from_obj(php_kafka_type, Z_OBJ_P(zobject))
@@ -141,7 +141,7 @@ extern zend_object_handlers kafka_default_object_handlers;
 #define php_kafka_from_obj(php_kafka_type, object) \
     ((php_kafka_type*)((char *)(object) - XtOffsetOf(php_kafka_type, std)))
 
-#define phpext_kafka_ptr &kafka_client_module_entry
+#define phpext_kafka_ptr &simple_kafka_client_module_entry
 
 #define PHP_KAFKA_VERSION "0.1.0"
 

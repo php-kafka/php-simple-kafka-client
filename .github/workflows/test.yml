@@ -68,7 +68,7 @@ jobs:
               run: './php-kafka/.github/workflows/test/build-php.sh'
 
             - name: 'Build php-kafka'
-              run: './php-kafka/.github/workflows/test/build-php-kafka.sh'
+              run: './php-kafka/.github/workflows/test/build-php-simple-kafka-client.sh'
 
             - name: 'Start Kafka'
               run: './php-kafka/.github/workflows/test/start-kafka.sh'
