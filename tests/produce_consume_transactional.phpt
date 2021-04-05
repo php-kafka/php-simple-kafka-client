@@ -15,6 +15,7 @@ $delivered = 0;
 $conf = new SimpleKafkaClient\Configuration();
 $conf->set('transactional.id', 'transactional-producer');
 
+$conf->setLogCb(function ($kafka, $level, $facility, $message) {});
 $conf->setErrorCb(function ($producer, $errorCode, $errstr) {
     printf("%s: %s\n", rd_kafka_err2str($errorCode), $errstr);
     exit;
