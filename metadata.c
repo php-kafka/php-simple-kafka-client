@@ -93,7 +93,7 @@ static object_intern * get_object(zval *zmetadata)
     object_intern *ometadata = Z_KAFKA_P(object_intern, zmetadata);
 
     if (!ometadata->metadata) {
-        zend_throw_exception_ex(NULL, 0, "Kafka\\Metadata::__construct() has not been called");
+        zend_throw_exception_ex(NULL, 0, "SimpleKafkaClient\\Metadata::__construct() has not been called");
         return NULL;
     }
 
@@ -131,7 +131,7 @@ static HashTable *get_debug_info(Z_KAFKA_OBJ *object, int *is_temp) /* {{{ */
 }
 /* }}} */
 
-/* {{{ proto long Kafka\Metadata::getOrigBrokerId()
+/* {{{ proto long SimpleKafkaClient\Metadata::getOrigBrokerId()
    Broker originating this metadata */
 ZEND_METHOD(Kafka_Metadata, getOrigBrokerId)
 {
@@ -149,7 +149,7 @@ ZEND_METHOD(Kafka_Metadata, getOrigBrokerId)
 }
 /* }}} */
 
-/* {{{ proto string Kafka\Metadata::getOrigBrokerName()
+/* {{{ proto string SimpleKafkaClient\Metadata::getOrigBrokerName()
    Name of originating broker */
 ZEND_METHOD(Kafka_Metadata, getOrigBrokerName)
 {
@@ -167,7 +167,7 @@ ZEND_METHOD(Kafka_Metadata, getOrigBrokerName)
 }
 /* }}} */
 
-/* {{{ proto Kafka\Metadata\Collection Kafka\Metadata::getBrokers()
+/* {{{ proto SimpleKafkaClient\Metadata\Collection SimpleKafkaClient\Metadata::getBrokers()
    Topics */
 ZEND_METHOD(Kafka_Metadata, getBrokers)
 {
@@ -185,7 +185,7 @@ ZEND_METHOD(Kafka_Metadata, getBrokers)
 }
 /* }}} */
 
-/* {{{ proto Kafka\Metadata\Collection Kafka\Metadata::getTopics()
+/* {{{ proto SimpleKafkaClient\Metadata\Collection SimpleKafkaClient\Metadata::getTopics()
    Topics */
 ZEND_METHOD(Kafka_Metadata, getTopics)
 {
@@ -207,7 +207,7 @@ void kafka_metadata_init(INIT_FUNC_ARGS)
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "Kafka", "Metadata", class_Kafka_Metadata_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "Metadata", class_Kafka_Metadata_methods);
     ce = zend_register_internal_class(&tmpce);
     ce->create_object = kafka_metadata_new;
 

@@ -83,7 +83,7 @@ static object_intern * get_object(zval *z) /* {{{ */
     object_intern *intern = Z_KAFKA_P(object_intern, z);
 
     if (!intern->topic) {
-        zend_throw_exception_ex(NULL, 0, "Kafka\\TopicPartition::__construct() has not been called");
+        zend_throw_exception_ex(NULL, 0, "SimpleKafkaClient\\TopicPartition::__construct() has not been called");
         return NULL;
     }
 
@@ -177,7 +177,7 @@ rd_kafka_topic_partition_list_t * array_arg_to_kafka_topic_partition_list(int ar
             const char *class_name = get_active_class_name(&space);
             rd_kafka_topic_partition_list_destroy(list);
             php_error(E_ERROR,
-                    "Argument %d passed to %s%s%s() must be an array of Kafka\\TopicPartition, at least one element is a(n) %s",
+                    "Argument %d passed to %s%s%s() must be an array of SimpleKafkaClient\\TopicPartition, at least one element is a(n) %s",
                     argnum,
                     class_name, space,
                     get_active_function_name(),
@@ -199,7 +199,7 @@ rd_kafka_topic_partition_list_t * array_arg_to_kafka_topic_partition_list(int ar
 } /* }}} */
 
 
-/* {{{ proto void Kafka\TopicPartition::__construct(string $topic, int $partition[, int $offset])
+/* {{{ proto void SimpleKafkaClient\TopicPartition::__construct(string $topic, int $partition[, int $offset])
    Constructor */
 ZEND_METHOD(Kafka_TopicPartition, __construct)
 {
@@ -219,7 +219,7 @@ ZEND_METHOD(Kafka_TopicPartition, __construct)
 }
 /* }}} */
 
-/* {{{ proto string Kafka\TopicPartition::getTopicName()
+/* {{{ proto string SimpleKafkaClient\TopicPartition::getTopicName()
    Returns topic name */
 ZEND_METHOD(Kafka_TopicPartition, getTopicName)
 {
@@ -241,7 +241,7 @@ ZEND_METHOD(Kafka_TopicPartition, getTopicName)
 }
 /* }}} */
 
-/* {{{ proto TopicPartition Kafka\TopicPartition::setTopicName($topicName)
+/* {{{ proto TopicPartition SimpleKafkaClient\TopicPartition::setTopicName($topicName)
    Sets topic name */
 ZEND_METHOD(Kafka_TopicPartition, setTopicName)
 {
@@ -268,7 +268,7 @@ ZEND_METHOD(Kafka_TopicPartition, setTopicName)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\TopicPartition::getPartition()
+/* {{{ proto int SimpleKafkaClient\TopicPartition::getPartition()
    Returns partition */
 ZEND_METHOD(Kafka_TopicPartition, getPartition)
 {
@@ -286,7 +286,7 @@ ZEND_METHOD(Kafka_TopicPartition, getPartition)
 }
 /* }}} */
 
-/* {{{ proto TopicPartition Kafka\TopicPartition::setPartition($partition)
+/* {{{ proto TopicPartition SimpleKafkaClient\TopicPartition::setPartition($partition)
    Sets partition */
 ZEND_METHOD(Kafka_TopicPartition, setPartition)
 {
@@ -308,7 +308,7 @@ ZEND_METHOD(Kafka_TopicPartition, setPartition)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\TopicPartition::getOffset()
+/* {{{ proto int SimpleKafkaClient\TopicPartition::getOffset()
    Returns offset */
 ZEND_METHOD(Kafka_TopicPartition, getOffset)
 {
@@ -326,7 +326,7 @@ ZEND_METHOD(Kafka_TopicPartition, getOffset)
 }
 /* }}} */
 
-/* {{{ proto TopicPartition Kafka\TopicPartition::setOffset($offset)
+/* {{{ proto TopicPartition SimpleKafkaClient\TopicPartition::setOffset($offset)
    Sets offset */
 ZEND_METHOD(Kafka_TopicPartition, setOffset)
 {
@@ -352,7 +352,7 @@ void kafka_metadata_topic_partition_init(INIT_FUNC_ARGS) /* {{{ */
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "Kafka", "TopicPartition", class_Kafka_TopicPartition_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "TopicPartition", class_Kafka_TopicPartition_methods);
     ce_kafka_topic_partition = zend_register_internal_class(&tmpce);
     ce_kafka_topic_partition->create_object = create_object;
 

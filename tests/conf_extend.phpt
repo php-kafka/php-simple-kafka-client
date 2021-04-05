@@ -1,9 +1,9 @@
 --TEST--
-Kafka\Configuration
+SimpleKafkaClient\Configuration
 --FILE--
 <?php
 
-class TestBug extends Kafka\Configuration
+class TestBug extends SimpleKafkaClient\Configuration
 {
     public function set(string $name, string $value): void
     {
