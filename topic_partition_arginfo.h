@@ -10,20 +10,20 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_Kafka_TopicPartition_getTopicName, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_TopicPartition_setTopicName, 0, 1, Kafka\\TopicPartition, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_TopicPartition_setTopicName, 0, 1, SimpleKafkaClient\\TopicPartition, 0)
 	ZEND_ARG_TYPE_INFO(0, topicName, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_Kafka_TopicPartition_getPartition, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_TopicPartition_setPartition, 0, 1, Kafka\\TopicPartition, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_TopicPartition_setPartition, 0, 1, SimpleKafkaClient\\TopicPartition, 0)
 	ZEND_ARG_TYPE_INFO(0, partition, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 #define arginfo_class_Kafka_TopicPartition_getOffset arginfo_class_Kafka_TopicPartition_getPartition
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_TopicPartition_setOffset, 0, 1, Kafka\\TopicPartition, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_TopicPartition_setOffset, 0, 1, SimpleKafkaClient\\TopicPartition, 0)
 	ZEND_ARG_TYPE_INFO(0, offset, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 

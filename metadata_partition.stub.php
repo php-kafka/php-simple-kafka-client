@@ -2,7 +2,7 @@
 
 /** @generate-function-entries */
 
-namespace Kafka\Metadata;
+namespace SimpleKafkaClient\Metadata;
 
 class Partition
 {

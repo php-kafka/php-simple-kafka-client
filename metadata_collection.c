@@ -90,7 +90,7 @@ static object_intern * get_object(zval *zmti)
     object_intern *omti = Z_KAFKA_P(object_intern, zmti);
 
     if (!omti->items) {
-        zend_throw_exception_ex(NULL, 0, "Kafka\\Metadata\\Collection::__construct() has not been called");
+        zend_throw_exception_ex(NULL, 0, "SimpleKafkaClient\\Metadata\\Collection::__construct() has not been called");
         return NULL;
     }
 
@@ -123,7 +123,7 @@ static HashTable *get_debug_info(Z_KAFKA_OBJ *object, int *is_temp) /* {{{ */
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Metadata\Collection::count()
+/* {{{ proto int SimpleKafkaClient\Metadata\Collection::count()
    */
 ZEND_METHOD(Kafka_Metadata_Collection, count)
 {
@@ -141,7 +141,7 @@ ZEND_METHOD(Kafka_Metadata_Collection, count)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Metadata\Collection::rewind()
+/* {{{ proto void SimpleKafkaClient\Metadata\Collection::rewind()
    */
 ZEND_METHOD(Kafka_Metadata_Collection, rewind)
 {
@@ -159,7 +159,7 @@ ZEND_METHOD(Kafka_Metadata_Collection, rewind)
 }
 /* }}} */
 
-/* {{{ proto mixed Kafka\Metadata\Collection::current()
+/* {{{ proto mixed SimpleKafkaClient\Metadata\Collection::current()
    */
 ZEND_METHOD(Kafka_Metadata_Collection, current)
 {
@@ -182,7 +182,7 @@ ZEND_METHOD(Kafka_Metadata_Collection, current)
 }
 /* }}} */
 
-/* {{{ proto mixed Kafka\Metadata\Collection::key()
+/* {{{ proto mixed SimpleKafkaClient\Metadata\Collection::key()
    */
 ZEND_METHOD(Kafka_Metadata_Collection, key)
 {
@@ -205,7 +205,7 @@ ZEND_METHOD(Kafka_Metadata_Collection, key)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Metadata\Collection::next()
+/* {{{ proto void SimpleKafkaClient\Metadata\Collection::next()
    */
 ZEND_METHOD(Kafka_Metadata_Collection, next)
 {
@@ -223,7 +223,7 @@ ZEND_METHOD(Kafka_Metadata_Collection, next)
 }
 /* }}} */
 
-/* {{{ proto bool Kafka\Metadata\Collection::valid()
+/* {{{ proto bool SimpleKafkaClient\Metadata\Collection::valid()
    */
 ZEND_METHOD(Kafka_Metadata_Collection, valid)
 {
@@ -245,7 +245,7 @@ void kafka_metadata_collection_init(INIT_FUNC_ARGS)
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "Kafka\\Metadata", "Collection", class_Kafka_Metadata_Collection_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient\\Metadata", "Collection", class_Kafka_Metadata_Collection_methods);
     ce = zend_register_internal_class(&tmpce);
     ce->create_object = create_object;
     zend_class_implements(ce, 2, spl_ce_Countable, spl_ce_Iterator);

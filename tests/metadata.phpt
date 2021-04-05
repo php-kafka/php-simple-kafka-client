@@ -9,7 +9,7 @@ require __DIR__ . '/integration-tests-check.php';
 
 $delivered = 0;
 
-$conf = new Kafka\Configuration();
+$conf = new SimpleKafkaClient\Configuration();
 $conf->setErrorCb(function ($producer, $errorCode, $errstr) {
     printf("%s: %s\n", rd_kafka_err2str($errorCode), $errstr);
     exit;
@@ -23,7 +23,7 @@ $conf->setDrMsgCb(function ($producer, $msg) use (&$delivered) {
     $delivered++;
 });
 
-$producer = new Kafka\Producer($conf);
+$producer = new SimpleKafkaClient\Producer($conf);
 
 $topicName = "test_kafka_metadata";
 

@@ -8,7 +8,7 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_class_Kafka_Metadata_Partition_getLeader arginfo_class_Kafka_Metadata_Partition_getId
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_Metadata_Partition_getReplicas, 0, 0, Kafka\\Metadata\\Collection, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_Metadata_Partition_getReplicas, 0, 0, SimpleKafkaClient\\Metadata\\Collection, 0)
 ZEND_END_ARG_INFO()
 
 #define arginfo_class_Kafka_Metadata_Partition_getIsrs arginfo_class_Kafka_Metadata_Partition_getReplicas

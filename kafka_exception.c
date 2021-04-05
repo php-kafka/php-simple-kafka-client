@@ -60,7 +60,7 @@ void create_kafka_error(zval *return_value, const rd_kafka_error_t *error) /* {{
 }
 /* }}} */
 
-/* {{{ proto Kafka\KafkaErrorException::__construct(string $message, int $code[, string $error_string, bool $isFatal, bool $isRetriable, bool $transactionRequiresAbort]) */
+/* {{{ proto SimpleKafkaClient\KafkaErrorException::__construct(string $message, int $code[, string $error_string, bool $isFatal, bool $isRetriable, bool $transactionRequiresAbort]) */
 PHP_METHOD(Kafka_KafkaErrorException, __construct)
 {
     char *message, *error_string = "";
@@ -88,7 +88,7 @@ PHP_METHOD(Kafka_KafkaErrorException, __construct)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\KafkaErrorException::getErrorString()
+/* {{{ proto void SimpleKafkaClient\KafkaErrorException::getErrorString()
     Get name of error */
 PHP_METHOD(Kafka_KafkaErrorException, getErrorString)
 {
@@ -109,7 +109,7 @@ PHP_METHOD(Kafka_KafkaErrorException, getErrorString)
 /* }}} */
 
 
-/* {{{ proto void Kafka\KafkaErrorException::isFatal()
+/* {{{ proto void SimpleKafkaClient\KafkaErrorException::isFatal()
     Return true if error is fatal */
 PHP_METHOD(Kafka_KafkaErrorException, isFatal)
 {
@@ -129,7 +129,7 @@ PHP_METHOD(Kafka_KafkaErrorException, isFatal)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\KafkaErrorException::isRetriable()
+/* {{{ proto void SimpleKafkaClient\KafkaErrorException::isRetriable()
     Return true if error is fatal */
 PHP_METHOD(Kafka_KafkaErrorException, isRetriable)
 {
@@ -149,7 +149,7 @@ PHP_METHOD(Kafka_KafkaErrorException, isRetriable)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\KafkaErrorException::transactionRequiresAbort()
+/* {{{ proto void SimpleKafkaClient\KafkaErrorException::transactionRequiresAbort()
     Return true if error is fatal */
 PHP_METHOD(Kafka_KafkaErrorException, transactionRequiresAbort)
 {
@@ -173,10 +173,10 @@ void kafka_error_init() /* {{{ */
 {
     zend_class_entry ce;
 
-    INIT_NS_CLASS_ENTRY(ce, "Kafka", "Exception", NULL);
+    INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "Exception", NULL);
     ce_kafka_exception = zend_register_internal_class_ex(&ce, zend_ce_exception);
 
-    INIT_NS_CLASS_ENTRY(ce, "Kafka", "KafkaErrorException", class_Kafka_KafkaErrorException_methods);
+    INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "KafkaErrorException", class_Kafka_KafkaErrorException_methods);
     ce_kafka_error_exception = zend_register_internal_class_ex(&ce, ce_kafka_exception);
 
     zend_declare_property_null(ce_kafka_error_exception, ZEND_STRL("error_string"), ZEND_ACC_PRIVATE);

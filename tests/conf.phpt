@@ -1,9 +1,9 @@
 --TEST--
-Kafka\Configuration
+SimpleKafkaClient\Configuration
 --FILE--
 <?php
 
-$conf = new Kafka\Configuration();
+$conf = new SimpleKafkaClient\Configuration();
 
 echo "Setting a string property\n";
 $conf->set("client.id", "acme");
@@ -70,9 +70,9 @@ Setting a string property
 Setting an integer property
 Setting a boolean property
 Setting a boolean property to an invalid value
-Caught a Kafka\Exception: Expected bool value for "topic.metadata.refresh.sparse": true or false
+Caught a SimpleKafkaClient\Exception: Expected bool value for "topic.metadata.refresh.sparse": true or false
 Setting an invalid property
-Caught a Kafka\Exception: No such configuration property: "invalid"
+Caught a SimpleKafkaClient\Exception: No such configuration property: "invalid"
 Setting error callback
 bool(true)
 Setting dr_msg callback

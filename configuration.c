@@ -123,7 +123,7 @@ kafka_conf_object * get_kafka_conf_object(zval *zconf)
     kafka_conf_object *oconf = Z_KAFKA_P(kafka_conf_object, zconf);
 
     if (!oconf->conf) {
-        zend_throw_exception_ex(NULL, 0, "Kafka\\Configuration::__construct() has not been called");
+        zend_throw_exception_ex(NULL, 0, "SimpleKafkaClient\\Configuration::__construct() has not been called");
         return NULL;
     }
 
@@ -304,7 +304,7 @@ static void kafka_conf_log_cb(const rd_kafka_t *rk, int level, const char *facil
     zval_ptr_dtor(&args[3]);
 }
 
-/* {{{ proto Kafka\Configuration::__construct() */
+/* {{{ proto SimpleKafkaClient\Configuration::__construct() */
 ZEND_METHOD(Kafka_Configuration, __construct)
 {
     kafka_conf_object *intern;
@@ -317,7 +317,7 @@ ZEND_METHOD(Kafka_Configuration, __construct)
 }
 /* }}} */
 
-/* {{{ proto array Kafka\Configuration::dump()
+/* {{{ proto array SimpleKafkaClient\Configuration::dump()
    Dump the configuration properties and values of `conf` to an array */
 ZEND_METHOD(Kafka_Configuration, dump)
 {
@@ -348,7 +348,7 @@ ZEND_METHOD(Kafka_Configuration, dump)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Configuration::set(string $name, string $value)
+/* {{{ proto void SimpleKafkaClient\Configuration::set(string $name, string $value)
    Sets a configuration property. */
 ZEND_METHOD(Kafka_Configuration, set)
 {
@@ -385,7 +385,7 @@ ZEND_METHOD(Kafka_Configuration, set)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Configuration::setErrorCb(callable $callback)
+/* {{{ proto void SimpleKafkaClient\Configuration::setErrorCb(callable $callback)
    Sets the error callback */
 ZEND_METHOD(Kafka_Configuration, setErrorCb)
 {
@@ -417,7 +417,7 @@ ZEND_METHOD(Kafka_Configuration, setErrorCb)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Configuration::setDrMsgCb(callable $callback)
+/* {{{ proto void SimpleKafkaClient\Configuration::setDrMsgCb(callable $callback)
    Sets the delivery report callback */
 ZEND_METHOD(Kafka_Configuration, setDrMsgCb)
 {
@@ -449,7 +449,7 @@ ZEND_METHOD(Kafka_Configuration, setDrMsgCb)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Configuration::setStatsCb(callable $callback)
+/* {{{ proto void SimpleKafkaClient\Configuration::setStatsCb(callable $callback)
    Sets the statistics report callback */
 ZEND_METHOD(Kafka_Configuration, setStatsCb)
 {
@@ -481,7 +481,7 @@ ZEND_METHOD(Kafka_Configuration, setStatsCb)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Configuration::setRebalanceCb(callback $callback)
+/* {{{ proto void SimpleKafkaClient\Configuration::setRebalanceCb(callback $callback)
    Set rebalance callback for use with coordinated consumer group balancing */
 ZEND_METHOD(Kafka_Configuration, setRebalanceCb)
 {
@@ -513,7 +513,7 @@ ZEND_METHOD(Kafka_Configuration, setRebalanceCb)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Configuration::setOffsetCommitCb(callback $callback)
+/* {{{ proto void SimpleKafkaClient\Configuration::setOffsetCommitCb(callback $callback)
    Set offset commit callback for use with consumer groups */
 ZEND_METHOD(Kafka_Configuration, setOffsetCommitCb)
 {
@@ -545,7 +545,7 @@ ZEND_METHOD(Kafka_Configuration, setOffsetCommitCb)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Configuration::setLogCb(callback $callback)
+/* {{{ proto void SimpleKafkaClient\Configuration::setLogCb(callback $callback)
    Set offset commit callback for use with consumer groups */
 ZEND_METHOD(Kafka_Configuration, setLogCb)
 {
@@ -587,7 +587,7 @@ void kafka_conf_init(INIT_FUNC_ARGS)
     handlers.free_obj = kafka_conf_free;
     handlers.offset = XtOffsetOf(kafka_conf_object, std);
 
-    INIT_NS_CLASS_ENTRY(tmpce, "Kafka", "Configuration", class_Kafka_Configuration_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "Configuration", class_Kafka_Configuration_methods);
     ce_kafka_conf = zend_register_internal_class(&tmpce);
     ce_kafka_conf->create_object = kafka_conf_new;
 }

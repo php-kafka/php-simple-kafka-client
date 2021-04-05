@@ -3,7 +3,7 @@ KafkaErrorException
 --FILE--
 <?php
 
-$e = new Kafka\KafkaErrorException('exception message', -100, 'exception description', true, false, true);
+$e = new SimpleKafkaClient\KafkaErrorException('exception message', -100, 'exception description', true, false, true);
 
 echo sprintf('Exception message: %s', $e->getMessage()) . PHP_EOL;
 echo sprintf('Exception code: %d', $e->getCode()) . PHP_EOL;

@@ -98,7 +98,7 @@ kafka_object * get_kafka_object(zval *zrk)
     kafka_object *ork = Z_KAFKA_P(kafka_object, zrk);
 
     if (!ork->rk) {
-        zend_throw_exception_ex(NULL, 0, "Kafka\\Kafka::__construct() has not been called");
+        zend_throw_exception_ex(NULL, 0, "SimpleKafkaClient\\Kafka::__construct() has not been called");
         return NULL;
     }
 
@@ -113,7 +113,7 @@ ZEND_METHOD(Kafka, __construct)
 }
 /* }}} */
 
-/* {{{ proto Kafka\Metadata::getMetadata(bool $all_topics, int $timeout_ms, Kafka\Topic $topic)
+/* {{{ proto SimpleKafkaClient\Metadata::getMetadata(bool $all_topics, int $timeout_ms, SimpleKafkaClient\Topic $topic)
    Request Metadata from broker */
 ZEND_METHOD(Kafka_Kafka, getMetadata)
 {
@@ -155,8 +155,8 @@ ZEND_METHOD(Kafka_Kafka, getMetadata)
 }
 /* }}} */
 
-/* {{{ proto Kafka\Topic Kafka\Kafka::getTopicHandle(string $topic)
-   Returns an Kafka\Topic object */
+/* {{{ proto SimpleKafkaClient\Topic SimpleKafkaClient\Kafka::getTopicHandle(string $topic)
+   Returns an SimpleKafkaClient\Topic object */
 ZEND_METHOD(Kafka_Kafka, getTopicHandle)
 {
     char *topic;
@@ -198,7 +198,7 @@ ZEND_METHOD(Kafka_Kafka, getTopicHandle)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Kafka::getOutQLen()
+/* {{{ proto int SimpleKafkaClient\Kafka::getOutQLen()
    Returns the current out queue length */
 ZEND_METHOD(Kafka_Kafka, getOutQLen)
 {
@@ -216,7 +216,7 @@ ZEND_METHOD(Kafka_Kafka, getOutQLen)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Kafka::poll(int $timeoutMs)
+/* {{{ proto int SimpleKafkaClient\Kafka::poll(int $timeoutMs)
    Polls the provided kafka handle for events */
 ZEND_METHOD(Kafka_Kafka, poll)
 {
@@ -236,7 +236,7 @@ ZEND_METHOD(Kafka_Kafka, poll)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Kafka::queryWatermarkOffsets(string $topic, int $partition, int &$low, int &$high, int $timeout_ms)
+/* {{{ proto void SimpleKafkaClient\Kafka::queryWatermarkOffsets(string $topic, int $partition, int &$low, int &$high, int $timeout_ms)
    Query broker for low (oldest/beginning) or high (newest/end) offsets for partition */
 ZEND_METHOD(Kafka_Kafka, queryWatermarkOffsets)
 {
@@ -276,7 +276,7 @@ ZEND_METHOD(Kafka_Kafka, queryWatermarkOffsets)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Kafka::offsetsForTimes(array $topicPartitions, int $timeout_ms)
+/* {{{ proto void SimpleKafkaClient\Kafka::offsetsForTimes(array $topicPartitions, int $timeout_ms)
    Look up the offsets for the given partitions by timestamp. */
 ZEND_METHOD(Kafka_Kafka, offsetsForTimes)
 {
@@ -344,7 +344,7 @@ void register_err_constants(INIT_FUNC_ARGS) /* {{{ */
 
 /* {{{ PHP_MINIT_FUNCTION
  */
-PHP_MINIT_FUNCTION(kafka)
+PHP_MINIT_FUNCTION(simple_kafka_client)
 {
     COPY_CONSTANT(RD_KAFKA_OFFSET_BEGINNING);
     COPY_CONSTANT(RD_KAFKA_OFFSET_END);
@@ -375,12 +375,12 @@ PHP_MINIT_FUNCTION(kafka)
     kafka_object_handlers.free_obj = kafka_free;
     kafka_object_handlers.offset = XtOffsetOf(kafka_object, std);
 
-    INIT_CLASS_ENTRY(ce, "Kafka", class_Kafka_Kafka_methods);
+    INIT_CLASS_ENTRY(ce, "SimpleKafkaClient", class_Kafka_Kafka_methods);
     ce_kafka = zend_register_internal_class(&ce);
     ce_kafka->ce_flags |= ZEND_ACC_EXPLICIT_ABSTRACT_CLASS;
     ce_kafka->create_object = kafka_new;
 
-    INIT_NS_CLASS_ENTRY(ce, "Kafka", "Producer", class_Kafka_Producer_methods);
+    INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "Producer", class_Kafka_Producer_methods);
     ce_kafka_producer = zend_register_internal_class_ex(&ce, ce_kafka);
 
     kafka_conf_init(INIT_FUNC_ARGS_PASSTHRU);
@@ -397,7 +397,7 @@ PHP_MINIT_FUNCTION(kafka)
 
 /* {{{ PHP_MINFO_FUNCTION
  */
-PHP_MINFO_FUNCTION(kafka)
+PHP_MINFO_FUNCTION(simple_kafka_client)
 {
     char *rd_kafka_version;
 
@@ -427,22 +427,22 @@ PHP_MINFO_FUNCTION(kafka)
 }
 /* }}} */
 
-/* {{{ kafka_module_entry
+/* {{{ kafka_client_module_entry
  */
-zend_module_entry kafka_module_entry = {
+zend_module_entry simple_kafka_client_module_entry = {
     STANDARD_MODULE_HEADER,
-    "kafka",
+    "simple_kafka_client",
     ext_functions,
-    PHP_MINIT(kafka),
+    PHP_MINIT(simple_kafka_client),
     NULL,
     NULL,
     NULL,
-    PHP_MINFO(kafka),
+    PHP_MINFO(simple_kafka_client),
     PHP_KAFKA_VERSION,
     STANDARD_MODULE_PROPERTIES
 };
 /* }}} */
 
-#ifdef COMPILE_DL_KAFKA
-ZEND_GET_MODULE(kafka)
+#ifdef COMPILE_DL_SIMPLE_KAFKA_CLIENT
+ZEND_GET_MODULE(simple_kafka_client)
 #endif

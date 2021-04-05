@@ -2,7 +2,7 @@
  * Stub hash: b31742490463035fecff0a1cee01effed6e3e1d6 */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_Kafka_Producer___construct, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, configuration, Kafka\\Configuration, 0)
+	ZEND_ARG_OBJ_INFO(0, configuration, SimpleKafkaClient\\Configuration, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_Kafka_Producer_initTransactions, 0, 1, IS_VOID, 0)

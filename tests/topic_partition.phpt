@@ -1,13 +1,13 @@
 --TEST--
-Kafka\TopicPartition
+SimpleKafkaClient\TopicPartition
 --FILE--
 <?php
 
-$topar = new Kafka\TopicPartition("test", RD_KAFKA_PARTITION_UA);
+$topar = new SimpleKafkaClient\TopicPartition("test", RD_KAFKA_PARTITION_UA);
 
 var_dump($topar);
 
-$topar = new Kafka\TopicPartition("test", RD_KAFKA_PARTITION_UA, 42);
+$topar = new SimpleKafkaClient\TopicPartition("test", RD_KAFKA_PARTITION_UA, 42);
 
 var_dump($topar);
 
@@ -24,7 +24,7 @@ $topar
 
 var_dump($topar);
 --EXPECT--
-object(Kafka\TopicPartition)#1 (3) {
+object(SimpleKafkaClient\TopicPartition)#1 (3) {
   ["topic"]=>
   string(4) "test"
   ["partition"]=>
@@ -32,7 +32,7 @@ object(Kafka\TopicPartition)#1 (3) {
   ["offset"]=>
   int(0)
 }
-object(Kafka\TopicPartition)#2 (3) {
+object(SimpleKafkaClient\TopicPartition)#2 (3) {
   ["topic"]=>
   string(4) "test"
   ["partition"]=>
@@ -48,7 +48,7 @@ array(3) {
   ["offset"]=>
   int(42)
 }
-object(Kafka\TopicPartition)#2 (3) {
+object(SimpleKafkaClient\TopicPartition)#2 (3) {
   ["topic"]=>
   string(3) "foo"
   ["partition"]=>
