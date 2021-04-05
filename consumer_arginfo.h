@@ -2,7 +2,7 @@
  * Stub hash: b42d1bb68767786f0b655714b388a3361a45551d */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_Kafka_Consumer___construct, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, configuration, Kafka\\Configuration, 0)
+	ZEND_ARG_OBJ_INFO(0, configuration, SimpleKafkaClient\\Configuration, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_Kafka_Consumer_assign, 0, 1, IS_VOID, 0)
@@ -19,7 +19,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_Kafka_Consumer_unsubscribe, 0, 0, IS_VOID, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_Consumer_consume, 0, 1, Kafka\\Message, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_Consumer_consume, 0, 1, SimpleKafkaClient\\Message, 0)
 	ZEND_ARG_TYPE_INFO(0, timeoutMs, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
@@ -31,13 +31,13 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_class_Kafka_Consumer_close arginfo_class_Kafka_Consumer_unsubscribe
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_Consumer_getMetadata, 0, 3, Kafka\\Metadata, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_Consumer_getMetadata, 0, 3, SimpleKafkaClient\\Metadata, 0)
 	ZEND_ARG_TYPE_INFO(0, allTopics, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, timeoutMs, IS_LONG, 0)
-	ZEND_ARG_OBJ_INFO(0, topic, Kafka\\ConsumerTopic, 0)
+	ZEND_ARG_OBJ_INFO(0, topic, SimpleKafkaClient\\ConsumerTopic, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_Consumer_getTopicHandle, 0, 1, Kafka\\ConsumerTopic, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_Consumer_getTopicHandle, 0, 1, SimpleKafkaClient\\ConsumerTopic, 0)
 	ZEND_ARG_TYPE_INFO(0, topic, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 

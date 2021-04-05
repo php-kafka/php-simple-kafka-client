@@ -13,7 +13,7 @@ Please always include the following in an issue:
 Add debug logs, by adjusting your configuration:
 ```php
 <?php
-$conf = new Kafka\Configuration();
+$conf = new SimpleKafkaClient\Configuration();
 // Add the two settings below for a more verbose output
 $conf->set('log_level', (string) LOG_DEBUG);
 $conf->set('debug', 'all');

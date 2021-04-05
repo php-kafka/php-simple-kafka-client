@@ -86,7 +86,7 @@ static object_intern * get_object(zval *zmt)
     object_intern *omt = Z_KAFKA_P(object_intern, zmt);
 
     if (!omt->metadata_partition) {
-        zend_throw_exception_ex(NULL, 0, "Kafka\\Metadata\\Partition::__construct() has not been called");
+        zend_throw_exception_ex(NULL, 0, "SimpleKafkaClient\\Metadata\\Partition::__construct() has not been called");
         return NULL;
     }
 
@@ -117,7 +117,7 @@ static HashTable *get_debug_info(Z_KAFKA_OBJ *object, int *is_temp) /* {{{ */
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Metadata\Partition::getId()
+/* {{{ proto int SimpleKafkaClient\Metadata\Partition::getId()
    Partition id */
 ZEND_METHOD(Kafka_Metadata_Partition, getId)
 {
@@ -135,7 +135,7 @@ ZEND_METHOD(Kafka_Metadata_Partition, getId)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Metadata\Partition::getErrorCode()
+/* {{{ proto int SimpleKafkaClient\Metadata\Partition::getErrorCode()
    Partition error reported by broker */
 ZEND_METHOD(Kafka_Metadata_Partition, getErrorCode)
 {
@@ -153,7 +153,7 @@ ZEND_METHOD(Kafka_Metadata_Partition, getErrorCode)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Metadata\Partition::getLeader()
+/* {{{ proto int SimpleKafkaClient\Metadata\Partition::getLeader()
    Leader broker */
 ZEND_METHOD(Kafka_Metadata_Partition, getLeader)
 {
@@ -175,7 +175,7 @@ void int32_ctor(zval *return_value, zval *zmetadata, const void *data) {
     ZVAL_LONG(return_value, *(int32_t*)data);
 }
 
-/* {{{ proto array Kafka\Metadata\Partition::getReplicas()
+/* {{{ proto array SimpleKafkaClient\Metadata\Partition::getReplicas()
    Replica broker ids */
 ZEND_METHOD(Kafka_Metadata_Partition, getReplicas)
 {
@@ -193,7 +193,7 @@ ZEND_METHOD(Kafka_Metadata_Partition, getReplicas)
 }
 /* }}} */
 
-/* {{{ proto array Kafka\Metadata\Partition::getIsrs()
+/* {{{ proto array SimpleKafkaClient\Metadata\Partition::getIsrs()
    In-Sync-Replica broker ids */
 ZEND_METHOD(Kafka_Metadata_Partition, getIsrs)
 {
@@ -215,7 +215,7 @@ void kafka_metadata_partition_init(INIT_FUNC_ARGS)
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "Kafka", "Metadata\\Partition", class_Kafka_Metadata_Partition_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "Metadata\\Partition", class_Kafka_Metadata_Partition_methods);
     ce = zend_register_internal_class(&tmpce);
     ce->create_object = create_object;
 

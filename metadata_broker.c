@@ -86,7 +86,7 @@ static object_intern * get_object(zval *zmt)
     object_intern *omt = Z_KAFKA_P(object_intern, zmt);
 
     if (!omt->metadata_broker) {
-        zend_throw_exception_ex(NULL, 0, "Kafka\\Metadata\\Broker::__construct() has not been called");
+        zend_throw_exception_ex(NULL, 0, "SimpleKafkaClient\\Metadata\\Broker::__construct() has not been called");
         return NULL;
     }
 
@@ -115,7 +115,7 @@ static HashTable *get_debug_info(Z_KAFKA_OBJ *object, int *is_temp) /* {{{ */
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Metadata\Broker::getId()
+/* {{{ proto int SimpleKafkaClient\Metadata\Broker::getId()
    Broker id */
 ZEND_METHOD(Kafka_Metadata_Broker, getId)
 {
@@ -133,7 +133,7 @@ ZEND_METHOD(Kafka_Metadata_Broker, getId)
 }
 /* }}} */
 
-/* {{{ proto string Kafka\Metadata\Broker::getHost()
+/* {{{ proto string SimpleKafkaClient\Metadata\Broker::getHost()
    Broker hostname */
 ZEND_METHOD(Kafka_Metadata_Broker, getHost)
 {
@@ -151,7 +151,7 @@ ZEND_METHOD(Kafka_Metadata_Broker, getHost)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Metadata\Broker::getPort()
+/* {{{ proto int SimpleKafkaClient\Metadata\Broker::getPort()
    Broker port */
 ZEND_METHOD(Kafka_Metadata_Broker, getPort)
 {
@@ -173,7 +173,7 @@ void kafka_metadata_broker_init(INIT_FUNC_ARGS)
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "Kafka", "Metadata\\Broker", class_Kafka_Metadata_Broker_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "Metadata\\Broker", class_Kafka_Metadata_Broker_methods);
     ce = zend_register_internal_class(&tmpce);
     ce->create_object = create_object;
 

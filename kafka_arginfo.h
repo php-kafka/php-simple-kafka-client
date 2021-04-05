@@ -1,13 +1,13 @@
 /* This is a generated file, edit the .stub.php file instead.
  * Stub hash: aac20095e4ad448dfdc0f3a25d87cbb17f9f1581 */
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_Kafka_getMetadata, 0, 3, Kafka\\Metadata, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_Kafka_getMetadata, 0, 3, SimpleKafkaClient\\Metadata, 0)
 	ZEND_ARG_TYPE_INFO(0, allTopics, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, timeoutMs, IS_LONG, 0)
-	ZEND_ARG_OBJ_INFO(0, topic, Kafka\\Topic, 0)
+	ZEND_ARG_OBJ_INFO(0, topic, SimpleKafkaClient\\Topic, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_Kafka_getTopicHandle, 0, 1, Kafka\\Topic, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_class_Kafka_Kafka_getTopicHandle, 0, 1, SimpleKafkaClient\\Topic, 0)
 	ZEND_ARG_TYPE_INFO(0, topic, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 

@@ -93,7 +93,7 @@ static object_intern * get_object(zval *zconsumer) /* {{{ */
     object_intern *oconsumer = Z_KAFKA_P(object_intern, zconsumer);
 
     if (!oconsumer->rk) {
-        zend_throw_exception_ex(NULL, 0, "Kafka\\Consumer::__construct() has not been called");
+        zend_throw_exception_ex(NULL, 0, "SimpleKafkaClient\\Consumer::__construct() has not been called");
         return NULL;
     }
 
@@ -119,7 +119,7 @@ static int has_group_id(rd_kafka_conf_t *conf) { /* {{{ */
     return 1;
 } /* }}} */
 
-/* {{{ proto Kafka\Consumer::__construct(Kafka\Configuration $conf) */
+/* {{{ proto SimpleKafkaClient\Consumer::__construct(SimpleKafkaClient\Configuration $conf) */
 ZEND_METHOD(Kafka_Consumer, __construct)
 {
     zval *zconf;
@@ -168,7 +168,7 @@ ZEND_METHOD(Kafka_Consumer, __construct)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Consumer::assign([array $topics])
+/* {{{ proto void SimpleKafkaClient\Consumer::assign([array $topics])
     Atomic assignment of partitions to consume */
 ZEND_METHOD(Kafka_Consumer, assign)
 {
@@ -213,7 +213,7 @@ ZEND_METHOD(Kafka_Consumer, assign)
 }
 /* }}} */
 
-/* {{{ proto array Kafka\Consumer::getAssignment()
+/* {{{ proto array SimpleKafkaClient\Consumer::getAssignment()
     Returns the current partition getAssignment */
 ZEND_METHOD(Kafka_Consumer, getAssignment)
 {
@@ -241,7 +241,7 @@ ZEND_METHOD(Kafka_Consumer, getAssignment)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Consumer::subscribe(array $topics)
+/* {{{ proto void SimpleKafkaClient\Consumer::subscribe(array $topics)
     Update the subscription set to $topics */
 ZEND_METHOD(Kafka_Consumer, subscribe)
 {
@@ -281,7 +281,7 @@ ZEND_METHOD(Kafka_Consumer, subscribe)
 }
 /* }}} */
 
-/* {{{ proto array Kafka\Consumer::getSubscription()
+/* {{{ proto array SimpleKafkaClient\Consumer::getSubscription()
    Returns the current subscription as set by subscribe() */
 ZEND_METHOD(Kafka_Consumer, getSubscription)
 {
@@ -315,7 +315,7 @@ ZEND_METHOD(Kafka_Consumer, getSubscription)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Consumer::unsubsribe()
+/* {{{ proto void SimpleKafkaClient\Consumer::unsubsribe()
     Unsubscribe from the current subscription set */
 ZEND_METHOD(Kafka_Consumer, unsubscribe)
 {
@@ -339,7 +339,7 @@ ZEND_METHOD(Kafka_Consumer, unsubscribe)
 }
 /* }}} */
 
-/* {{{ proto Message Kafka\Consumer::consume()
+/* {{{ proto Message SimpleKafkaClient\Consumer::consume()
    Consume message or get error event, triggers callbacks */
 ZEND_METHOD(Kafka_Consumer, consume)
 {
@@ -434,10 +434,10 @@ static void consumer_commit(int async, INTERNAL_FUNCTION_PARAMETERS) /* {{{ */
             }
         } else if (Z_TYPE_P(zarg) != IS_NULL) {
             php_error(E_ERROR,
-                    "Kafka\\Consumer::%s() expects parameter %d to be %s, %s given",
+                    "SimpleKafkaClient\\Consumer::%s() expects parameter %d to be %s, %s given",
                     get_active_function_name(),
                     1,
-                    "an instance of Kafka\\Message or an array of Kafka\\TopicPartition",
+                    "an instance of SimpleKafkaClient\\Message or an array of SimpleKafkaClient\\TopicPartition",
                     zend_zval_type_name(zarg));
             return;
         }
@@ -456,7 +456,7 @@ static void consumer_commit(int async, INTERNAL_FUNCTION_PARAMETERS) /* {{{ */
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Consumer::commit([mixed $message_or_offsets])
+/* {{{ proto void SimpleKafkaClient\Consumer::commit([mixed $message_or_offsets])
    Commit offsets */
 ZEND_METHOD(Kafka_Consumer, commit)
 {
@@ -464,7 +464,7 @@ ZEND_METHOD(Kafka_Consumer, commit)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Consumer::commitAsync([mixed $message_or_offsets])
+/* {{{ proto void SimpleKafkaClient\Consumer::commitAsync([mixed $message_or_offsets])
    Commit offsets */
 ZEND_METHOD(Kafka_Consumer, commitAsync)
 {
@@ -472,7 +472,7 @@ ZEND_METHOD(Kafka_Consumer, commitAsync)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Consumer::close()
+/* {{{ proto void SimpleKafkaClient\Consumer::close()
    Close connection */
 ZEND_METHOD(Kafka_Consumer, close)
 {
@@ -491,7 +491,7 @@ ZEND_METHOD(Kafka_Consumer, close)
 }
 /* }}} */
 
-/* {{{ proto Metadata Kafka\Consumer::getMetadata(bool all_topics, int timeout_ms, Kafka\Topic only_topic = null)
+/* {{{ proto Metadata SimpleKafkaClient\Consumer::getMetadata(bool all_topics, int timeout_ms, SimpleKafkaClient\Topic only_topic = null)
    Request Metadata from broker */
 ZEND_METHOD(Kafka_Consumer, getMetadata)
 {
@@ -533,8 +533,8 @@ ZEND_METHOD(Kafka_Consumer, getMetadata)
 }
 /* }}} */
 
-/* {{{ proto Kafka\ConsumerTopic Kafka\Consumer::getTopicHandle(string $topic)
-   Returns a Kafka\ConsumerTopic object */
+/* {{{ proto SimpleKafkaClient\ConsumerTopic SimpleKafkaClient\Consumer::getTopicHandle(string $topic)
+   Returns a SimpleKafkaClient\ConsumerTopic object */
 ZEND_METHOD(Kafka_Consumer, getTopicHandle)
 {
     char *topic;
@@ -571,7 +571,7 @@ ZEND_METHOD(Kafka_Consumer, getTopicHandle)
 }
 /* }}} */
 
-/* {{{ proto array Kafka\Consumer::getCommittedOffsets(array $topics, int timeout_ms)
+/* {{{ proto array SimpleKafkaClient\Consumer::getCommittedOffsets(array $topics, int timeout_ms)
    Retrieve committed offsets for topics+partitions */
 ZEND_METHOD(Kafka_Consumer, getCommittedOffsets)
 {
@@ -610,7 +610,7 @@ ZEND_METHOD(Kafka_Consumer, getCommittedOffsets)
 
 /* }}} */
 
-/* {{{ proto array Kafka\Consumer::getOffsetPositions(array $topics)
+/* {{{ proto array SimpleKafkaClient\Consumer::getOffsetPositions(array $topics)
    Retrieve current offsets for topics+partitions */
 ZEND_METHOD(Kafka_Consumer, getOffsetPositions)
 {
@@ -645,7 +645,7 @@ ZEND_METHOD(Kafka_Consumer, getOffsetPositions)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Consumer::offsetsForTimes(array $topicPartitions, int $timeout_ms)
+/* {{{ proto void SimpleKafkaClient\Consumer::offsetsForTimes(array $topicPartitions, int $timeout_ms)
    Look up the offsets for the given partitions by timestamp. */
 ZEND_METHOD(Kafka_Consumer, offsetsForTimes)
 {
@@ -682,7 +682,7 @@ ZEND_METHOD(Kafka_Consumer, offsetsForTimes)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Consumer::queryWatermarkOffsets(string $topic, int $partition, int &$low, int &$high, int $timeout_ms)
+/* {{{ proto void SimpleKafkaClient\Consumer::queryWatermarkOffsets(string $topic, int $partition, int &$low, int &$high, int $timeout_ms)
    Query broker for low (oldest/beginning) or high (newest/end) offsets for partition */
 ZEND_METHOD(Kafka_Consumer, queryWatermarkOffsets)
 {
@@ -726,7 +726,7 @@ void kafka_consumer_init(INIT_FUNC_ARGS) /* {{{ */
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "Kafka", "Consumer", class_Kafka_Consumer_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "Consumer", class_Kafka_Consumer_methods);
     ce = zend_register_internal_class(&tmpce);
     ce->create_object = kafka_consumer_new;
 

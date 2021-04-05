@@ -98,7 +98,7 @@ kafka_object * get_kafka_object(zval *zrk)
     kafka_object *ork = Z_KAFKA_P(kafka_object, zrk);
 
     if (!ork->rk) {
-        zend_throw_exception_ex(NULL, 0, "Kafka\\Kafka::__construct() has not been called");
+        zend_throw_exception_ex(NULL, 0, "SimpleKafkaClient\\Kafka::__construct() has not been called");
         return NULL;
     }
 
@@ -113,7 +113,7 @@ ZEND_METHOD(Kafka, __construct)
 }
 /* }}} */
 
-/* {{{ proto Kafka\Metadata::getMetadata(bool $all_topics, int $timeout_ms, Kafka\Topic $topic)
+/* {{{ proto SimpleKafkaClient\Metadata::getMetadata(bool $all_topics, int $timeout_ms, SimpleKafkaClient\Topic $topic)
    Request Metadata from broker */
 ZEND_METHOD(Kafka_Kafka, getMetadata)
 {
@@ -155,8 +155,8 @@ ZEND_METHOD(Kafka_Kafka, getMetadata)
 }
 /* }}} */
 
-/* {{{ proto Kafka\Topic Kafka\Kafka::getTopicHandle(string $topic)
-   Returns an Kafka\Topic object */
+/* {{{ proto SimpleKafkaClient\Topic SimpleKafkaClient\Kafka::getTopicHandle(string $topic)
+   Returns an SimpleKafkaClient\Topic object */
 ZEND_METHOD(Kafka_Kafka, getTopicHandle)
 {
     char *topic;
@@ -198,7 +198,7 @@ ZEND_METHOD(Kafka_Kafka, getTopicHandle)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Kafka::getOutQLen()
+/* {{{ proto int SimpleKafkaClient\Kafka::getOutQLen()
    Returns the current out queue length */
 ZEND_METHOD(Kafka_Kafka, getOutQLen)
 {
@@ -216,7 +216,7 @@ ZEND_METHOD(Kafka_Kafka, getOutQLen)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Kafka::poll(int $timeoutMs)
+/* {{{ proto int SimpleKafkaClient\Kafka::poll(int $timeoutMs)
    Polls the provided kafka handle for events */
 ZEND_METHOD(Kafka_Kafka, poll)
 {
@@ -236,7 +236,7 @@ ZEND_METHOD(Kafka_Kafka, poll)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Kafka::queryWatermarkOffsets(string $topic, int $partition, int &$low, int &$high, int $timeout_ms)
+/* {{{ proto void SimpleKafkaClient\Kafka::queryWatermarkOffsets(string $topic, int $partition, int &$low, int &$high, int $timeout_ms)
    Query broker for low (oldest/beginning) or high (newest/end) offsets for partition */
 ZEND_METHOD(Kafka_Kafka, queryWatermarkOffsets)
 {
@@ -276,7 +276,7 @@ ZEND_METHOD(Kafka_Kafka, queryWatermarkOffsets)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Kafka::offsetsForTimes(array $topicPartitions, int $timeout_ms)
+/* {{{ proto void SimpleKafkaClient\Kafka::offsetsForTimes(array $topicPartitions, int $timeout_ms)
    Look up the offsets for the given partitions by timestamp. */
 ZEND_METHOD(Kafka_Kafka, offsetsForTimes)
 {
@@ -375,12 +375,12 @@ PHP_MINIT_FUNCTION(simple_kafka_client)
     kafka_object_handlers.free_obj = kafka_free;
     kafka_object_handlers.offset = XtOffsetOf(kafka_object, std);
 
-    INIT_CLASS_ENTRY(ce, "Kafka", class_Kafka_Kafka_methods);
+    INIT_CLASS_ENTRY(ce, "SimpleKafkaClient", class_Kafka_Kafka_methods);
     ce_kafka = zend_register_internal_class(&ce);
     ce_kafka->ce_flags |= ZEND_ACC_EXPLICIT_ABSTRACT_CLASS;
     ce_kafka->create_object = kafka_new;
 
-    INIT_NS_CLASS_ENTRY(ce, "Kafka", "Producer", class_Kafka_Producer_methods);
+    INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "Producer", class_Kafka_Producer_methods);
     ce_kafka_producer = zend_register_internal_class_ex(&ce, ce_kafka);
 
     kafka_conf_init(INIT_FUNC_ARGS_PASSTHRU);

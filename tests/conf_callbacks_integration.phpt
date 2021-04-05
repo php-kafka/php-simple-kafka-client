@@ -1,5 +1,5 @@
 --TEST--
-Kafka\Configuration
+SimpleKafkaClient\Configuration
 --SKIPIF--
 <?php
 require __DIR__ . '/integration-tests-check.php';
@@ -7,11 +7,11 @@ require __DIR__ . '/integration-tests-check.php';
 <?php
 require __DIR__ . '/integration-tests-check.php';
 
-$conf = new Kafka\Configuration();
+$conf = new SimpleKafkaClient\Configuration();
 $conf->set('metadata.broker.list', getenv('TEST_KAFKA_BROKERS'));
 
 $delivered = 0;
-$conf->setDrMsgCb(function (Kafka\Producer $producer, Kafka\Message $message) use (&$delivered) {
+$conf->setDrMsgCb(function (SimpleKafkaClient\Producer $producer, SimpleKafkaClient\Message $message) use (&$delivered) {
     if (RD_KAFKA_RESP_ERR_NO_ERROR !== $message->err) {
         $errorStr = rd_kafka_err2str($message->err);
 
@@ -22,7 +22,7 @@ $conf->setDrMsgCb(function (Kafka\Producer $producer, Kafka\Message $message) us
     }
 });
 
-$producer = new Kafka\Producer($conf);
+$producer = new SimpleKafkaClient\Producer($conf);
 
 $topicName = sprintf("test_kafka_%s", uniqid());
 $topic = $producer->getTopicHandle($topicName);
@@ -33,7 +33,7 @@ for ($i = 0; $i < 10; $i++) {
 
 $producer->flush(10000);
 
-$conf = new Kafka\Configuration();
+$conf = new SimpleKafkaClient\Configuration();
 $conf->set('auto.offset.reset', 'earliest');
 $conf->set('metadata.broker.list', getenv('TEST_KAFKA_BROKERS'));
 $conf->set('group.id', sprintf("test_kafka_group_%s", uniqid()));
@@ -56,7 +56,7 @@ $conf->setStatsCb(function ($consumer, $json) use (&$statsCbCalled) {
 });
 
 $logCbCalled = false;
-$conf->setLogCb(function (Kafka\Consumer $consumer, int $level, string $facility, string $message) use (&$logCbCalled) {
+$conf->setLogCb(function (SimpleKafkaClient\Consumer $consumer, int $level, string $facility, string $message) use (&$logCbCalled) {
     // suppress current bug in librdkafka https://github.com/edenhill/librdkafka/issues/2767
     $logCbCalled = true ;
 });
@@ -67,7 +67,7 @@ $conf->setErrorCb(function ($kafka, int $errorCode, string $reason) {
 
 $topicsAssigned = false;
 $conf->setRebalanceCb(
-    function (Kafka\Consumer $kafka, $err, array $partitions = null) use (&$topicsAssigned){
+    function (SimpleKafkaClient\Consumer $kafka, $err, array $partitions = null) use (&$topicsAssigned){
         switch ($err) {
             case RD_KAFKA_RESP_ERR__ASSIGN_PARTITIONS:
                 $kafka->assign($partitions);
@@ -85,7 +85,7 @@ $conf->setRebalanceCb(
     }
 );
 
-$consumer = new Kafka\Consumer($conf);
+$consumer = new SimpleKafkaClient\Consumer($conf);
 $consumer->subscribe([$topicName]);
 
 while (true) {

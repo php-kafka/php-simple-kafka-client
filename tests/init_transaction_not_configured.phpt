@@ -4,15 +4,15 @@ initTransaction() not configured
 <?php
 require __DIR__ . '/integration-tests-check.php';
 
-$conf = new Kafka\Configuration();
+$conf = new SimpleKafkaClient\Configuration();
 
 $conf->set('metadata.broker.list', getenv('TEST_KAFKA_BROKERS'));
 
-$producer = new Kafka\Producer($conf);
+$producer = new SimpleKafkaClient\Producer($conf);
 
 try {
     $producer->initTransactions(10000);
-} catch (Kafka\KafkaErrorException $e) {
+} catch (SimpleKafkaClient\KafkaErrorException $e) {
     echo $e->getMessage() . PHP_EOL;
     echo $e->getCode() . PHP_EOL;
     echo $e->getFile() . PHP_EOL;
