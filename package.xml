@@ -10,7 +10,7 @@
   <email>coding.nikazu@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2020-12-06</date>
+ <date>2021-04-10</date>
  <time>12:00:00</time>
  <version>
   <release>0.1.0</release>
@@ -53,9 +53,10 @@
    <file role="src" name="metadata_partition_arginfo.h"/>
    <file role="src" name="metadata_topic.c"/>
    <file role="src" name="metadata_topic_arginfo.h"/>
-   <file role="src" name="php_kafka_int.h"/>
+   <file role="src" name="php_simple_kafka_client_int.h"/>
    <file role="src" name="producer.c"/>
    <file role="src" name="producer_arginfo.h"/>
+   <file role="src" name="simple_kafka_client.c"/>
    <file role="src" name="topic.c"/>
    <file role="src" name="topic_arginfo.h"/>
    <file role="src" name="topic_partition.c"/>

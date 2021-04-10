@@ -36,10 +36,10 @@
 #endif
 
 #include "php.h"
-#include "php_kafka_int.h"
+#include "php_simple_kafka_client_int.h"
 #include "Zend/zend_interfaces.h"
 #include "Zend/zend_exceptions.h"
-#include "php_kafka_int.h"
+#include "php_simple_kafka_client_int.h"
 #include "kafka_exception_arginfo.h"
 
 zend_class_entry * ce_kafka_error_exception;

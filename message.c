@@ -36,7 +36,7 @@
 #endif
 
 #include "php.h"
-#include "php_kafka_int.h"
+#include "php_simple_kafka_client_int.h"
 #include "ext/spl/spl_iterators.h"
 #include "Zend/zend_interfaces.h"
 #include "Zend/zend_exceptions.h"

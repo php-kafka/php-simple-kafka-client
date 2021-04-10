@@ -36,7 +36,7 @@
 #endif
 
 #include "php.h"
-#include "php_kafka_int.h"
+#include "php_simple_kafka_client_int.h"
 #include "Zend/zend_exceptions.h"
 #include "consumer_arginfo.h"
 
