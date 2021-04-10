@@ -7,7 +7,7 @@ Please always include the following in an issue:
 
  * PHP version:
  * librdkafka version:
- * php-kafka version:
+ * simple-kafka-client version:
  * kafka version:
 
 Add debug logs, by adjusting your configuration:
