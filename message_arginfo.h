@@ -1,14 +1,14 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 20f7aea0ac13053a32f55187422968a3bbd367fd */
+ * Stub hash: 58ba562f6727450899b5f15fbde57e04db798d2e */
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_Kafka_Message_getErrorString, 0, 0, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_SimpleKafkaClient_Message_getErrorString, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 
-ZEND_METHOD(Kafka_Message, getErrorString);
+ZEND_METHOD(SimpleKafkaClient_Message, getErrorString);
 
 
-static const zend_function_entry class_Kafka_Message_methods[] = {
-	ZEND_ME(Kafka_Message, getErrorString, arginfo_class_Kafka_Message_getErrorString, ZEND_ACC_PUBLIC)
+static const zend_function_entry class_SimpleKafkaClient_Message_methods[] = {
+	ZEND_ME(SimpleKafkaClient_Message, getErrorString, arginfo_class_SimpleKafkaClient_Message_getErrorString, ZEND_ACC_PUBLIC)
 	ZEND_FE_END
 };

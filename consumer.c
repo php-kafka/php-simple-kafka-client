@@ -120,7 +120,7 @@ static int has_group_id(rd_kafka_conf_t *conf) { /* {{{ */
 } /* }}} */
 
 /* {{{ proto SimpleKafkaClient\Consumer::__construct(SimpleKafkaClient\Configuration $conf) */
-ZEND_METHOD(Kafka_Consumer, __construct)
+ZEND_METHOD(SimpleKafkaClient_Consumer, __construct)
 {
     zval *zconf;
     char errstr[512];
@@ -170,7 +170,7 @@ ZEND_METHOD(Kafka_Consumer, __construct)
 
 /* {{{ proto void SimpleKafkaClient\Consumer::assign([array $topics])
     Atomic assignment of partitions to consume */
-ZEND_METHOD(Kafka_Consumer, assign)
+ZEND_METHOD(SimpleKafkaClient_Consumer, assign)
 {
     HashTable *htopars = NULL;
     rd_kafka_topic_partition_list_t *topics;
@@ -215,7 +215,7 @@ ZEND_METHOD(Kafka_Consumer, assign)
 
 /* {{{ proto array SimpleKafkaClient\Consumer::getAssignment()
     Returns the current partition getAssignment */
-ZEND_METHOD(Kafka_Consumer, getAssignment)
+ZEND_METHOD(SimpleKafkaClient_Consumer, getAssignment)
 {
     rd_kafka_resp_err_t err;
     rd_kafka_topic_partition_list_t *topics;
@@ -243,7 +243,7 @@ ZEND_METHOD(Kafka_Consumer, getAssignment)
 
 /* {{{ proto void SimpleKafkaClient\Consumer::subscribe(array $topics)
     Update the subscription set to $topics */
-ZEND_METHOD(Kafka_Consumer, subscribe)
+ZEND_METHOD(SimpleKafkaClient_Consumer, subscribe)
 {
     HashTable *htopics;
     HashPosition pos;
@@ -283,7 +283,7 @@ ZEND_METHOD(Kafka_Consumer, subscribe)
 
 /* {{{ proto array SimpleKafkaClient\Consumer::getSubscription()
    Returns the current subscription as set by subscribe() */
-ZEND_METHOD(Kafka_Consumer, getSubscription)
+ZEND_METHOD(SimpleKafkaClient_Consumer, getSubscription)
 {
     rd_kafka_resp_err_t err;
     rd_kafka_topic_partition_list_t *topics;
@@ -317,7 +317,7 @@ ZEND_METHOD(Kafka_Consumer, getSubscription)
 
 /* {{{ proto void SimpleKafkaClient\Consumer::unsubsribe()
     Unsubscribe from the current subscription set */
-ZEND_METHOD(Kafka_Consumer, unsubscribe)
+ZEND_METHOD(SimpleKafkaClient_Consumer, unsubscribe)
 {
     object_intern *intern;
     rd_kafka_resp_err_t err;
@@ -341,7 +341,7 @@ ZEND_METHOD(Kafka_Consumer, unsubscribe)
 
 /* {{{ proto Message SimpleKafkaClient\Consumer::consume()
    Consume message or get error event, triggers callbacks */
-ZEND_METHOD(Kafka_Consumer, consume)
+ZEND_METHOD(SimpleKafkaClient_Consumer, consume)
 {
     object_intern *intern;
     zend_long timeout_ms;
@@ -458,7 +458,7 @@ static void consumer_commit(int async, INTERNAL_FUNCTION_PARAMETERS) /* {{{ */
 
 /* {{{ proto void SimpleKafkaClient\Consumer::commit([mixed $message_or_offsets])
    Commit offsets */
-ZEND_METHOD(Kafka_Consumer, commit)
+ZEND_METHOD(SimpleKafkaClient_Consumer, commit)
 {
     consumer_commit(0, INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
@@ -466,7 +466,7 @@ ZEND_METHOD(Kafka_Consumer, commit)
 
 /* {{{ proto void SimpleKafkaClient\Consumer::commitAsync([mixed $message_or_offsets])
    Commit offsets */
-ZEND_METHOD(Kafka_Consumer, commitAsync)
+ZEND_METHOD(SimpleKafkaClient_Consumer, commitAsync)
 {
     consumer_commit(1, INTERNAL_FUNCTION_PARAM_PASSTHRU);
 }
@@ -474,7 +474,7 @@ ZEND_METHOD(Kafka_Consumer, commitAsync)
 
 /* {{{ proto void SimpleKafkaClient\Consumer::close()
    Close connection */
-ZEND_METHOD(Kafka_Consumer, close)
+ZEND_METHOD(SimpleKafkaClient_Consumer, close)
 {
     object_intern *intern;
 
@@ -493,7 +493,7 @@ ZEND_METHOD(Kafka_Consumer, close)
 
 /* {{{ proto Metadata SimpleKafkaClient\Consumer::getMetadata(bool all_topics, int timeout_ms, SimpleKafkaClient\Topic only_topic = null)
    Request Metadata from broker */
-ZEND_METHOD(Kafka_Consumer, getMetadata)
+ZEND_METHOD(SimpleKafkaClient_Consumer, getMetadata)
 {
     zend_bool all_topics;
     zval *only_zrkt = NULL;
@@ -535,7 +535,7 @@ ZEND_METHOD(Kafka_Consumer, getMetadata)
 
 /* {{{ proto SimpleKafkaClient\ConsumerTopic SimpleKafkaClient\Consumer::getTopicHandle(string $topic)
    Returns a SimpleKafkaClient\ConsumerTopic object */
-ZEND_METHOD(Kafka_Consumer, getTopicHandle)
+ZEND_METHOD(SimpleKafkaClient_Consumer, getTopicHandle)
 {
     char *topic;
     size_t topic_len;
@@ -573,7 +573,7 @@ ZEND_METHOD(Kafka_Consumer, getTopicHandle)
 
 /* {{{ proto array SimpleKafkaClient\Consumer::getCommittedOffsets(array $topics, int timeout_ms)
    Retrieve committed offsets for topics+partitions */
-ZEND_METHOD(Kafka_Consumer, getCommittedOffsets)
+ZEND_METHOD(SimpleKafkaClient_Consumer, getCommittedOffsets)
 {
     HashTable *htopars = NULL;
     zend_long timeout_ms;
@@ -612,7 +612,7 @@ ZEND_METHOD(Kafka_Consumer, getCommittedOffsets)
 
 /* {{{ proto array SimpleKafkaClient\Consumer::getOffsetPositions(array $topics)
    Retrieve current offsets for topics+partitions */
-ZEND_METHOD(Kafka_Consumer, getOffsetPositions)
+ZEND_METHOD(SimpleKafkaClient_Consumer, getOffsetPositions)
 {
     HashTable *htopars = NULL;
     object_intern *intern;
@@ -647,7 +647,7 @@ ZEND_METHOD(Kafka_Consumer, getOffsetPositions)
 
 /* {{{ proto void SimpleKafkaClient\Consumer::offsetsForTimes(array $topicPartitions, int $timeout_ms)
    Look up the offsets for the given partitions by timestamp. */
-ZEND_METHOD(Kafka_Consumer, offsetsForTimes)
+ZEND_METHOD(SimpleKafkaClient_Consumer, offsetsForTimes)
 {
     HashTable *htopars = NULL;
     object_intern *intern;
@@ -684,7 +684,7 @@ ZEND_METHOD(Kafka_Consumer, offsetsForTimes)
 
 /* {{{ proto void SimpleKafkaClient\Consumer::queryWatermarkOffsets(string $topic, int $partition, int &$low, int &$high, int $timeout_ms)
    Query broker for low (oldest/beginning) or high (newest/end) offsets for partition */
-ZEND_METHOD(Kafka_Consumer, queryWatermarkOffsets)
+ZEND_METHOD(SimpleKafkaClient_Consumer, queryWatermarkOffsets)
 {
     object_intern *intern;
     char *topic;
@@ -726,7 +726,7 @@ void kafka_consumer_init(INIT_FUNC_ARGS) /* {{{ */
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "Consumer", class_Kafka_Consumer_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "Consumer", class_SimpleKafkaClient_Consumer_methods);
     ce = zend_register_internal_class(&tmpce);
     ce->create_object = kafka_consumer_new;
 

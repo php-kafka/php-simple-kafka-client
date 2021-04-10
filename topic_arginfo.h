@@ -1,22 +1,22 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 0c99d0aedca801c7ce5244af6f91e9c9af3685cb */
+ * Stub hash: 679e8a50ee764eb12f6a43ecaa2bf396c74235dc */
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_Kafka_Topic_getName, 0, 0, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_SimpleKafkaClient_Topic_getName, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_class_Kafka_ConsumerTopic___construct, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_class_SimpleKafkaClient_ConsumerTopic___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#define arginfo_class_Kafka_ProducerTopic___construct arginfo_class_Kafka_ConsumerTopic___construct
+#define arginfo_class_SimpleKafkaClient_ProducerTopic___construct arginfo_class_SimpleKafkaClient_ConsumerTopic___construct
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_Kafka_ProducerTopic_produce, 0, 2, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_SimpleKafkaClient_ProducerTopic_produce, 0, 2, IS_VOID, 0)
 	ZEND_ARG_TYPE_INFO(0, partition, IS_LONG, 0)
 	ZEND_ARG_TYPE_INFO(0, msgFlags, IS_LONG, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, payload, IS_STRING, 1, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, key, IS_STRING, 1, "null")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_Kafka_ProducerTopic_producev, 0, 2, IS_VOID, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_SimpleKafkaClient_ProducerTopic_producev, 0, 2, IS_VOID, 0)
 	ZEND_ARG_TYPE_INFO(0, partition, IS_LONG, 0)
 	ZEND_ARG_TYPE_INFO(0, msgFlags, IS_LONG, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, payload, IS_STRING, 1, "null")
@@ -26,28 +26,28 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_Kafka_ProducerTopic_produc
 ZEND_END_ARG_INFO()
 
 
-ZEND_METHOD(Kafka_Topic, getName);
-ZEND_METHOD(Kafka_ConsumerTopic, __construct);
-ZEND_METHOD(Kafka_ProducerTopic, __construct);
-ZEND_METHOD(Kafka_ProducerTopic, produce);
-ZEND_METHOD(Kafka_ProducerTopic, producev);
+ZEND_METHOD(SimpleKafkaClient_Topic, getName);
+ZEND_METHOD(SimpleKafkaClient_ConsumerTopic, __construct);
+ZEND_METHOD(SimpleKafkaClient_ProducerTopic, __construct);
+ZEND_METHOD(SimpleKafkaClient_ProducerTopic, produce);
+ZEND_METHOD(SimpleKafkaClient_ProducerTopic, producev);
 
 
-static const zend_function_entry class_Kafka_Topic_methods[] = {
-	ZEND_ME(Kafka_Topic, getName, arginfo_class_Kafka_Topic_getName, ZEND_ACC_PUBLIC)
+static const zend_function_entry class_SimpleKafkaClient_Topic_methods[] = {
+	ZEND_ME(SimpleKafkaClient_Topic, getName, arginfo_class_SimpleKafkaClient_Topic_getName, ZEND_ACC_PUBLIC)
 	ZEND_FE_END
 };
 
 
-static const zend_function_entry class_Kafka_ConsumerTopic_methods[] = {
-	ZEND_ME(Kafka_ConsumerTopic, __construct, arginfo_class_Kafka_ConsumerTopic___construct, ZEND_ACC_PRIVATE)
+static const zend_function_entry class_SimpleKafkaClient_ConsumerTopic_methods[] = {
+	ZEND_ME(SimpleKafkaClient_ConsumerTopic, __construct, arginfo_class_SimpleKafkaClient_ConsumerTopic___construct, ZEND_ACC_PRIVATE)
 	ZEND_FE_END
 };
 
 
-static const zend_function_entry class_Kafka_ProducerTopic_methods[] = {
-	ZEND_ME(Kafka_ProducerTopic, __construct, arginfo_class_Kafka_ProducerTopic___construct, ZEND_ACC_PRIVATE)
-	ZEND_ME(Kafka_ProducerTopic, produce, arginfo_class_Kafka_ProducerTopic_produce, ZEND_ACC_PUBLIC)
-	ZEND_ME(Kafka_ProducerTopic, producev, arginfo_class_Kafka_ProducerTopic_producev, ZEND_ACC_PUBLIC)
+static const zend_function_entry class_SimpleKafkaClient_ProducerTopic_methods[] = {
+	ZEND_ME(SimpleKafkaClient_ProducerTopic, __construct, arginfo_class_SimpleKafkaClient_ProducerTopic___construct, ZEND_ACC_PRIVATE)
+	ZEND_ME(SimpleKafkaClient_ProducerTopic, produce, arginfo_class_SimpleKafkaClient_ProducerTopic_produce, ZEND_ACC_PUBLIC)
+	ZEND_ME(SimpleKafkaClient_ProducerTopic, producev, arginfo_class_SimpleKafkaClient_ProducerTopic_producev, ZEND_ACC_PUBLIC)
 	ZEND_FE_END
 };

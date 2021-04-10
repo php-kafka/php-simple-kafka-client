@@ -113,7 +113,7 @@ void kafka_message_list_to_array(zval *return_value, rd_kafka_message_t **messag
 /* {{{ proto string SimpleKafkaClient\Message::getErrorString()
  *  Returns the error string for an errored KrSimpleKafkaClient\Message or NULL if there was no error.
  */
-ZEND_METHOD(Kafka_Message, getErrorString)
+ZEND_METHOD(SimpleKafkaClient_Message, getErrorString)
 {
     zval *zerr;
     zval *zpayload;
@@ -146,7 +146,7 @@ ZEND_METHOD(Kafka_Message, getErrorString)
 void kafka_message_init(INIT_FUNC_ARGS) { /* {{{ */
     zend_class_entry ce;
 
-    INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "Message", class_Kafka_Message_methods);
+    INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "Message", class_SimpleKafkaClient_Message_methods);
     ce_kafka_message = zend_register_internal_class(&ce);
 
     zend_declare_property_null(ce_kafka_message, ZEND_STRL("err"), ZEND_ACC_PUBLIC);

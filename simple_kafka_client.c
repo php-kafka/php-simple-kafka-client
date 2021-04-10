@@ -115,7 +115,7 @@ ZEND_METHOD(Kafka, __construct)
 
 /* {{{ proto SimpleKafkaClient\Metadata::getMetadata(bool $all_topics, int $timeout_ms, SimpleKafkaClient\Topic $topic)
    Request Metadata from broker */
-ZEND_METHOD(Kafka_Kafka, getMetadata)
+ZEND_METHOD(SimpleKafkaClient_Kafka, getMetadata)
 {
     zend_bool all_topics;
     zval *only_zrkt = NULL;
@@ -157,7 +157,7 @@ ZEND_METHOD(Kafka_Kafka, getMetadata)
 
 /* {{{ proto SimpleKafkaClient\Topic SimpleKafkaClient\Kafka::getTopicHandle(string $topic)
    Returns an SimpleKafkaClient\Topic object */
-ZEND_METHOD(Kafka_Kafka, getTopicHandle)
+ZEND_METHOD(SimpleKafkaClient_Kafka, getTopicHandle)
 {
     char *topic;
     size_t topic_len;
@@ -200,7 +200,7 @@ ZEND_METHOD(Kafka_Kafka, getTopicHandle)
 
 /* {{{ proto int SimpleKafkaClient\Kafka::getOutQLen()
    Returns the current out queue length */
-ZEND_METHOD(Kafka_Kafka, getOutQLen)
+ZEND_METHOD(SimpleKafkaClient_Kafka, getOutQLen)
 {
     kafka_object *intern;
 
@@ -218,7 +218,7 @@ ZEND_METHOD(Kafka_Kafka, getOutQLen)
 
 /* {{{ proto int SimpleKafkaClient\Kafka::poll(int $timeoutMs)
    Polls the provided kafka handle for events */
-ZEND_METHOD(Kafka_Kafka, poll)
+ZEND_METHOD(SimpleKafkaClient_Kafka, poll)
 {
     kafka_object *intern;
     zend_long timeout_ms;
@@ -238,7 +238,7 @@ ZEND_METHOD(Kafka_Kafka, poll)
 
 /* {{{ proto void SimpleKafkaClient\Kafka::queryWatermarkOffsets(string $topic, int $partition, int &$low, int &$high, int $timeout_ms)
    Query broker for low (oldest/beginning) or high (newest/end) offsets for partition */
-ZEND_METHOD(Kafka_Kafka, queryWatermarkOffsets)
+ZEND_METHOD(SimpleKafkaClient_Kafka, queryWatermarkOffsets)
 {
     kafka_object *intern;
     char *topic;
@@ -278,7 +278,7 @@ ZEND_METHOD(Kafka_Kafka, queryWatermarkOffsets)
 
 /* {{{ proto void SimpleKafkaClient\Kafka::offsetsForTimes(array $topicPartitions, int $timeout_ms)
    Look up the offsets for the given partitions by timestamp. */
-ZEND_METHOD(Kafka_Kafka, offsetsForTimes)
+ZEND_METHOD(SimpleKafkaClient_Kafka, offsetsForTimes)
 {
     HashTable *htopars = NULL;
     kafka_object *intern;
@@ -375,12 +375,12 @@ PHP_MINIT_FUNCTION(simple_kafka_client)
     kafka_object_handlers.free_obj = kafka_free;
     kafka_object_handlers.offset = XtOffsetOf(kafka_object, std);
 
-    INIT_CLASS_ENTRY(ce, "SimpleKafkaClient", class_Kafka_Kafka_methods);
+    INIT_CLASS_ENTRY(ce, "SimpleKafkaClient", class_SimpleKafkaClient_SimpleKafkaClient_methods);
     ce_kafka = zend_register_internal_class(&ce);
     ce_kafka->ce_flags |= ZEND_ACC_EXPLICIT_ABSTRACT_CLASS;
     ce_kafka->create_object = kafka_new;
 
-    INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "Producer", class_Kafka_Producer_methods);
+    INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "Producer", class_SimpleKafkaClient_Producer_methods);
     ce_kafka_producer = zend_register_internal_class_ex(&ce, ce_kafka);
 
     kafka_conf_init(INIT_FUNC_ARGS_PASSTHRU);

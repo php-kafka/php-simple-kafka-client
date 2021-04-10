@@ -119,7 +119,7 @@ static HashTable *get_debug_info(Z_KAFKA_OBJ *object, int *is_temp) /* {{{ */
 
 /* {{{ proto int SimpleKafkaClient\Metadata\Partition::getId()
    Partition id */
-ZEND_METHOD(Kafka_Metadata_Partition, getId)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Partition, getId)
 {
     object_intern *intern;
 
@@ -137,7 +137,7 @@ ZEND_METHOD(Kafka_Metadata_Partition, getId)
 
 /* {{{ proto int SimpleKafkaClient\Metadata\Partition::getErrorCode()
    Partition error reported by broker */
-ZEND_METHOD(Kafka_Metadata_Partition, getErrorCode)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Partition, getErrorCode)
 {
     object_intern *intern;
 
@@ -155,7 +155,7 @@ ZEND_METHOD(Kafka_Metadata_Partition, getErrorCode)
 
 /* {{{ proto int SimpleKafkaClient\Metadata\Partition::getLeader()
    Leader broker */
-ZEND_METHOD(Kafka_Metadata_Partition, getLeader)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Partition, getLeader)
 {
     object_intern *intern;
 
@@ -177,7 +177,7 @@ void int32_ctor(zval *return_value, zval *zmetadata, const void *data) {
 
 /* {{{ proto array SimpleKafkaClient\Metadata\Partition::getReplicas()
    Replica broker ids */
-ZEND_METHOD(Kafka_Metadata_Partition, getReplicas)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Partition, getReplicas)
 {
     object_intern *intern;
 
@@ -195,7 +195,7 @@ ZEND_METHOD(Kafka_Metadata_Partition, getReplicas)
 
 /* {{{ proto array SimpleKafkaClient\Metadata\Partition::getIsrs()
    In-Sync-Replica broker ids */
-ZEND_METHOD(Kafka_Metadata_Partition, getIsrs)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Partition, getIsrs)
 {
     object_intern *intern;
 
@@ -215,7 +215,7 @@ void kafka_metadata_partition_init(INIT_FUNC_ARGS)
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "Metadata\\Partition", class_Kafka_Metadata_Partition_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "Metadata\\Partition", class_SimpleKafkaClient_Metadata_Partition_methods);
     ce = zend_register_internal_class(&tmpce);
     ce->create_object = create_object;
 

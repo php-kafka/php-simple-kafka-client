@@ -133,7 +133,7 @@ static HashTable *get_debug_info(Z_KAFKA_OBJ *object, int *is_temp) /* {{{ */
 
 /* {{{ proto long SimpleKafkaClient\Metadata::getOrigBrokerId()
    Broker originating this metadata */
-ZEND_METHOD(Kafka_Metadata, getOrigBrokerId)
+ZEND_METHOD(SimpleKafkaClient_Metadata, getOrigBrokerId)
 {
     object_intern *intern;
 
@@ -151,7 +151,7 @@ ZEND_METHOD(Kafka_Metadata, getOrigBrokerId)
 
 /* {{{ proto string SimpleKafkaClient\Metadata::getOrigBrokerName()
    Name of originating broker */
-ZEND_METHOD(Kafka_Metadata, getOrigBrokerName)
+ZEND_METHOD(SimpleKafkaClient_Metadata, getOrigBrokerName)
 {
     object_intern *intern;
 
@@ -169,7 +169,7 @@ ZEND_METHOD(Kafka_Metadata, getOrigBrokerName)
 
 /* {{{ proto SimpleKafkaClient\Metadata\Collection SimpleKafkaClient\Metadata::getBrokers()
    Topics */
-ZEND_METHOD(Kafka_Metadata, getBrokers)
+ZEND_METHOD(SimpleKafkaClient_Metadata, getBrokers)
 {
     object_intern *intern;
 
@@ -187,7 +187,7 @@ ZEND_METHOD(Kafka_Metadata, getBrokers)
 
 /* {{{ proto SimpleKafkaClient\Metadata\Collection SimpleKafkaClient\Metadata::getTopics()
    Topics */
-ZEND_METHOD(Kafka_Metadata, getTopics)
+ZEND_METHOD(SimpleKafkaClient_Metadata, getTopics)
 {
     object_intern *intern;
 
@@ -207,7 +207,7 @@ void kafka_metadata_init(INIT_FUNC_ARGS)
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "Metadata", class_Kafka_Metadata_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "Metadata", class_SimpleKafkaClient_Metadata_methods);
     ce = zend_register_internal_class(&tmpce);
     ce->create_object = kafka_metadata_new;
 

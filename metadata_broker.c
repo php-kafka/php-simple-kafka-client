@@ -117,7 +117,7 @@ static HashTable *get_debug_info(Z_KAFKA_OBJ *object, int *is_temp) /* {{{ */
 
 /* {{{ proto int SimpleKafkaClient\Metadata\Broker::getId()
    Broker id */
-ZEND_METHOD(Kafka_Metadata_Broker, getId)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Broker, getId)
 {
     object_intern *intern;
 
@@ -135,7 +135,7 @@ ZEND_METHOD(Kafka_Metadata_Broker, getId)
 
 /* {{{ proto string SimpleKafkaClient\Metadata\Broker::getHost()
    Broker hostname */
-ZEND_METHOD(Kafka_Metadata_Broker, getHost)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Broker, getHost)
 {
     object_intern *intern;
 
@@ -153,7 +153,7 @@ ZEND_METHOD(Kafka_Metadata_Broker, getHost)
 
 /* {{{ proto int SimpleKafkaClient\Metadata\Broker::getPort()
    Broker port */
-ZEND_METHOD(Kafka_Metadata_Broker, getPort)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Broker, getPort)
 {
     object_intern *intern;
 
@@ -173,7 +173,7 @@ void kafka_metadata_broker_init(INIT_FUNC_ARGS)
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "Metadata\\Broker", class_Kafka_Metadata_Broker_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "Metadata\\Broker", class_SimpleKafkaClient_Metadata_Broker_methods);
     ce = zend_register_internal_class(&tmpce);
     ce->create_object = create_object;
 

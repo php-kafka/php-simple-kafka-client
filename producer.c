@@ -88,7 +88,7 @@ static void kafka_init(zval *this_ptr, rd_kafka_type_t type, zval *zconf) /* {{{
 /* }}} */
 
 /* {{{ proto SimpleKafkaClient\Producer::__construct([SimpleKafkaClient\Configuration $configuration]) */
-ZEND_METHOD(Kafka_Producer, __construct)
+ZEND_METHOD(SimpleKafkaClient_Producer, __construct)
 {
     zval *zconf = NULL;
 
@@ -102,7 +102,7 @@ ZEND_METHOD(Kafka_Producer, __construct)
 
 /* {{{ proto int SimpleKafkaClient\Producer::flush(int $timeout_ms)
    Wait until all outstanding produce requests, et.al, are completed. */
-ZEND_METHOD(Kafka_Producer, flush)
+ZEND_METHOD(SimpleKafkaClient_Producer, flush)
 {
     kafka_object *intern;
     zend_long timeout_ms;
@@ -122,7 +122,7 @@ ZEND_METHOD(Kafka_Producer, flush)
 
 /* {{{ proto int SimpleKafkaClient\Producer::purge(int $purge_flags)
    Purge messages that are in queue or in flight */
-ZEND_METHOD(Kafka_Producer, purge)
+ZEND_METHOD(SimpleKafkaClient_Producer, purge)
 {
     kafka_object *intern;
     zend_long purge_flags;
@@ -142,7 +142,7 @@ ZEND_METHOD(Kafka_Producer, purge)
 
 /* {{{ proto int SimpleKafkaClient\Producer::initTransactions(int timeout_ms)
    Initializes transactions, needs to be done before producing and starting a transaction */
-ZEND_METHOD(Kafka_Producer, initTransactions)
+ZEND_METHOD(SimpleKafkaClient_Producer, initTransactions)
 {
     kafka_object *intern;
     zend_long timeout_ms;
@@ -170,7 +170,7 @@ ZEND_METHOD(Kafka_Producer, initTransactions)
 
 /* {{{ proto int SimpleKafkaClient\Producer::beginTransaction()
    Start a transaction */
-ZEND_METHOD(Kafka_Producer, beginTransaction)
+ZEND_METHOD(SimpleKafkaClient_Producer, beginTransaction)
 {
     kafka_object *intern;
     const rd_kafka_error_t *error;
@@ -196,7 +196,7 @@ ZEND_METHOD(Kafka_Producer, beginTransaction)
 
 /* {{{ proto int SimpleKafkaClient\Producer::commitTransaction(int timeout_ms)
    Commit a transaction */
-ZEND_METHOD(Kafka_Producer, commitTransaction)
+ZEND_METHOD(SimpleKafkaClient_Producer, commitTransaction)
 {
     kafka_object *intern;
     zend_long timeout_ms;
@@ -224,7 +224,7 @@ ZEND_METHOD(Kafka_Producer, commitTransaction)
 
 /* {{{ proto int SimpleKafkaClient\Producer::abortTransaction(int timeout_ms)
    Commit a transaction */
-ZEND_METHOD(Kafka_Producer, abortTransaction)
+ZEND_METHOD(SimpleKafkaClient_Producer, abortTransaction)
 {
     kafka_object *intern;
     zend_long timeout_ms;

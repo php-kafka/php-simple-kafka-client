@@ -125,7 +125,7 @@ static HashTable *get_debug_info(Z_KAFKA_OBJ *object, int *is_temp) /* {{{ */
 
 /* {{{ proto int SimpleKafkaClient\Metadata\Collection::count()
    */
-ZEND_METHOD(Kafka_Metadata_Collection, count)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Collection, count)
 {
     object_intern *intern;
 
@@ -143,7 +143,7 @@ ZEND_METHOD(Kafka_Metadata_Collection, count)
 
 /* {{{ proto void SimpleKafkaClient\Metadata\Collection::rewind()
    */
-ZEND_METHOD(Kafka_Metadata_Collection, rewind)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Collection, rewind)
 {
     object_intern *intern;
 
@@ -161,7 +161,7 @@ ZEND_METHOD(Kafka_Metadata_Collection, rewind)
 
 /* {{{ proto mixed SimpleKafkaClient\Metadata\Collection::current()
    */
-ZEND_METHOD(Kafka_Metadata_Collection, current)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Collection, current)
 {
     object_intern *intern;
 
@@ -184,7 +184,7 @@ ZEND_METHOD(Kafka_Metadata_Collection, current)
 
 /* {{{ proto mixed SimpleKafkaClient\Metadata\Collection::key()
    */
-ZEND_METHOD(Kafka_Metadata_Collection, key)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Collection, key)
 {
     object_intern *intern;
 
@@ -207,7 +207,7 @@ ZEND_METHOD(Kafka_Metadata_Collection, key)
 
 /* {{{ proto void SimpleKafkaClient\Metadata\Collection::next()
    */
-ZEND_METHOD(Kafka_Metadata_Collection, next)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Collection, next)
 {
     object_intern *intern;
 
@@ -225,7 +225,7 @@ ZEND_METHOD(Kafka_Metadata_Collection, next)
 
 /* {{{ proto bool SimpleKafkaClient\Metadata\Collection::valid()
    */
-ZEND_METHOD(Kafka_Metadata_Collection, valid)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Collection, valid)
 {
     object_intern *intern;
 
@@ -245,7 +245,7 @@ void kafka_metadata_collection_init(INIT_FUNC_ARGS)
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient\\Metadata", "Collection", class_Kafka_Metadata_Collection_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient\\Metadata", "Collection", class_SimpleKafkaClient_Metadata_Collection_methods);
     ce = zend_register_internal_class(&tmpce);
     ce->create_object = create_object;
     zend_class_implements(ce, 2, spl_ce_Countable, spl_ce_Iterator);
