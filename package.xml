@@ -62,8 +62,8 @@
    <file role="src" name="topic_partition.c"/>
    <file role="src" name="topic_partition_arginfo.h"/>
    <dir name="tests">
-    <file role="test" name="allow_null_payload_and_key.phpt"/>
     <file role="test" name="allow_null_payload.phpt"/>
+    <file role="test" name="allow_null_payload_and_key.phpt"/>
     <file role="test" name="conf.phpt"/>
     <file role="test" name="conf_callbacks_integration.phpt"/>
     <file role="test" name="conf_extend.phpt"/>
@@ -77,7 +77,7 @@
     <file role="test" name="metadata.phpt"/>
     <file role="test" name="produce_consume.phpt"/>
     <file role="test" name="produce_consume_transactional.phpt"/>
-    <file role="test" name="kafka_get_err_descs.phpt"/>
+    <file role="test" name="rd_kafka_get_err_descs.phpt"/>
     <file role="test" name="test_env.php.sample"/>
     <file role="test" name="topic_partition.phpt"/>
    </dir>
