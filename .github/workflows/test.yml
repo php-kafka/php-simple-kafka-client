@@ -55,7 +55,7 @@ jobs:
             - name: 'Check out repository'
               uses: 'actions/checkout@v2'
               with:
-                  path: 'php-kafka'
+                  path: 'php-simple-kafka-client'
 
             - uses: actions/cache@v2
               with:
@@ -68,16 +68,16 @@ jobs:
                   key: ${{ runner.os }}-${{ matrix.librdkafka }}
 
             - name: 'Build librdkafka'
-              run: './php-kafka/.github/workflows/test/build-librdkafka.sh'
+              run: './php-simple-kafka-client/.github/workflows/test/build-librdkafka.sh'
 
             - name: 'Build PHP'
-              run: './php-kafka/.github/workflows/test/build-php.sh'
+              run: './php-simple-kafka-client/.github/workflows/test/build-php.sh'
 
-            - name: 'Build php-kafka'
-              run: './php-kafka/.github/workflows/test/build-php-simple-kafka-client.sh'
+            - name: 'Build php-simple-kafka-client'
+              run: './php-simple-kafka-client/.github/workflows/test/build-php-simple-kafka-client.sh'
 
             - name: 'Start Kafka'
-              run: './php-kafka/.github/workflows/test/start-kafka.sh'
+              run: './php-simple-kafka-client/.github/workflows/test/start-kafka.sh'
 
             - name: 'Run tests'
-              run: './php-kafka/.github/workflows/test/tests.sh'
+              run: './php-simple-kafka-client/.github/workflows/test/tests.sh'
