@@ -9,7 +9,7 @@ if [ $MEMORY_CHECK -eq 1 ]; then
     PHP_SIMPLE_KAFKA_CLIENT_CFLAGS="-Wall -Werror -Wno-deprecated-declarations"
 fi
 
-cd php-kafka
+cd php-simple-kafka-client
 phpize
 CFLAGS="$PHP_SIMPLE_KAFKA_CLIENT_CFLAGS" ./configure
 make

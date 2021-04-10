@@ -2,7 +2,7 @@
 
 set -xve
 
-cd php-kafka
+cd php-simple-kafka-client
 
 if [ $MEMORY_CHECK -eq 1 ]; then
       echo "Enabling memory checking"
