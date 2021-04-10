@@ -6,7 +6,7 @@
  <description>This extension is a librdkafka binding providing a working client for Kafka</description>
  <lead>
   <name>Nick Chiu</name>
-  <user>nick-zh</user>
+  <user>nickzh</user>
   <email>coding.nikazu@gmail.com</email>
   <active>yes</active>
  </lead>
