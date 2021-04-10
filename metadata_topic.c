@@ -127,7 +127,7 @@ static HashTable *get_debug_info(Z_KAFKA_OBJ *object, int *is_temp) /* {{{ */
 
 /* {{{ proto string SimpleKafkaClient\MetadataTopic::getName()
    Topic name */
-ZEND_METHOD(Kafka_Metadata_Topic, getName)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Topic, getName)
 {
     object_intern *intern;
 
@@ -145,7 +145,7 @@ ZEND_METHOD(Kafka_Metadata_Topic, getName)
 
 /* {{{ proto int SimpleKafkaClient\MetadataTopic::getErrorCode()
    Error */
-ZEND_METHOD(Kafka_Metadata_Topic, getErrorCode)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Topic, getErrorCode)
 {
     object_intern *intern;
 
@@ -164,7 +164,7 @@ ZEND_METHOD(Kafka_Metadata_Topic, getErrorCode)
 
 /* {{{ proto SimpleKafkaClient\Metadata\Collection SimpleKafkaClient\Metadata\Topic::getPartitions()
    Partitions */
-ZEND_METHOD(Kafka_Metadata_Topic, getPartitions)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Topic, getPartitions)
 {
     object_intern *intern;
 
@@ -184,7 +184,7 @@ void kafka_metadata_topic_init(INIT_FUNC_ARGS)
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient\\Metadata", "Topic", class_Kafka_Metadata_Topic_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient\\Metadata", "Topic", class_SimpleKafkaClient_Metadata_Topic_methods);
     ce = zend_register_internal_class(&tmpce);
     ce->create_object = create_object;
 

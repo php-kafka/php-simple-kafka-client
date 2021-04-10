@@ -201,7 +201,7 @@ rd_kafka_topic_partition_list_t * array_arg_to_kafka_topic_partition_list(int ar
 
 /* {{{ proto void SimpleKafkaClient\TopicPartition::__construct(string $topic, int $partition[, int $offset])
    Constructor */
-ZEND_METHOD(Kafka_TopicPartition, __construct)
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, __construct)
 {
     char *topic;
     size_t topic_len;
@@ -221,7 +221,7 @@ ZEND_METHOD(Kafka_TopicPartition, __construct)
 
 /* {{{ proto string SimpleKafkaClient\TopicPartition::getTopicName()
    Returns topic name */
-ZEND_METHOD(Kafka_TopicPartition, getTopicName)
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, getTopicName)
 {
     object_intern *intern;
 
@@ -243,7 +243,7 @@ ZEND_METHOD(Kafka_TopicPartition, getTopicName)
 
 /* {{{ proto TopicPartition SimpleKafkaClient\TopicPartition::setTopicName($topicName)
    Sets topic name */
-ZEND_METHOD(Kafka_TopicPartition, setTopicName)
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, setTopicName)
 {
     char * topic;
     size_t topic_len;
@@ -270,7 +270,7 @@ ZEND_METHOD(Kafka_TopicPartition, setTopicName)
 
 /* {{{ proto int SimpleKafkaClient\TopicPartition::getPartition()
    Returns partition */
-ZEND_METHOD(Kafka_TopicPartition, getPartition)
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, getPartition)
 {
     object_intern *intern;
 
@@ -288,7 +288,7 @@ ZEND_METHOD(Kafka_TopicPartition, getPartition)
 
 /* {{{ proto TopicPartition SimpleKafkaClient\TopicPartition::setPartition($partition)
    Sets partition */
-ZEND_METHOD(Kafka_TopicPartition, setPartition)
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, setPartition)
 {
     zend_long partition;
     object_intern *intern;
@@ -310,7 +310,7 @@ ZEND_METHOD(Kafka_TopicPartition, setPartition)
 
 /* {{{ proto int SimpleKafkaClient\TopicPartition::getOffset()
    Returns offset */
-ZEND_METHOD(Kafka_TopicPartition, getOffset)
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, getOffset)
 {
     object_intern *intern;
 
@@ -328,7 +328,7 @@ ZEND_METHOD(Kafka_TopicPartition, getOffset)
 
 /* {{{ proto TopicPartition SimpleKafkaClient\TopicPartition::setOffset($offset)
    Sets offset */
-ZEND_METHOD(Kafka_TopicPartition, setOffset)
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, setOffset)
 {
     zend_long offset;
     object_intern *intern;
@@ -352,7 +352,7 @@ void kafka_metadata_topic_partition_init(INIT_FUNC_ARGS) /* {{{ */
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "TopicPartition", class_Kafka_TopicPartition_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "TopicPartition", class_SimpleKafkaClient_TopicPartition_methods);
     ce_kafka_topic_partition = zend_register_internal_class(&tmpce);
     ce_kafka_topic_partition->create_object = create_object;
 
