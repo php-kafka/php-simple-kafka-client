@@ -9,6 +9,9 @@
 ## Documentation
 Please read the documentation [here](https://php-kafka.github.io/php-simple-kafka-client.github.io/about/)
 
+## Libraries
+- [php-kafka/php-simple-kafka-lib](https://github.com/php-kafka/php-simple-kafka-lib) a small wrapper library to make usage easier
+
 ## Support
 Join the [Slack Workspace](https://join.slack.com/t/php-kafka/shared_invite/zt-a73huj9v-Nl3n9RjGgjrE8OI4bfsH6Q) or [Gitter](https://gitter.im/php-kafka/php-simple-kafka-client)
 
