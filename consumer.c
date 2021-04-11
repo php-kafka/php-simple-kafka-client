@@ -339,7 +339,7 @@ ZEND_METHOD(SimpleKafkaClient_Consumer, unsubscribe)
 }
 /* }}} */
 
-/* {{{ proto Message SimpleKafkaClient\Consumer::consume()
+/* {{{ proto Message SimpleKafkaClient\Consumer::consume(int $timeoutMs)
    Consume message or get error event, triggers callbacks */
 ZEND_METHOD(SimpleKafkaClient_Consumer, consume)
 {

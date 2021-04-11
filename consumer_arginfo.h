@@ -1,18 +1,20 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: b42d1bb68767786f0b655714b388a3361a45551d */
+ * Stub hash: ba3bc0a741bc6eab7a23a15ca6d83c24e99b23de */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_SimpleKafkaClient_Consumer___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, configuration, SimpleKafkaClient\\Configuration, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_SimpleKafkaClient_Consumer_assign, 0, 1, IS_VOID, 0)
-	ZEND_ARG_TYPE_INFO(0, topics, IS_ARRAY, 0)
+	ZEND_ARG_TYPE_INFO(0, topics, IS_ARRAY, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_SimpleKafkaClient_Consumer_getAssignment, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-#define arginfo_class_SimpleKafkaClient_Consumer_subscribe arginfo_class_SimpleKafkaClient_Consumer_assign
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_SimpleKafkaClient_Consumer_subscribe, 0, 1, IS_VOID, 0)
+	ZEND_ARG_TYPE_INFO(0, topics, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
 
 #define arginfo_class_SimpleKafkaClient_Consumer_getSubscription arginfo_class_SimpleKafkaClient_Consumer_getAssignment
 

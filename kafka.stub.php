@@ -8,8 +8,6 @@ abstract class Kafka
 {
     public function getMetadata(bool $allTopics, int $timeoutMs, Topic $topic): Metadata {}
 
-    public function getTopicHandle(string $topic): Topic {}
-
     public function getOutQLen(): int {}
 
     public function poll(int $timeoutMs): int {}
