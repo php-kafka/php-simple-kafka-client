@@ -140,6 +140,50 @@ ZEND_METHOD(SimpleKafkaClient_Producer, purge)
 }
 /* }}} */
 
+
+/* {{{ proto SimpleKafkaClient\ProducerTopic SimpleKafkaClient\Producer::getTopicHandle(string $topic)
+   Returns an SimpleKafkaClient\ProducerTopic object */
+ZEND_METHOD(SimpleKafkaClient_Producer, getTopicHandle)
+{
+    char *topic;
+    size_t topic_len;
+    rd_kafka_topic_t *rkt;
+    kafka_object *intern;
+    kafka_topic_object *topic_intern;
+
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+        Z_PARAM_STRING(topic, topic_len)
+    ZEND_PARSE_PARAMETERS_END();
+
+    intern = get_kafka_object(getThis());
+    if (!intern) {
+        return;
+    }
+
+    rkt = rd_kafka_topic_new(intern->rk, topic, NULL);
+
+    if (!rkt) {
+        return;
+    }
+
+    if (object_init_ex(return_value, ce_kafka_producer_topic) != SUCCESS) {
+        return;
+    }
+
+    topic_intern = Z_KAFKA_P(kafka_topic_object, return_value);
+    if (!topic_intern) {
+        return;
+    }
+
+    topic_intern->rkt = rkt;
+    topic_intern->zrk = *getThis();
+
+    Z_ADDREF_P(&topic_intern->zrk);
+
+    zend_hash_index_add_ptr(&intern->topics, (zend_ulong)topic_intern, topic_intern);
+}
+/* }}} */
+
 /* {{{ proto int SimpleKafkaClient\Producer::initTransactions(int timeout_ms)
    Initializes transactions, needs to be done before producing and starting a transaction */
 ZEND_METHOD(SimpleKafkaClient_Producer, initTransactions)
