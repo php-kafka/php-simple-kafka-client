@@ -4,7 +4,7 @@
 ARG_WITH("simple-kafka-client", "for kafka support", "no");
 
 if (PHP_SIMPLE_KAFKA_CLIENT != "no") {
-	if (CHECK_LIB("librdkafka.lib", "rdkafka", PHP_SIMPLE_KAFKA_CLIENT) &&
+	if (CHECK_LIB("librdkafka.lib", "simple_kafka_client", PHP_SIMPLE_KAFKA_CLIENT) &&
 		CHECK_HEADER_ADD_INCLUDE("librdkafka/rdkafka.h", "CFLAGS_SIMPLE_KAFKA_CLIENT")) {
 
 		EXTENSION("simple_kafka_client", "simple_kafka_client.c producer.c metadata.c metadata_broker.c metadata_topic.c \
@@ -13,6 +13,6 @@ if (PHP_SIMPLE_KAFKA_CLIENT != "no") {
 
 		AC_DEFINE('HAVE_SIMPLE_KAFKA_CLIENT', 1, '');
 	} else {
-		WARNING("rdkafka not enabled; libraries and headers not found");
+		WARNING("simple_kafka_client not enabled; libraries and headers not found");
 	}
 }
