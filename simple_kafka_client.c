@@ -361,7 +361,7 @@ PHP_MINFO_FUNCTION(simple_kafka_client)
     php_info_print_table_start();
     php_info_print_table_row(2, "kafka support", "enabled");
 
-    php_info_print_table_row(2, "version", PHP_KAFKA_VERSION);
+    php_info_print_table_row(2, "version", PHP_SIMPLE_KAFKA_CLIENT_VERSION);
     php_info_print_table_row(2, "build date", __DATE__ " " __TIME__);
 
     spprintf(
@@ -395,7 +395,7 @@ zend_module_entry simple_kafka_client_module_entry = {
     NULL,
     NULL,
     PHP_MINFO(simple_kafka_client),
-    PHP_KAFKA_VERSION,
+    PHP_SIMPLE_KAFKA_CLIENT_VERSION,
     STANDARD_MODULE_PROPERTIES
 };
 /* }}} */
