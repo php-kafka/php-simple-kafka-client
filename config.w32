@@ -1,19 +1,18 @@
 // $Id$
 // vim:ft=javascript
 
-ARG_WITH("kafka", "for kafka support", "no");
+ARG_WITH("simple-kafka-client", "for kafka support", "no");
 
-if (PHP_KAFKA != "no") {
-	if (CHECK_LIB("librdkafka.lib", "rdkafka", PHP_KAFKA) &&
-		CHECK_HEADER_ADD_INCLUDE("librdkafka/rdkafka.h", "CFLAGS_RDKAFKA")) {
+if (PHP_SIMPLE_KAFKA_CLIENT != "no") {
+	if (CHECK_LIB("librdkafka.lib", "rdkafka", PHP_SIMPLE_KAFKA_CLIENT) &&
+		CHECK_HEADER_ADD_INCLUDE("librdkafka/rdkafka.h", "CFLAGS_SIMPLE_KAFKA_CLIENT")) {
 
-		EXTENSION("rdkafka", "simple_kafka_client.c producer.c metadata.c metadata_broker.c metadata_topic.c \
+		EXTENSION("simple_kafka_client", "simple_kafka_client.c producer.c metadata.c metadata_broker.c metadata_topic.c \
 				metadata_partition.c metadata_collection.c configuration.c \
 				topic.c message.c functions.c consumer.c topic_partition.c kafka_exception.c");
 
-		AC_DEFINE('HAVE_RDKAFKA', 1, '');
+		AC_DEFINE('HAVE_SIMPLE_KAFKA_CLIENT', 1, '');
 	} else {
 		WARNING("rdkafka not enabled; libraries and headers not found");
 	}
 }
-
