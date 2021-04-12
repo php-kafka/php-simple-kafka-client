@@ -10,10 +10,10 @@
   <email>coding.nikazu@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2021-04-11</date>
+ <date>2021-04-12</date>
  <time>12:00:00</time>
  <version>
-  <release>0.1.1</release>
+  <release>0.1.2</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -22,9 +22,11 @@
  </stability>
  <license uri="https://opensource.org/licenses/BSD-3-Clause">BSD-3 License</license>
  <notes>
+  ## Internals
+  - add AppVeyor build (#39, @cmb69)
   ## Bugfixes
-  - fix Consumer:assign argument type (#33)
-  - fix Producer:getTopicHandle return type (#33)
+  - version & test fixes (#35 & #36, @remicollet)
+  - fix windows build (#38 & #40, @cmb69)
  </notes>
  <contents>
   <dir name="/">
@@ -99,6 +101,24 @@
  <providesextension>simple_kafka_client</providesextension>
  <extsrcrelease/>
  <changelog>
+  <release>
+   <date>2021-04-11</date>
+   <time>12:00:00</time>
+   <version>
+    <release>0.1.1</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://opensource.org/licenses/BSD-3-Clause">BSD-3 License</license>
+   <notes>
+    ## Bugfixes
+    - fix Consumer:assign argument type (#33)
+    - fix Producer:getTopicHandle return type (#33)
+   </notes>
+  </release>
   <release>
    <date>2021-04-10</date>
    <time>12:00:00</time>
