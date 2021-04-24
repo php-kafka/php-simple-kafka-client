@@ -343,7 +343,7 @@ PHP_MINIT_FUNCTION(simple_kafka_client)
     kafka_object_handlers.free_obj = kafka_free;
     kafka_object_handlers.offset = XtOffsetOf(kafka_object, std);
 
-    INIT_CLASS_ENTRY(ce, "SimpleKafkaClient", class_SimpleKafkaClient_SimpleKafkaClient_methods);
+    INIT_CLASS_ENTRY(ce, "SimpleKafkaClient", class_SimpleKafkaClient_Kafka_methods);
     ce_kafka = zend_register_internal_class(&ce);
     ce_kafka->ce_flags |= ZEND_ACC_EXPLICIT_ABSTRACT_CLASS;
     ce_kafka->create_object = kafka_new;
