@@ -75,9 +75,7 @@ typedef struct _kafka_object {
     rd_kafka_type_t         type;
     rd_kafka_t              *rk;
     kafka_conf_callbacks    cbs;
-    HashTable               consuming;
 	HashTable				topics;
-	HashTable				queues;
     zend_object             std;
 } kafka_object;
 
