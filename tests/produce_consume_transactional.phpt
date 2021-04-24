@@ -37,7 +37,7 @@ $topicName = sprintf("test_kafka_%s", uniqid());
 
 $topic = $producer->getTopicHandle($topicName);
 
-if (!$producer->getMetadata(false, 2*1000, $topic)) {
+if (!$producer->getMetadata(false, 5*1000, $topic)) {
     echo "Failed to get metadata, is broker down?\n";
 }
 
