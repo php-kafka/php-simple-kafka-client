@@ -336,6 +336,8 @@ ZEND_METHOD(SimpleKafkaClient_Kafka, setOAuthBearerToken)
         zend_throw_exception(ce_kafka_exception, rd_kafka_err2str(err), err);
         return;
     }
+
+    free(extensions);
 }
 /* }}} */
 
