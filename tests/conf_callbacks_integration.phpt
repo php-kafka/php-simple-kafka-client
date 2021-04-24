@@ -42,8 +42,9 @@ $conf->set('statistics.interval.ms', 10);
 $conf->set('log_level', (string) LOG_DEBUG);
 $conf->set('debug', 'all');
 
-$conf->setOffsetCommitCb(function ($consumer, $error, $topicPartitions) {
-    echo "Offset " . $topicPartitions[0]->getOffset() . " committed.\n";
+$offsetCommitCount = 0;
+$conf->setOffsetCommitCb(function ($consumer, $error, $topicPartitions) use (&$offsetCommitCount) {
+    ++$offsetCommitCount;
 });
 
 $statsCbCalled = false;
@@ -102,22 +103,14 @@ while (true) {
     $consumer->commit($msg);
 }
 
+var_dump($offsetCommitCount);
 var_dump($statsCbCalled);
 var_dump($logCbCalled);
 var_dump($topicsAssigned);
 var_dump($delivered);
 
 --EXPECT--
-Offset 1 committed.
-Offset 2 committed.
-Offset 3 committed.
-Offset 4 committed.
-Offset 5 committed.
-Offset 6 committed.
-Offset 7 committed.
-Offset 8 committed.
-Offset 9 committed.
-Offset 10 committed.
+int(10)
 bool(true)
 bool(true)
 bool(true)

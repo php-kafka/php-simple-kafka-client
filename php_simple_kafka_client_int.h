@@ -123,6 +123,7 @@ typedef void (*kafka_metadata_collection_ctor_t)(zval *renurn_value, zval *zmeta
 #endif
 
 extern zend_class_entry * ce_kafka_conf;
+extern zend_class_entry * ce_kafka_consumer;
 extern zend_class_entry * ce_kafka_error_exception;
 extern zend_class_entry * ce_kafka_exception;
 extern zend_class_entry * ce_kafka_producer;
@@ -189,7 +190,6 @@ static inline char *kafka_hash_get_current_key_ex(HashTable *ht, HashPosition *p
 void kafka_error_init();
 void create_kafka_error(zval *return_value, const rd_kafka_error_t *error);
 void kafka_conf_init(INIT_FUNC_ARGS);
-void kafka_consumer_init(INIT_FUNC_ARGS);
 void kafka_conf_callbacks_dtor(kafka_conf_callbacks *cbs);
 void kafka_conf_callbacks_copy(kafka_conf_callbacks *to, kafka_conf_callbacks *from);
 void kafka_message_init(INIT_FUNC_ARGS);
