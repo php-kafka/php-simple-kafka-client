@@ -45,7 +45,7 @@
 #include "consumer_arginfo.h"
 #include "functions_arginfo.h"
 #include "producer_arginfo.h"
-#include "kafka_arginfo.h"
+#include "simple_kafka_client_arginfo.h"
 
 enum {
    RD_KAFKA_LOG_PRINT = 100
@@ -352,7 +352,7 @@ PHP_MINIT_FUNCTION(simple_kafka_client)
     ce_kafka_producer = zend_register_internal_class_ex(&ce, ce_kafka);
 
     INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "Consumer", class_SimpleKafkaClient_Consumer_methods);
-    ce_kafka_consumer = zend_register_internal_class(&ce);
+    ce_kafka_consumer = zend_register_internal_class_ex(&ce, ce_kafka);
     ce_kafka_consumer->create_object = kafka_new;
 
     kafka_conf_init(INIT_FUNC_ARGS_PASSTHRU);

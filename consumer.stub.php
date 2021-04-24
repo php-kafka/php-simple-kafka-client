@@ -28,15 +28,9 @@ class Consumer
 
     public function close(): void {}
 
-    public function getMetadata(bool $allTopics, int $timeoutMs, ConsumerTopic $topic): Metadata {}
-
     public function getTopicHandle(string $topic): ConsumerTopic {}
 
     public function getCommittedOffsets(array $topics, int $timeoutMs): array {}
 
     public function getOffsetPositions(array $topics): array {}
-
-    public function offsetsForTimes(array $topicPartitions, int $timeoutMs): array {}
-
-    public function queryWatermarkOffsets(string $topic, int $partition, int &$low, int &$high, int $timeoutMs): void {}
 }

@@ -42,7 +42,7 @@
    <file role="src" name="functions.c"/>
    <file role="src" name="functions_arginfo.h"/>
    <file role="src" name="simple_kafka_client.c"/>
-   <file role="src" name="kafka_arginfo.h"/>
+   <file role="src" name="simple_kafka_client_arginfo.h"/>
    <file role="src" name="kafka_exception.c"/>
    <file role="src" name="kafka_exception_arginfo.h"/>
    <file role="src" name="message.c"/>
