@@ -196,7 +196,7 @@ ZEND_METHOD(SimpleKafkaClient_Kafka, queryWatermarkOffsets)
     zval *lowResult, *highResult;
     rd_kafka_resp_err_t err;
 
-    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 2, 2)
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 5, 5)
         Z_PARAM_STRING(topic, topic_length)
         Z_PARAM_LONG(partition)
         Z_PARAM_ZVAL(lowResult)
