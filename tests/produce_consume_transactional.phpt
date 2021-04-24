@@ -3,7 +3,7 @@ Produce, consume
 --SKIPIF--
 <?php
 require __DIR__ . '/integration-tests-check.php';
-if (!class_exists("Kafka\\KafkaErrorException")) {
+if (!class_exists("SimpleKafkaClient\\KafkaErrorException")) {
     echo "skip";
 }
 --FILE--
@@ -12,9 +12,10 @@ require __DIR__ . '/integration-tests-check.php';
 
 $delivered = 0;
 
-$conf = new Kafka\Configuration();
+$conf = new SimpleKafkaClient\Configuration();
 $conf->set('transactional.id', 'transactional-producer');
 
+$conf->setLogCb(function ($kafka, $level, $facility, $message) {});
 $conf->setErrorCb(function ($producer, $errorCode, $errstr) {
     printf("%s: %s\n", rd_kafka_err2str($errorCode), $errstr);
     exit;
@@ -27,7 +28,7 @@ $conf->setDrMsgCb(function ($producer, $msg) use (&$delivered) {
 });
 $conf->set('metadata.broker.list', getenv('TEST_KAFKA_BROKERS'));
 
-$producer = new Kafka\Producer($conf);
+$producer = new SimpleKafkaClient\Producer($conf);
 
 $producer->initTransactions(10000);
 $producer->beginTransaction();
@@ -36,7 +37,7 @@ $topicName = sprintf("test_kafka_%s", uniqid());
 
 $topic = $producer->getTopicHandle($topicName);
 
-if (!$producer->getMetadata(false, 2*1000, $topic)) {
+if (!$producer->getMetadata(false, 5*1000, $topic)) {
     echo "Failed to get metadata, is broker down?\n";
 }
 
@@ -51,7 +52,7 @@ $producer->commitTransaction(10000);
 
 printf("%d messages delivered\n", $delivered);
 
-$conf = new Kafka\Configuration();
+$conf = new SimpleKafkaClient\Configuration();
 $conf->set('metadata.broker.list', getenv('TEST_KAFKA_BROKERS'));
 $conf->setErrorCb(function ($producer, $errorCode, $errstr) {
     // non fatal errors are retried by librdkafka
@@ -65,7 +66,7 @@ $conf->setErrorCb(function ($producer, $errorCode, $errstr) {
 $conf->set('group.id','test');
 $conf->set('auto.offset.reset','earliest');
 $conf->set('enable.partition.eof', 'true');
-$consumer = new Kafka\Consumer($conf);
+$consumer = new SimpleKafkaClient\Consumer($conf);
 $consumer->subscribe([$topicName]);
 
 $messages = [];

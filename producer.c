@@ -1,9 +1,42 @@
+/**
+ *   BSD 3-Clause License
+ *
+ *  Copyright (c) 2016, Arnaud Le Blanc (Author)
+ *  Copyright (c) 2020, Nick Chiu
+ *  All rights reserved.
+ *
+ *   Redistribution and use in source and binary forms, with or without
+ *   modification, are permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this
+ *      list of conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
+ *      and/or other materials provided with the distribution.
+ *
+ *   3. Neither the name of the copyright holder nor the names of its
+ *      contributors may be used to endorse or promote products derived from
+ *      this software without specific prior written permission.
+ *
+ *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ *   FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ *   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ *   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include "php.h"
-#include "php_kafka_int.h"
+#include "php_simple_kafka_client_int.h"
 #include "Zend/zend_exceptions.h"
 #include "producer_arginfo.h"
 
@@ -54,8 +87,8 @@ static void kafka_init(zval *this_ptr, rd_kafka_type_t type, zval *zconf) /* {{{
 }
 /* }}} */
 
-/* {{{ proto Kafka\Producer::__construct([Kafka\Configuration $configuration]) */
-ZEND_METHOD(Kafka_Producer, __construct)
+/* {{{ proto SimpleKafkaClient\Producer::__construct([SimpleKafkaClient\Configuration $configuration]) */
+ZEND_METHOD(SimpleKafkaClient_Producer, __construct)
 {
     zval *zconf = NULL;
 
@@ -67,9 +100,9 @@ ZEND_METHOD(Kafka_Producer, __construct)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Producer::flush(int $timeout_ms)
+/* {{{ proto int SimpleKafkaClient\Producer::flush(int $timeout_ms)
    Wait until all outstanding produce requests, et.al, are completed. */
-ZEND_METHOD(Kafka_Producer, flush)
+ZEND_METHOD(SimpleKafkaClient_Producer, flush)
 {
     kafka_object *intern;
     zend_long timeout_ms;
@@ -87,9 +120,9 @@ ZEND_METHOD(Kafka_Producer, flush)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Producer::purge(int $purge_flags)
+/* {{{ proto int SimpleKafkaClient\Producer::purge(int $purge_flags)
    Purge messages that are in queue or in flight */
-ZEND_METHOD(Kafka_Producer, purge)
+ZEND_METHOD(SimpleKafkaClient_Producer, purge)
 {
     kafka_object *intern;
     zend_long purge_flags;
@@ -107,9 +140,53 @@ ZEND_METHOD(Kafka_Producer, purge)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Producer::initTransactions(int timeout_ms)
+
+/* {{{ proto SimpleKafkaClient\ProducerTopic SimpleKafkaClient\Producer::getTopicHandle(string $topic)
+   Returns an SimpleKafkaClient\ProducerTopic object */
+ZEND_METHOD(SimpleKafkaClient_Producer, getTopicHandle)
+{
+    char *topic;
+    size_t topic_len;
+    rd_kafka_topic_t *rkt;
+    kafka_object *intern;
+    kafka_topic_object *topic_intern;
+
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+        Z_PARAM_STRING(topic, topic_len)
+    ZEND_PARSE_PARAMETERS_END();
+
+    intern = get_kafka_object(getThis());
+    if (!intern) {
+        return;
+    }
+
+    rkt = rd_kafka_topic_new(intern->rk, topic, NULL);
+
+    if (!rkt) {
+        return;
+    }
+
+    if (object_init_ex(return_value, ce_kafka_producer_topic) != SUCCESS) {
+        return;
+    }
+
+    topic_intern = Z_KAFKA_P(kafka_topic_object, return_value);
+    if (!topic_intern) {
+        return;
+    }
+
+    topic_intern->rkt = rkt;
+    topic_intern->zrk = *getThis();
+
+    Z_ADDREF_P(&topic_intern->zrk);
+
+    zend_hash_index_add_ptr(&intern->topics, (zend_ulong)topic_intern, topic_intern);
+}
+/* }}} */
+
+/* {{{ proto int SimpleKafkaClient\Producer::initTransactions(int timeout_ms)
    Initializes transactions, needs to be done before producing and starting a transaction */
-ZEND_METHOD(Kafka_Producer, initTransactions)
+ZEND_METHOD(SimpleKafkaClient_Producer, initTransactions)
 {
     kafka_object *intern;
     zend_long timeout_ms;
@@ -135,9 +212,9 @@ ZEND_METHOD(Kafka_Producer, initTransactions)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Producer::beginTransaction()
+/* {{{ proto int SimpleKafkaClient\Producer::beginTransaction()
    Start a transaction */
-ZEND_METHOD(Kafka_Producer, beginTransaction)
+ZEND_METHOD(SimpleKafkaClient_Producer, beginTransaction)
 {
     kafka_object *intern;
     const rd_kafka_error_t *error;
@@ -161,9 +238,9 @@ ZEND_METHOD(Kafka_Producer, beginTransaction)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Producer::commitTransaction(int timeout_ms)
+/* {{{ proto int SimpleKafkaClient\Producer::commitTransaction(int timeout_ms)
    Commit a transaction */
-ZEND_METHOD(Kafka_Producer, commitTransaction)
+ZEND_METHOD(SimpleKafkaClient_Producer, commitTransaction)
 {
     kafka_object *intern;
     zend_long timeout_ms;
@@ -189,9 +266,9 @@ ZEND_METHOD(Kafka_Producer, commitTransaction)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Producer::abortTransaction(int timeout_ms)
+/* {{{ proto int SimpleKafkaClient\Producer::abortTransaction(int timeout_ms)
    Commit a transaction */
-ZEND_METHOD(Kafka_Producer, abortTransaction)
+ZEND_METHOD(SimpleKafkaClient_Producer, abortTransaction)
 {
     kafka_object *intern;
     zend_long timeout_ms;

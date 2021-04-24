@@ -1,9 +1,42 @@
+/**
+ *   BSD 3-Clause License
+ *
+ *  Copyright (c) 2016, Arnaud Le Blanc (Author)
+ *  Copyright (c) 2020, Nick Chiu
+ *  All rights reserved.
+ *
+ *   Redistribution and use in source and binary forms, with or without
+ *   modification, are permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this
+ *      list of conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
+ *      and/or other materials provided with the distribution.
+ *
+ *   3. Neither the name of the copyright holder nor the names of its
+ *      contributors may be used to endorse or promote products derived from
+ *      this software without specific prior written permission.
+ *
+ *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ *   FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ *   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ *   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include "php.h"
-#include "php_kafka_int.h"
+#include "php_simple_kafka_client_int.h"
 #include "ext/spl/spl_iterators.h"
 #include "Zend/zend_interfaces.h"
 #include "metadata_collection_arginfo.h"
@@ -57,7 +90,7 @@ static object_intern * get_object(zval *zmti)
     object_intern *omti = Z_KAFKA_P(object_intern, zmti);
 
     if (!omti->items) {
-        zend_throw_exception_ex(NULL, 0, "Kafka\\Metadata\\Collection::__construct() has not been called");
+        zend_throw_exception_ex(NULL, 0, "SimpleKafkaClient\\Metadata\\Collection::__construct() has not been called");
         return NULL;
     }
 
@@ -90,9 +123,9 @@ static HashTable *get_debug_info(Z_KAFKA_OBJ *object, int *is_temp) /* {{{ */
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Metadata\Collection::count()
+/* {{{ proto int SimpleKafkaClient\Metadata\Collection::count()
    */
-ZEND_METHOD(Kafka_Metadata_Collection, count)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Collection, count)
 {
     object_intern *intern;
 
@@ -108,9 +141,9 @@ ZEND_METHOD(Kafka_Metadata_Collection, count)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Metadata\Collection::rewind()
+/* {{{ proto void SimpleKafkaClient\Metadata\Collection::rewind()
    */
-ZEND_METHOD(Kafka_Metadata_Collection, rewind)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Collection, rewind)
 {
     object_intern *intern;
 
@@ -126,9 +159,9 @@ ZEND_METHOD(Kafka_Metadata_Collection, rewind)
 }
 /* }}} */
 
-/* {{{ proto mixed Kafka\Metadata\Collection::current()
+/* {{{ proto mixed SimpleKafkaClient\Metadata\Collection::current()
    */
-ZEND_METHOD(Kafka_Metadata_Collection, current)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Collection, current)
 {
     object_intern *intern;
 
@@ -149,9 +182,9 @@ ZEND_METHOD(Kafka_Metadata_Collection, current)
 }
 /* }}} */
 
-/* {{{ proto mixed Kafka\Metadata\Collection::key()
+/* {{{ proto mixed SimpleKafkaClient\Metadata\Collection::key()
    */
-ZEND_METHOD(Kafka_Metadata_Collection, key)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Collection, key)
 {
     object_intern *intern;
 
@@ -172,9 +205,9 @@ ZEND_METHOD(Kafka_Metadata_Collection, key)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Metadata\Collection::next()
+/* {{{ proto void SimpleKafkaClient\Metadata\Collection::next()
    */
-ZEND_METHOD(Kafka_Metadata_Collection, next)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Collection, next)
 {
     object_intern *intern;
 
@@ -190,9 +223,9 @@ ZEND_METHOD(Kafka_Metadata_Collection, next)
 }
 /* }}} */
 
-/* {{{ proto bool Kafka\Metadata\Collection::valid()
+/* {{{ proto bool SimpleKafkaClient\Metadata\Collection::valid()
    */
-ZEND_METHOD(Kafka_Metadata_Collection, valid)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Collection, valid)
 {
     object_intern *intern;
 
@@ -212,7 +245,7 @@ void kafka_metadata_collection_init(INIT_FUNC_ARGS)
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "Kafka\\Metadata", "Collection", class_Kafka_Metadata_Collection_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient\\Metadata", "Collection", class_SimpleKafkaClient_Metadata_Collection_methods);
     ce = zend_register_internal_class(&tmpce);
     ce->create_object = create_object;
     zend_class_implements(ce, 2, spl_ce_Countable, spl_ce_Iterator);

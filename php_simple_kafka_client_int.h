@@ -1,3 +1,36 @@
+/**
+ *   BSD 3-Clause License
+ *
+ *  Copyright (c) 2016, Arnaud Le Blanc (Author)
+ *  Copyright (c) 2020, Nick Chiu
+ *  All rights reserved.
+ *
+ *   Redistribution and use in source and binary forms, with or without
+ *   modification, are permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this
+ *      list of conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
+ *      and/or other materials provided with the distribution.
+ *
+ *   3. Neither the name of the copyright holder nor the names of its
+ *      contributors may be used to endorse or promote products derived from
+ *      this software without specific prior written permission.
+ *
+ *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ *   FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ *   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ *   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+ 
 #ifndef PHP_KAFKA_INT_H
 #define PHP_KAFKA_INT_H
 
@@ -42,9 +75,7 @@ typedef struct _kafka_object {
     rd_kafka_type_t         type;
     rd_kafka_t              *rk;
     kafka_conf_callbacks    cbs;
-    HashTable               consuming;
 	HashTable				topics;
-	HashTable				queues;
     zend_object             std;
 } kafka_object;
 
@@ -90,14 +121,15 @@ typedef void (*kafka_metadata_collection_ctor_t)(zval *renurn_value, zval *zmeta
 #endif
 
 #ifdef PHP_WIN32
-#	define PHP_KAFKA_API __declspec(dllexport)
+#	define PHP_SIMPLE_KAFKA_CLIENT_API __declspec(dllexport)
 #elif defined(__GNUC__) && __GNUC__ >= 4
-#	define PHP_KAFKA_API __attribute__ ((visibility("default")))
+#	define PHP_SIMPLE_KAFKA_CLIENT_API __attribute__ ((visibility("default")))
 #else
-#	define PHP_KAFKA_API
+#	define PHP_SIMPLE_KAFKA_CLIENT_API
 #endif
 
 extern zend_class_entry * ce_kafka_conf;
+extern zend_class_entry * ce_kafka_consumer;
 extern zend_class_entry * ce_kafka_error_exception;
 extern zend_class_entry * ce_kafka_exception;
 extern zend_class_entry * ce_kafka_producer;
@@ -106,7 +138,7 @@ extern zend_class_entry * ce_kafka_consumer_topic;
 extern zend_class_entry * ce_kafka_producer_topic;
 extern zend_class_entry * ce_kafka_topic;
 extern zend_class_entry * ce_kafka_topic_partition;
-extern zend_module_entry kafka_module_entry;
+extern zend_module_entry simple_kafka_client_module_entry;
 extern zend_object_handlers kafka_default_object_handlers;
 
 #define Z_KAFKA_P(php_kafka_type, zobject) php_kafka_from_obj(php_kafka_type, Z_OBJ_P(zobject))
@@ -114,9 +146,9 @@ extern zend_object_handlers kafka_default_object_handlers;
 #define php_kafka_from_obj(php_kafka_type, object) \
     ((php_kafka_type*)((char *)(object) - XtOffsetOf(php_kafka_type, std)))
 
-#define phpext_kafka_ptr &kafka_module_entry
+#define phpext_kafka_ptr &simple_kafka_client_module_entry
 
-#define PHP_KAFKA_VERSION "1.0.0"
+#define PHP_SIMPLE_KAFKA_CLIENT_VERSION "0.1.2"
 
 
 static inline void kafka_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache, zval *retval, uint32_t param_count, zval params[])
@@ -164,7 +196,6 @@ static inline char *kafka_hash_get_current_key_ex(HashTable *ht, HashPosition *p
 void kafka_error_init();
 void create_kafka_error(zval *return_value, const rd_kafka_error_t *error);
 void kafka_conf_init(INIT_FUNC_ARGS);
-void kafka_consumer_init(INIT_FUNC_ARGS);
 void kafka_conf_callbacks_dtor(kafka_conf_callbacks *cbs);
 void kafka_conf_callbacks_copy(kafka_conf_callbacks *to, kafka_conf_callbacks *from);
 void kafka_message_init(INIT_FUNC_ARGS);

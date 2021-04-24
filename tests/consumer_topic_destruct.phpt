@@ -2,8 +2,8 @@
 TopicPartition destruct for high level consumer
 --FILE--
 <?php
-use Kafka\Configuration;
-use Kafka\Consumer;
+use SimpleKafkaClient\Configuration;
+use SimpleKafkaClient\Consumer;
 
 $conf = new Configuration();
 $conf->set('group.id','test');

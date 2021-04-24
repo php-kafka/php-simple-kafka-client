@@ -9,7 +9,7 @@ require __DIR__ . '/integration-tests-check.php';
 
 $delivered = 0;
 
-$conf = new Kafka\Configuration();
+$conf = new SimpleKafkaClient\Configuration();
 $conf->setErrorCb(function ($producer, $errorCode, $errstr) {
     printf("%s: %s\n", rd_kafka_err2str($errorCode), $errstr);
     exit;
@@ -23,7 +23,7 @@ $conf->setDrMsgCb(function ($producer, $msg) use (&$delivered) {
     $delivered++;
 });
 
-$producer = new Kafka\Producer($conf);
+$producer = new SimpleKafkaClient\Producer($conf);
 
 $topicName = sprintf("test_kafka_%s", uniqid());
 
@@ -55,7 +55,7 @@ $producer->flush(10000);
 
 printf("%d messages delivered\n", $delivered);
 
-$conf = new Kafka\Configuration();
+$conf = new SimpleKafkaClient\Configuration();
 $conf->set('metadata.broker.list', getenv('TEST_KAFKA_BROKERS'));
 $conf->set('group.id','test');
 $conf->set('auto.offset.reset','earliest');
@@ -69,7 +69,7 @@ $conf->setErrorCb(function ($producer, $errorCode, $errstr) {
     printf("%s: %s\n", rd_kafka_err2str($errorCode), $errstr);
     exit;
 });
-$consumer = new Kafka\Consumer($conf);
+$consumer = new SimpleKafkaClient\Consumer($conf);
 $consumer->subscribe([$topicName]);
 
 $messages = [];

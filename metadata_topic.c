@@ -1,9 +1,42 @@
+/**
+ *   BSD 3-Clause License
+ *
+ *  Copyright (c) 2016, Arnaud Le Blanc (Author)
+ *  Copyright (c) 2020, Nick Chiu
+ *  All rights reserved.
+ *
+ *   Redistribution and use in source and binary forms, with or without
+ *   modification, are permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this
+ *      list of conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
+ *      and/or other materials provided with the distribution.
+ *
+ *   3. Neither the name of the copyright holder nor the names of its
+ *      contributors may be used to endorse or promote products derived from
+ *      this software without specific prior written permission.
+ *
+ *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ *   FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ *   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ *   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include "php.h"
-#include "php_kafka_int.h"
+#include "php_simple_kafka_client_int.h"
 #include "ext/spl/spl_iterators.h"
 #include "Zend/zend_interfaces.h"
 #include "Zend/zend_exceptions.h"
@@ -58,7 +91,7 @@ static object_intern * get_object(zval *zmt)
     object_intern *omt = Z_KAFKA_P(object_intern, zmt);
 
     if (!omt->metadata_topic) {
-        zend_throw_exception_ex(NULL, 0, "Kafka\\Metadata\\Topic::__construct() has not been called");
+        zend_throw_exception_ex(NULL, 0, "SimpleKafkaClient\\Metadata\\Topic::__construct() has not been called");
         return NULL;
     }
 
@@ -92,9 +125,9 @@ static HashTable *get_debug_info(Z_KAFKA_OBJ *object, int *is_temp) /* {{{ */
 }
 /* }}} */
 
-/* {{{ proto string Kafka\MetadataTopic::getName()
+/* {{{ proto string SimpleKafkaClient\MetadataTopic::getName()
    Topic name */
-ZEND_METHOD(Kafka_Metadata_Topic, getName)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Topic, getName)
 {
     object_intern *intern;
 
@@ -110,9 +143,9 @@ ZEND_METHOD(Kafka_Metadata_Topic, getName)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\MetadataTopic::getErrorCode()
+/* {{{ proto int SimpleKafkaClient\MetadataTopic::getErrorCode()
    Error */
-ZEND_METHOD(Kafka_Metadata_Topic, getErrorCode)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Topic, getErrorCode)
 {
     object_intern *intern;
 
@@ -129,9 +162,9 @@ ZEND_METHOD(Kafka_Metadata_Topic, getErrorCode)
 /* }}} */
 
 
-/* {{{ proto Kafka\Metadata\Collection Kafka\Metadata\Topic::getPartitions()
+/* {{{ proto SimpleKafkaClient\Metadata\Collection SimpleKafkaClient\Metadata\Topic::getPartitions()
    Partitions */
-ZEND_METHOD(Kafka_Metadata_Topic, getPartitions)
+ZEND_METHOD(SimpleKafkaClient_Metadata_Topic, getPartitions)
 {
     object_intern *intern;
 
@@ -151,7 +184,7 @@ void kafka_metadata_topic_init(INIT_FUNC_ARGS)
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "Kafka\\Metadata", "Topic", class_Kafka_Metadata_Topic_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient\\Metadata", "Topic", class_SimpleKafkaClient_Metadata_Topic_methods);
     ce = zend_register_internal_class(&tmpce);
     ce->create_object = create_object;
 

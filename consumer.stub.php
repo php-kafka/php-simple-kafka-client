@@ -2,13 +2,13 @@
 
 /** @generate-function-entries */
 
-namespace Kafka;
+namespace SimpleKafkaClient;
 
 class Consumer
 {
     public function __construct(Configuration $configuration) {}
 
-    public function assign(array $topics): void {}
+    public function assign(?array $topics = null): void {}
 
     public function getAssignment(): array {}
 

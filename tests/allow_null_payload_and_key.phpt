@@ -7,12 +7,12 @@ require __DIR__ . '/integration-tests-check.php';
 <?php
 require __DIR__ . '/integration-tests-check.php';
 
-$conf = new Kafka\Configuration();
+$conf = new SimpleKafkaClient\Configuration();
 $conf->set('metadata.broker.list', getenv('TEST_KAFKA_BROKERS'));
 
 $topicName = sprintf('test_kafka_%s', uniqid());
 
-$producer = new Kafka\Producer($conf);
+$producer = new SimpleKafkaClient\Producer($conf);
 $topic = $producer->getTopicHandle($topicName);
 
 $topic->produce(0, 0);
@@ -30,7 +30,7 @@ $conf->setErrorCb(function ($producer, $errorCode, $errstr) {
     printf("%s: %s\n", rd_kafka_err2str($errorCode), $errstr);
     exit;
 });
-$consumer = new Kafka\Consumer($conf);
+$consumer = new SimpleKafkaClient\Consumer($conf);
 
 $consumer->subscribe([$topicName]);
 

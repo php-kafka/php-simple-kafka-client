@@ -2,7 +2,7 @@
 
 /** @generate-function-entries */
 
-namespace Kafka;
+namespace SimpleKafkaClient;
 
 class Message
 {

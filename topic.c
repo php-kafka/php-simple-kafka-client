@@ -1,9 +1,42 @@
+/**
+ *   BSD 3-Clause License
+ *
+ *  Copyright (c) 2016, Arnaud Le Blanc (Author)
+ *  Copyright (c) 2020, Nick Chiu
+ *  All rights reserved.
+ *
+ *   Redistribution and use in source and binary forms, with or without
+ *   modification, are permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this
+ *      list of conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
+ *      and/or other materials provided with the distribution.
+ *
+ *   3. Neither the name of the copyright holder nor the names of its
+ *      contributors may be used to endorse or promote products derived from
+ *      this software without specific prior written permission.
+ *
+ *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ *   FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ *   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ *   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
 #include "php.h"
-#include "php_kafka_int.h"
+#include "php_simple_kafka_client_int.h"
 #include "ext/spl/spl_iterators.h"
 #include "Zend/zend_interfaces.h"
 #include "Zend/zend_exceptions.h"
@@ -56,7 +89,7 @@ kafka_topic_object * get_kafka_topic_object(zval *zrkt)
     kafka_topic_object *orkt = Z_KAFKA_P(kafka_topic_object, zrkt);
 
     if (!orkt->rkt) {
-        zend_throw_exception_ex(NULL, 0, "Kafka\\Topic::__construct() has not been called");
+        zend_throw_exception_ex(NULL, 0, "SimpleKafkaClient\\Topic::__construct() has not been called");
         return NULL;
     }
 
@@ -64,12 +97,12 @@ kafka_topic_object * get_kafka_topic_object(zval *zrkt)
 }
 
 /* {{{ private constructor */
-ZEND_METHOD(Kafka_ProducerTopic, __construct) {}
+ZEND_METHOD(SimpleKafkaClient_ProducerTopic, __construct) {}
 /* }}} */
 
-/* {{{ proto void Kafka\ProducerTopic::produce(int $partition, int $msgflags[, string $payload, string $key])
+/* {{{ proto void SimpleKafkaClient\ProducerTopic::produce(int $partition, int $msgflags[, string $payload, string $key])
    Produce and send a single message to broker. */
-ZEND_METHOD(Kafka_ProducerTopic, produce)
+ZEND_METHOD(SimpleKafkaClient_ProducerTopic, produce)
 {
     zend_long partition;
     zend_long msgflags;
@@ -117,9 +150,9 @@ ZEND_METHOD(Kafka_ProducerTopic, produce)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\ProducerTopic::producev(int $partition, int $msgflags[, string $payload, string $key, array $headers, int $timestamp_ms])
+/* {{{ proto void SimpleKafkaClient\ProducerTopic::producev(int $partition, int $msgflags[, string $payload, string $key, array $headers, int $timestamp_ms])
    Produce and send a single message to broker (with headers possibility and timestamp). */
-ZEND_METHOD(Kafka_ProducerTopic, producev)
+ZEND_METHOD(SimpleKafkaClient_ProducerTopic, producev)
 {
     zend_long partition;
     zend_long msgflags;
@@ -215,11 +248,11 @@ ZEND_METHOD(Kafka_ProducerTopic, producev)
 /* }}} */
 
 /* {{{ private constructor */
-ZEND_METHOD(Kafka_ConsumerTopic, __construct) {}
+ZEND_METHOD(SimpleKafkaClient_ConsumerTopic, __construct) {}
 /* }}} */
 
-/* {{{ proto string Kafka\Topic::getName() */
-ZEND_METHOD(Kafka_Topic, getName)
+/* {{{ proto string SimpleKafkaClient\Topic::getName() */
+ZEND_METHOD(SimpleKafkaClient_Topic, getName)
 {
     kafka_topic_object *intern;
 
@@ -245,14 +278,14 @@ void kafka_topic_init(INIT_FUNC_ARGS) { /* {{{ */
     object_handlers.free_obj = kafka_topic_free;
     object_handlers.offset = XtOffsetOf(kafka_topic_object, std);
 
-    INIT_NS_CLASS_ENTRY(ce, "Kafka", "Topic", class_Kafka_Topic_methods);
+    INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "Topic", class_SimpleKafkaClient_Topic_methods);
     ce_kafka_topic = zend_register_internal_class(&ce);
     ce_kafka_topic->ce_flags |= ZEND_ACC_EXPLICIT_ABSTRACT_CLASS;
     ce_kafka_topic->create_object = kafka_topic_new;
 
-    INIT_NS_CLASS_ENTRY(ce, "Kafka", "ConsumerTopic", class_Kafka_ConsumerTopic_methods);
+    INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "ConsumerTopic", class_SimpleKafkaClient_ConsumerTopic_methods);
     ce_kafka_consumer_topic = zend_register_internal_class_ex(&ce, ce_kafka_topic);
 
-    INIT_NS_CLASS_ENTRY(ce, "Kafka", "ProducerTopic", class_Kafka_ProducerTopic_methods);
+    INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "ProducerTopic", class_SimpleKafkaClient_ProducerTopic_methods);
     ce_kafka_producer_topic = zend_register_internal_class_ex(&ce, ce_kafka_topic);
 } /* }}} */

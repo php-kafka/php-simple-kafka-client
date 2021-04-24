@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
- <name>kafka</name>
+ <name>simple_kafka_client</name>
  <channel>pecl.php.net</channel>
  <summary>Kafka client based on librdkafka</summary>
  <description>This extension is a librdkafka binding providing a working client for Kafka</description>
  <lead>
   <name>Nick Chiu</name>
-  <user>nick-zh</user>
+  <user>nickzh</user>
   <email>coding.nikazu@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2020-12-06</date>
+ <date>2021-04-12</date>
  <time>12:00:00</time>
  <version>
-  <release>1.0.0</release>
-  <api>1.0.0</api>
+  <release>0.1.2</release>
+  <api>0.1.0</api>
  </version>
  <stability>
   <release>stable</release>
@@ -22,7 +22,11 @@
  </stability>
  <license uri="https://opensource.org/licenses/BSD-3-Clause">BSD-3 License</license>
  <notes>
-  Initial release
+  ## Internals
+  - add AppVeyor build (#39, @cmb69)
+  ## Bugfixes
+  - version and test fixes (#35, #36, @remicollet)
+  - fix windows build (#38, #40, @cmb69)
  </notes>
  <contents>
   <dir name="/">
@@ -37,7 +41,7 @@
    <file role="src" name="consumer_arginfo.h"/>
    <file role="src" name="functions.c"/>
    <file role="src" name="functions_arginfo.h"/>
-   <file role="src" name="kafka.c"/>
+   <file role="src" name="simple_kafka_client.c"/>
    <file role="src" name="kafka_arginfo.h"/>
    <file role="src" name="kafka_exception.c"/>
    <file role="src" name="kafka_exception_arginfo.h"/>
@@ -53,16 +57,17 @@
    <file role="src" name="metadata_partition_arginfo.h"/>
    <file role="src" name="metadata_topic.c"/>
    <file role="src" name="metadata_topic_arginfo.h"/>
-   <file role="src" name="php_kafka_int.h"/>
+   <file role="src" name="php_simple_kafka_client_int.h"/>
    <file role="src" name="producer.c"/>
    <file role="src" name="producer_arginfo.h"/>
+   <file role="src" name="simple_kafka_client.c"/>
    <file role="src" name="topic.c"/>
    <file role="src" name="topic_arginfo.h"/>
    <file role="src" name="topic_partition.c"/>
    <file role="src" name="topic_partition_arginfo.h"/>
    <dir name="tests">
-    <file role="test" name="allow_null_payload_and_key.phpt"/>
     <file role="test" name="allow_null_payload.phpt"/>
+    <file role="test" name="allow_null_payload_and_key.phpt"/>
     <file role="test" name="conf.phpt"/>
     <file role="test" name="conf_callbacks_integration.phpt"/>
     <file role="test" name="conf_extend.phpt"/>
@@ -76,7 +81,7 @@
     <file role="test" name="metadata.phpt"/>
     <file role="test" name="produce_consume.phpt"/>
     <file role="test" name="produce_consume_transactional.phpt"/>
-    <file role="test" name="kafka_get_err_descs.phpt"/>
+    <file role="test" name="rd_kafka_get_err_descs.phpt"/>
     <file role="test" name="test_env.php.sample"/>
     <file role="test" name="topic_partition.phpt"/>
    </dir>
@@ -93,8 +98,42 @@
    </pearinstaller>
   </required>
  </dependencies>
- <providesextension>kafka</providesextension>
+ <providesextension>simple_kafka_client</providesextension>
  <extsrcrelease/>
  <changelog>
+  <release>
+   <date>2021-04-11</date>
+   <time>12:00:00</time>
+   <version>
+    <release>0.1.1</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://opensource.org/licenses/BSD-3-Clause">BSD-3 License</license>
+   <notes>
+    ## Bugfixes
+    - fix Consumer:assign argument type (#33)
+    - fix Producer:getTopicHandle return type (#33)
+   </notes>
+  </release>
+  <release>
+   <date>2021-04-10</date>
+   <time>12:00:00</time>
+   <version>
+    <release>0.1.0</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://opensource.org/licenses/BSD-3-Clause">BSD-3 License</license>
+   <notes>
+    Initial release
+   </notes>
+  </release>
  </changelog>
 </package>

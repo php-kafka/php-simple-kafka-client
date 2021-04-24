@@ -1,3 +1,36 @@
+/**
+ *   BSD 3-Clause License
+ *
+ *  Copyright (c) 2016, Arnaud Le Blanc (Author)
+ *  Copyright (c) 2020, Nick Chiu
+ *  All rights reserved.
+ *
+ *   Redistribution and use in source and binary forms, with or without
+ *   modification, are permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this
+ *      list of conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
+ *      and/or other materials provided with the distribution.
+ *
+ *   3. Neither the name of the copyright holder nor the names of its
+ *      contributors may be used to endorse or promote products derived from
+ *      this software without specific prior written permission.
+ *
+ *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ *   FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ *   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ *   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -5,7 +38,7 @@
 #include "php.h"
 #include "php_ini.h"
 #include "ext/standard/info.h"
-#include "php_kafka_int.h"
+#include "php_simple_kafka_client_int.h"
 #include "Zend/zend_exceptions.h"
 #include "topic_partition_arginfo.h"
 
@@ -50,7 +83,7 @@ static object_intern * get_object(zval *z) /* {{{ */
     object_intern *intern = Z_KAFKA_P(object_intern, z);
 
     if (!intern->topic) {
-        zend_throw_exception_ex(NULL, 0, "Kafka\\TopicPartition::__construct() has not been called");
+        zend_throw_exception_ex(NULL, 0, "SimpleKafkaClient\\TopicPartition::__construct() has not been called");
         return NULL;
     }
 
@@ -144,7 +177,7 @@ rd_kafka_topic_partition_list_t * array_arg_to_kafka_topic_partition_list(int ar
             const char *class_name = get_active_class_name(&space);
             rd_kafka_topic_partition_list_destroy(list);
             php_error(E_ERROR,
-                    "Argument %d passed to %s%s%s() must be an array of Kafka\\TopicPartition, at least one element is a(n) %s",
+                    "Argument %d passed to %s%s%s() must be an array of SimpleKafkaClient\\TopicPartition, at least one element is a(n) %s",
                     argnum,
                     class_name, space,
                     get_active_function_name(),
@@ -166,9 +199,9 @@ rd_kafka_topic_partition_list_t * array_arg_to_kafka_topic_partition_list(int ar
 } /* }}} */
 
 
-/* {{{ proto void Kafka\TopicPartition::__construct(string $topic, int $partition[, int $offset])
+/* {{{ proto void SimpleKafkaClient\TopicPartition::__construct(string $topic, int $partition[, int $offset])
    Constructor */
-ZEND_METHOD(Kafka_TopicPartition, __construct)
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, __construct)
 {
     char *topic;
     size_t topic_len;
@@ -186,9 +219,9 @@ ZEND_METHOD(Kafka_TopicPartition, __construct)
 }
 /* }}} */
 
-/* {{{ proto string Kafka\TopicPartition::getTopicName()
+/* {{{ proto string SimpleKafkaClient\TopicPartition::getTopicName()
    Returns topic name */
-ZEND_METHOD(Kafka_TopicPartition, getTopicName)
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, getTopicName)
 {
     object_intern *intern;
 
@@ -208,9 +241,9 @@ ZEND_METHOD(Kafka_TopicPartition, getTopicName)
 }
 /* }}} */
 
-/* {{{ proto TopicPartition Kafka\TopicPartition::setTopicName($topicName)
+/* {{{ proto TopicPartition SimpleKafkaClient\TopicPartition::setTopicName($topicName)
    Sets topic name */
-ZEND_METHOD(Kafka_TopicPartition, setTopicName)
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, setTopicName)
 {
     char * topic;
     size_t topic_len;
@@ -235,9 +268,9 @@ ZEND_METHOD(Kafka_TopicPartition, setTopicName)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\TopicPartition::getPartition()
+/* {{{ proto int SimpleKafkaClient\TopicPartition::getPartition()
    Returns partition */
-ZEND_METHOD(Kafka_TopicPartition, getPartition)
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, getPartition)
 {
     object_intern *intern;
 
@@ -253,9 +286,9 @@ ZEND_METHOD(Kafka_TopicPartition, getPartition)
 }
 /* }}} */
 
-/* {{{ proto TopicPartition Kafka\TopicPartition::setPartition($partition)
+/* {{{ proto TopicPartition SimpleKafkaClient\TopicPartition::setPartition($partition)
    Sets partition */
-ZEND_METHOD(Kafka_TopicPartition, setPartition)
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, setPartition)
 {
     zend_long partition;
     object_intern *intern;
@@ -275,9 +308,9 @@ ZEND_METHOD(Kafka_TopicPartition, setPartition)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\TopicPartition::getOffset()
+/* {{{ proto int SimpleKafkaClient\TopicPartition::getOffset()
    Returns offset */
-ZEND_METHOD(Kafka_TopicPartition, getOffset)
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, getOffset)
 {
     object_intern *intern;
 
@@ -293,9 +326,9 @@ ZEND_METHOD(Kafka_TopicPartition, getOffset)
 }
 /* }}} */
 
-/* {{{ proto TopicPartition Kafka\TopicPartition::setOffset($offset)
+/* {{{ proto TopicPartition SimpleKafkaClient\TopicPartition::setOffset($offset)
    Sets offset */
-ZEND_METHOD(Kafka_TopicPartition, setOffset)
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, setOffset)
 {
     zend_long offset;
     object_intern *intern;
@@ -319,7 +352,7 @@ void kafka_metadata_topic_partition_init(INIT_FUNC_ARGS) /* {{{ */
 {
     zend_class_entry tmpce;
 
-    INIT_NS_CLASS_ENTRY(tmpce, "Kafka", "TopicPartition", class_Kafka_TopicPartition_methods);
+    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "TopicPartition", class_SimpleKafkaClient_TopicPartition_methods);
     ce_kafka_topic_partition = zend_register_internal_class(&tmpce);
     ce_kafka_topic_partition->create_object = create_object;
 

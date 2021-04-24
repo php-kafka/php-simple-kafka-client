@@ -1,3 +1,36 @@
+/**
+ *   BSD 3-Clause License
+ *
+ *  Copyright (c) 2016, Arnaud Le Blanc (Author)
+ *  Copyright (c) 2020, Nick Chiu
+ *  All rights reserved.
+ *
+ *   Redistribution and use in source and binary forms, with or without
+ *   modification, are permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this
+ *      list of conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice,
+ *      this list of conditions and the following disclaimer in the documentation
+ *      and/or other materials provided with the distribution.
+ *
+ *   3. Neither the name of the copyright holder nor the names of its
+ *      contributors may be used to endorse or promote products derived from
+ *      this software without specific prior written permission.
+ *
+ *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ *   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ *   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ *   FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ *   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ *   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ *   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ *   OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ *   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 /* $Id$ */
 
 #ifdef HAVE_CONFIG_H
@@ -7,8 +40,9 @@
 #include "php.h"
 #include "php_ini.h"
 #include "ext/standard/info.h"
-#include "php_kafka_int.h"
+#include "php_simple_kafka_client_int.h"
 #include "Zend/zend_exceptions.h"
+#include "consumer_arginfo.h"
 #include "functions_arginfo.h"
 #include "producer_arginfo.h"
 #include "kafka_arginfo.h"
@@ -33,7 +67,17 @@ static void kafka_free(zend_object *object) /* {{{ */
     kafka_object *intern = php_kafka_from_obj(kafka_object, object);
 
     if (intern->rk) {
-        zend_hash_destroy(&intern->topics);
+        if (RD_KAFKA_CONSUMER == intern->type) {
+            rd_kafka_resp_err_t err;
+
+            err = rd_kafka_consumer_close(intern->rk);
+
+            if (err) {
+                php_error(E_WARNING, "rd_kafka_consumer_close failed: %s", rd_kafka_err2str(err));
+            }
+        } else if (RD_KAFKA_PRODUCER == intern->type) {
+            zend_hash_destroy(&intern->topics);
+        }
 
         rd_kafka_destroy(intern->rk);
         intern->rk = NULL;
@@ -65,7 +109,7 @@ kafka_object * get_kafka_object(zval *zrk)
     kafka_object *ork = Z_KAFKA_P(kafka_object, zrk);
 
     if (!ork->rk) {
-        zend_throw_exception_ex(NULL, 0, "Kafka\\Kafka::__construct() has not been called");
+        zend_throw_exception_ex(NULL, 0, "SimpleKafkaClient\\Kafka::__construct() has not been called");
         return NULL;
     }
 
@@ -80,9 +124,9 @@ ZEND_METHOD(Kafka, __construct)
 }
 /* }}} */
 
-/* {{{ proto Kafka\Metadata::getMetadata(bool $all_topics, int $timeout_ms, Kafka\Topic $topic)
+/* {{{ proto SimpleKafkaClient\Metadata::getMetadata(bool $all_topics, int $timeout_ms, SimpleKafkaClient\Topic $topic)
    Request Metadata from broker */
-ZEND_METHOD(Kafka_Kafka, getMetadata)
+ZEND_METHOD(SimpleKafkaClient_Kafka, getMetadata)
 {
     zend_bool all_topics;
     zval *only_zrkt = NULL;
@@ -122,52 +166,9 @@ ZEND_METHOD(Kafka_Kafka, getMetadata)
 }
 /* }}} */
 
-/* {{{ proto Kafka\Topic Kafka\Kafka::getTopicHandle(string $topic)
-   Returns an Kafka\Topic object */
-ZEND_METHOD(Kafka_Kafka, getTopicHandle)
-{
-    char *topic;
-    size_t topic_len;
-    rd_kafka_topic_t *rkt;
-    kafka_object *intern;
-    kafka_topic_object *topic_intern;
-
-    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
-        Z_PARAM_STRING(topic, topic_len)
-    ZEND_PARSE_PARAMETERS_END();
-
-    intern = get_kafka_object(getThis());
-    if (!intern) {
-        return;
-    }
-
-    rkt = rd_kafka_topic_new(intern->rk, topic, NULL);
-
-    if (!rkt) {
-        return;
-    }
-
-    if (object_init_ex(return_value, ce_kafka_producer_topic) != SUCCESS) {
-        return;
-    }
-
-    topic_intern = Z_KAFKA_P(kafka_topic_object, return_value);
-    if (!topic_intern) {
-        return;
-    }
-
-    topic_intern->rkt = rkt;
-    topic_intern->zrk = *getThis();
-
-    Z_ADDREF_P(&topic_intern->zrk);
-
-    zend_hash_index_add_ptr(&intern->topics, (zend_ulong)topic_intern, topic_intern);
-}
-/* }}} */
-
-/* {{{ proto int Kafka\Kafka::getOutQLen()
+/* {{{ proto int SimpleKafkaClient\Kafka::getOutQLen()
    Returns the current out queue length */
-ZEND_METHOD(Kafka_Kafka, getOutQLen)
+ZEND_METHOD(SimpleKafkaClient_Kafka, getOutQLen)
 {
     kafka_object *intern;
 
@@ -183,9 +184,9 @@ ZEND_METHOD(Kafka_Kafka, getOutQLen)
 }
 /* }}} */
 
-/* {{{ proto int Kafka\Kafka::poll(int $timeoutMs)
+/* {{{ proto int SimpleKafkaClient\Kafka::poll(int $timeoutMs)
    Polls the provided kafka handle for events */
-ZEND_METHOD(Kafka_Kafka, poll)
+ZEND_METHOD(SimpleKafkaClient_Kafka, poll)
 {
     kafka_object *intern;
     zend_long timeout_ms;
@@ -203,9 +204,9 @@ ZEND_METHOD(Kafka_Kafka, poll)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Kafka::queryWatermarkOffsets(string $topic, int $partition, int &$low, int &$high, int $timeout_ms)
+/* {{{ proto void SimpleKafkaClient\Kafka::queryWatermarkOffsets(string $topic, int $partition, int &$low, int &$high, int $timeout_ms)
    Query broker for low (oldest/beginning) or high (newest/end) offsets for partition */
-ZEND_METHOD(Kafka_Kafka, queryWatermarkOffsets)
+ZEND_METHOD(SimpleKafkaClient_Kafka, queryWatermarkOffsets)
 {
     kafka_object *intern;
     char *topic;
@@ -243,9 +244,9 @@ ZEND_METHOD(Kafka_Kafka, queryWatermarkOffsets)
 }
 /* }}} */
 
-/* {{{ proto void Kafka\Kafka::offsetsForTimes(array $topicPartitions, int $timeout_ms)
+/* {{{ proto void SimpleKafkaClient\Kafka::offsetsForTimes(array $topicPartitions, int $timeout_ms)
    Look up the offsets for the given partitions by timestamp. */
-ZEND_METHOD(Kafka_Kafka, offsetsForTimes)
+ZEND_METHOD(SimpleKafkaClient_Kafka, offsetsForTimes)
 {
     HashTable *htopars = NULL;
     kafka_object *intern;
@@ -311,7 +312,7 @@ void register_err_constants(INIT_FUNC_ARGS) /* {{{ */
 
 /* {{{ PHP_MINIT_FUNCTION
  */
-PHP_MINIT_FUNCTION(kafka)
+PHP_MINIT_FUNCTION(simple_kafka_client)
 {
     COPY_CONSTANT(RD_KAFKA_OFFSET_BEGINNING);
     COPY_CONSTANT(RD_KAFKA_OFFSET_END);
@@ -342,17 +343,20 @@ PHP_MINIT_FUNCTION(kafka)
     kafka_object_handlers.free_obj = kafka_free;
     kafka_object_handlers.offset = XtOffsetOf(kafka_object, std);
 
-    INIT_CLASS_ENTRY(ce, "Kafka", class_Kafka_Kafka_methods);
+    INIT_CLASS_ENTRY(ce, "SimpleKafkaClient", class_SimpleKafkaClient_Kafka_methods);
     ce_kafka = zend_register_internal_class(&ce);
     ce_kafka->ce_flags |= ZEND_ACC_EXPLICIT_ABSTRACT_CLASS;
     ce_kafka->create_object = kafka_new;
 
-    INIT_NS_CLASS_ENTRY(ce, "Kafka", "Producer", class_Kafka_Producer_methods);
+    INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "Producer", class_SimpleKafkaClient_Producer_methods);
     ce_kafka_producer = zend_register_internal_class_ex(&ce, ce_kafka);
+
+    INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "Consumer", class_SimpleKafkaClient_Consumer_methods);
+    ce_kafka_consumer = zend_register_internal_class(&ce);
+    ce_kafka_consumer->create_object = kafka_new;
 
     kafka_conf_init(INIT_FUNC_ARGS_PASSTHRU);
     kafka_error_init();
-    kafka_consumer_init(INIT_FUNC_ARGS_PASSTHRU);
     kafka_message_init(INIT_FUNC_ARGS_PASSTHRU);
     kafka_metadata_init(INIT_FUNC_ARGS_PASSTHRU);
     kafka_metadata_topic_partition_init(INIT_FUNC_ARGS_PASSTHRU);
@@ -364,14 +368,14 @@ PHP_MINIT_FUNCTION(kafka)
 
 /* {{{ PHP_MINFO_FUNCTION
  */
-PHP_MINFO_FUNCTION(kafka)
+PHP_MINFO_FUNCTION(simple_kafka_client)
 {
     char *rd_kafka_version;
 
     php_info_print_table_start();
     php_info_print_table_row(2, "kafka support", "enabled");
 
-    php_info_print_table_row(2, "version", PHP_KAFKA_VERSION);
+    php_info_print_table_row(2, "version", PHP_SIMPLE_KAFKA_CLIENT_VERSION);
     php_info_print_table_row(2, "build date", __DATE__ " " __TIME__);
 
     spprintf(
@@ -394,22 +398,22 @@ PHP_MINFO_FUNCTION(kafka)
 }
 /* }}} */
 
-/* {{{ kafka_module_entry
+/* {{{ kafka_client_module_entry
  */
-zend_module_entry kafka_module_entry = {
+zend_module_entry simple_kafka_client_module_entry = {
     STANDARD_MODULE_HEADER,
-    "kafka",
+    "simple_kafka_client",
     ext_functions,
-    PHP_MINIT(kafka),
+    PHP_MINIT(simple_kafka_client),
     NULL,
     NULL,
     NULL,
-    PHP_MINFO(kafka),
-    PHP_KAFKA_VERSION,
+    PHP_MINFO(simple_kafka_client),
+    PHP_SIMPLE_KAFKA_CLIENT_VERSION,
     STANDARD_MODULE_PROPERTIES
 };
 /* }}} */
 
-#ifdef COMPILE_DL_KAFKA
-ZEND_GET_MODULE(kafka)
+#ifdef COMPILE_DL_SIMPLE_KAFKA_CLIENT
+ZEND_GET_MODULE(simple_kafka_client)
 #endif
