@@ -18,6 +18,8 @@ class Producer
 
     public function flush(int $timeoutMs): int {}
 
+    public function poll(int $timeoutMs): int {}
+
     public function purge(int $purgeFlags): int {}
 
     public function getTopicHandle(string $topic): ProducerTopic {}

@@ -184,26 +184,6 @@ ZEND_METHOD(SimpleKafkaClient_Kafka, getOutQLen)
 }
 /* }}} */
 
-/* {{{ proto int SimpleKafkaClient\Kafka::poll(int $timeoutMs)
-   Polls the provided kafka handle for events */
-ZEND_METHOD(SimpleKafkaClient_Kafka, poll)
-{
-    kafka_object *intern;
-    zend_long timeout_ms;
-
-    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
-        Z_PARAM_LONG(timeout_ms)
-    ZEND_PARSE_PARAMETERS_END();
-
-    intern = get_kafka_object(getThis());
-    if (!intern) {
-        return;
-    }
-
-    RETURN_LONG(rd_kafka_poll(intern->rk, timeout_ms));
-}
-/* }}} */
-
 /* {{{ proto void SimpleKafkaClient\Kafka::queryWatermarkOffsets(string $topic, int $partition, int &$low, int &$high, int $timeout_ms)
    Query broker for low (oldest/beginning) or high (newest/end) offsets for partition */
 ZEND_METHOD(SimpleKafkaClient_Kafka, queryWatermarkOffsets)

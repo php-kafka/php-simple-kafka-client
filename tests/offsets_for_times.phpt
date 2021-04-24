@@ -7,11 +7,11 @@ require __DIR__ . '/integration-tests-check.php';
 <?php
 require __DIR__ . '/integration-tests-check.php';
 
-$conf = new Configuration();
+$conf = new SimpleKafkaClient\Configuration();
 $conf->set('client.id', 'pure-php-producer');
 $conf->set('metadata.broker.list', getenv('TEST_KAFKA_BROKERS'));
 
-$producer = new Producer($conf);
+$producer = new SimpleKafkaClient\Producer($conf);
 $topic = $producer->getTopicHandle('pure-php-test-topic-offsets');
 $time = time();
 $topic->producev(
@@ -25,7 +25,7 @@ $topic->producev(
 );
 $result = $producer->flush(20000);
 
-$topicPartition = new TopicPartition('pure-php-test-topic-offsets', 0, $time);
+$topicPartition = new SimpleKafkaClient\TopicPartition('pure-php-test-topic-offsets', 0, $time);
 $result = $producer->offsetsForTimes([$topicPartition], 10000);
 var_dump($result[0]->getTopicName());
 var_dump($result[0]->getPartition());
