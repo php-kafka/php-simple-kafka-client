@@ -17,7 +17,7 @@ $conf->setErrorCb(function($kafka, $errorCode, $errorString) {
 });
 
 $producer = new SimpleKafkaClient\Producer($conf);
-$producer->setOAuthBearerToken('token', 100000 + microtime() * 1000, 'principal', ['test'=>'key']);
+$producer->setOAuthBearerToken('token', 100000 + time() * 1000, 'principal', ['test'=>'key']);
 $producer->poll(-1);
 echo 'Done';
 --EXPECT--
