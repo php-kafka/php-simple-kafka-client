@@ -45,7 +45,7 @@
 #include "consumer_arginfo.h"
 #include "functions_arginfo.h"
 #include "producer_arginfo.h"
-#include "kafka_arginfo.h"
+#include "simple_kafka_client_arginfo.h"
 
 enum {
    RD_KAFKA_LOG_PRINT = 100
@@ -184,26 +184,6 @@ ZEND_METHOD(SimpleKafkaClient_Kafka, getOutQLen)
 }
 /* }}} */
 
-/* {{{ proto int SimpleKafkaClient\Kafka::poll(int $timeoutMs)
-   Polls the provided kafka handle for events */
-ZEND_METHOD(SimpleKafkaClient_Kafka, poll)
-{
-    kafka_object *intern;
-    zend_long timeout_ms;
-
-    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
-        Z_PARAM_LONG(timeout_ms)
-    ZEND_PARSE_PARAMETERS_END();
-
-    intern = get_kafka_object(getThis());
-    if (!intern) {
-        return;
-    }
-
-    RETURN_LONG(rd_kafka_poll(intern->rk, timeout_ms));
-}
-/* }}} */
-
 /* {{{ proto void SimpleKafkaClient\Kafka::queryWatermarkOffsets(string $topic, int $partition, int &$low, int &$high, int $timeout_ms)
    Query broker for low (oldest/beginning) or high (newest/end) offsets for partition */
 ZEND_METHOD(SimpleKafkaClient_Kafka, queryWatermarkOffsets)
@@ -216,7 +196,7 @@ ZEND_METHOD(SimpleKafkaClient_Kafka, queryWatermarkOffsets)
     zval *lowResult, *highResult;
     rd_kafka_resp_err_t err;
 
-    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 2, 2)
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 5, 5)
         Z_PARAM_STRING(topic, topic_length)
         Z_PARAM_LONG(partition)
         Z_PARAM_ZVAL(lowResult)
@@ -352,7 +332,7 @@ PHP_MINIT_FUNCTION(simple_kafka_client)
     ce_kafka_producer = zend_register_internal_class_ex(&ce, ce_kafka);
 
     INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "Consumer", class_SimpleKafkaClient_Consumer_methods);
-    ce_kafka_consumer = zend_register_internal_class(&ce);
+    ce_kafka_consumer = zend_register_internal_class_ex(&ce, ce_kafka);
     ce_kafka_consumer->create_object = kafka_new;
 
     kafka_conf_init(INIT_FUNC_ARGS_PASSTHRU);

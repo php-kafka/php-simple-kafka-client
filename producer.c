@@ -120,6 +120,26 @@ ZEND_METHOD(SimpleKafkaClient_Producer, flush)
 }
 /* }}} */
 
+/* {{{ proto int SimpleKafkaClient\Producer::poll(int $timeoutMs)
+   Polls the provided kafka handle for events */
+ZEND_METHOD(SimpleKafkaClient_Producer, poll)
+{
+    kafka_object *intern;
+    zend_long timeout_ms;
+
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+        Z_PARAM_LONG(timeout_ms)
+    ZEND_PARSE_PARAMETERS_END();
+
+    intern = get_kafka_object(getThis());
+    if (!intern) {
+        return;
+    }
+
+    RETURN_LONG(rd_kafka_poll(intern->rk, timeout_ms));
+}
+/* }}} */
+
 /* {{{ proto int SimpleKafkaClient\Producer::purge(int $purge_flags)
    Purge messages that are in queue or in flight */
 ZEND_METHOD(SimpleKafkaClient_Producer, purge)

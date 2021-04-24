@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: ae03dd8127a9e4799e241bc490de200ff18a4178 */
+ * Stub hash: 30c864ad8163b67989b699e8e94c4fe6539a5386 */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_SimpleKafkaClient_Producer___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, configuration, SimpleKafkaClient\\Configuration, 0)
@@ -20,6 +20,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_SimpleKafkaClient_Producer
 	ZEND_ARG_TYPE_INFO(0, timeoutMs, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
+#define arginfo_class_SimpleKafkaClient_Producer_poll arginfo_class_SimpleKafkaClient_Producer_flush
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_SimpleKafkaClient_Producer_purge, 0, 1, IS_LONG, 0)
 	ZEND_ARG_TYPE_INFO(0, purgeFlags, IS_LONG, 0)
 ZEND_END_ARG_INFO()
@@ -35,6 +37,7 @@ ZEND_METHOD(SimpleKafkaClient_Producer, beginTransaction);
 ZEND_METHOD(SimpleKafkaClient_Producer, commitTransaction);
 ZEND_METHOD(SimpleKafkaClient_Producer, abortTransaction);
 ZEND_METHOD(SimpleKafkaClient_Producer, flush);
+ZEND_METHOD(SimpleKafkaClient_Producer, poll);
 ZEND_METHOD(SimpleKafkaClient_Producer, purge);
 ZEND_METHOD(SimpleKafkaClient_Producer, getTopicHandle);
 
@@ -46,6 +49,7 @@ static const zend_function_entry class_SimpleKafkaClient_Producer_methods[] = {
 	ZEND_ME(SimpleKafkaClient_Producer, commitTransaction, arginfo_class_SimpleKafkaClient_Producer_commitTransaction, ZEND_ACC_PUBLIC)
 	ZEND_ME(SimpleKafkaClient_Producer, abortTransaction, arginfo_class_SimpleKafkaClient_Producer_abortTransaction, ZEND_ACC_PUBLIC)
 	ZEND_ME(SimpleKafkaClient_Producer, flush, arginfo_class_SimpleKafkaClient_Producer_flush, ZEND_ACC_PUBLIC)
+	ZEND_ME(SimpleKafkaClient_Producer, poll, arginfo_class_SimpleKafkaClient_Producer_poll, ZEND_ACC_PUBLIC)
 	ZEND_ME(SimpleKafkaClient_Producer, purge, arginfo_class_SimpleKafkaClient_Producer_purge, ZEND_ACC_PUBLIC)
 	ZEND_ME(SimpleKafkaClient_Producer, getTopicHandle, arginfo_class_SimpleKafkaClient_Producer_getTopicHandle, ZEND_ACC_PUBLIC)
 	ZEND_FE_END
