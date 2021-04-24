@@ -288,6 +288,59 @@ ZEND_METHOD(SimpleKafkaClient_Kafka, setOAuthBearerTokenFailure)
 }
 /* }}} */
 
+/* {{{ proto void SimpleKafkaClient\Kafka::setOAuthBearerToken(string $token, int $lifetimeMs, string $principalName, ?array $extensions = null)
+   Set SASL/OAUTHBEARER token and metadata. */
+ZEND_METHOD(SimpleKafkaClient_Kafka, setOAuthBearerToken)
+{
+    zend_long lifetime_ms;
+    const char **extensions = NULL;
+    char *header_key, *header_value, *token, *principal_name, *errstr = NULL;
+    size_t token_len, principal_name_len, errstr_size = 0, extension_size = 0;
+    kafka_object *intern;
+    rd_kafka_resp_err_t err;
+    HashTable *ht_extensions = NULL;
+    HashPosition extensionsPos;
+    zval *z_header_value;
+
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 3, 4)
+        Z_PARAM_STRING(token, token_len)
+        Z_PARAM_LONG(lifetime_ms)
+        Z_PARAM_STRING(principal_name, principal_name_len)
+        Z_PARAM_OPTIONAL
+        Z_PARAM_ARRAY_HT_OR_NULL(ht_extensions)
+    ZEND_PARSE_PARAMETERS_END();
+
+    intern = get_kafka_object(getThis());
+    if (!intern) {
+        return;
+    }
+
+    if (ht_extensions) {
+        for (zend_hash_internal_pointer_reset_ex(ht_extensions, &extensionsPos);
+                (z_header_value = zend_hash_get_current_data_ex(ht_extensions, &extensionsPos)) != NULL &&
+                (header_key = kafka_hash_get_current_key_ex(ht_extensions, &extensionsPos)) != NULL;
+                zend_hash_move_forward_ex(ht_extensions, &extensionsPos)) {
+            convert_to_string_ex(z_header_value);
+            extensions = realloc(extensions, (extension_size + 1) * sizeof (header_key));
+            extensions[extension_size] = header_key;
+            header_value = Z_STRVAL_P(z_header_value);
+            extensions = realloc(extensions, (extension_size + 2) * sizeof (header_value));
+            extensions[extension_size+1] = Z_STRVAL_P(z_header_value);
+            extension_size+=2;
+        }
+    }
+
+    err = rd_kafka_oauthbearer_set_token(intern->rk, token, lifetime_ms, principal_name, extensions, extension_size, errstr, errstr_size);
+
+    if (err != RD_KAFKA_RESP_ERR_NO_ERROR) {
+        zend_throw_exception(ce_kafka_exception, rd_kafka_err2str(err), err);
+        return;
+    }
+
+    free(extensions);
+}
+/* }}} */
+
 #define COPY_CONSTANT(name) \
     REGISTER_LONG_CONSTANT(#name, name, CONST_CS | CONST_PERSISTENT)
 
