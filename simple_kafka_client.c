@@ -67,7 +67,7 @@ static void kafka_free(zend_object *object) /* {{{ */
     kafka_object *intern = php_kafka_from_obj(kafka_object, object);
 
     if (intern->rk) {
-        if (RD_KAFKA_CONSUMER === intern->type) {
+        if (RD_KAFKA_CONSUMER == intern->type) {
             rd_kafka_resp_err_t err;
 
             err = rd_kafka_consumer_close(intern->rk);
@@ -75,7 +75,7 @@ static void kafka_free(zend_object *object) /* {{{ */
             if (err) {
                 php_error(E_WARNING, "rd_kafka_consumer_close failed: %s", rd_kafka_err2str(err));
             }
-        } elseif (RD_KAFKA_PRODUCER === intern->type) {
+        } else if (RD_KAFKA_PRODUCER == intern->type) {
             zend_hash_destroy(&intern->topics);
         }
 
