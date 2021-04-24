@@ -7,13 +7,13 @@ require __DIR__ . '/integration-tests-check.php';
 <?php
 require __DIR__ . '/integration-tests-check.php';
 
-$conf = new Configuration();
+$conf = new SimpleKafkaClient\Configuration();
 $conf->set('client.id', 'pure-php-producer');
 $conf->set('metadata.broker.list', 'kafka:9096');
 $conf->set('compression.codec', 'snappy');
 $conf->set('message.timeout.ms', '5000');
 
-$producer = new Producer($conf);
+$producer = new SimpleKafkaClient\Producer($conf);
 $topic = $producer->getTopicHandle('pure-php-test-topic-watermark');
 $time = time();
 $topic->producev(
