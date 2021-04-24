@@ -294,8 +294,8 @@ ZEND_METHOD(SimpleKafkaClient_Kafka, setOAuthBearerToken)
 {
     zend_long lifetime_ms;
     const char **extensions = NULL;
-    char *header_key, *header_value, *token, *principal_name, *errstr;
-    size_t token_len, principal_name_len, errstr_size, extension_size = 0;
+    char *header_key, *header_value, *token, *principal_name, *errstr = NULL;
+    size_t token_len, principal_name_len, errstr_size = 0, extension_size = 0;
     kafka_object *intern;
     rd_kafka_resp_err_t err;
     HashTable *ht_extensions = NULL;
