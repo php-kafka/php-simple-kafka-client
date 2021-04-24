@@ -261,6 +261,33 @@ ZEND_METHOD(SimpleKafkaClient_Kafka, offsetsForTimes)
 }
 /* }}} */
 
+/* {{{ proto void SimpleKafkaClient\Kafka::setOAuthBearerTokenFailure(string $errorString)
+   The token refresh callback or event handler should invoke this method upon failure. */
+ZEND_METHOD(SimpleKafkaClient_Kafka, setOAuthBearerTokenFailure)
+{
+    char *error_string;
+    size_t error_string_len;
+    kafka_object *intern;
+    rd_kafka_resp_err_t err;
+
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+        Z_PARAM_STRING(error_string, error_string_len)
+    ZEND_PARSE_PARAMETERS_END();
+
+    intern = get_kafka_object(getThis());
+    if (!intern) {
+        return;
+    }
+
+    err = rd_kafka_oauthbearer_set_token_failure(intern->rk, error_string);
+
+    if (err != RD_KAFKA_RESP_ERR_NO_ERROR) {
+        zend_throw_exception(ce_kafka_exception, rd_kafka_err2str(err), err);
+        return;
+    }
+}
+/* }}} */
+
 #define COPY_CONSTANT(name) \
     REGISTER_LONG_CONSTANT(#name, name, CONST_CS | CONST_PERSISTENT)
 
