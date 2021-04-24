@@ -42,6 +42,7 @@
 #include "ext/standard/info.h"
 #include "php_simple_kafka_client_int.h"
 #include "Zend/zend_exceptions.h"
+#include "consumer_arginfo.h"
 #include "functions_arginfo.h"
 #include "producer_arginfo.h"
 #include "kafka_arginfo.h"
@@ -66,7 +67,17 @@ static void kafka_free(zend_object *object) /* {{{ */
     kafka_object *intern = php_kafka_from_obj(kafka_object, object);
 
     if (intern->rk) {
-        zend_hash_destroy(&intern->topics);
+        if (RD_KAFKA_CONSUMER === intern->type) {
+            rd_kafka_resp_err_t err;
+
+            err = rd_kafka_consumer_close(intern->rk);
+
+            if (err) {
+                php_error(E_WARNING, "rd_kafka_consumer_close failed: %s", rd_kafka_err2str(err));
+            }
+        } elseif (RD_KAFKA_PRODUCER === intern->type) {
+            zend_hash_destroy(&intern->topics);
+        }
 
         rd_kafka_destroy(intern->rk);
         intern->rk = NULL;
@@ -340,9 +351,12 @@ PHP_MINIT_FUNCTION(simple_kafka_client)
     INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "Producer", class_SimpleKafkaClient_Producer_methods);
     ce_kafka_producer = zend_register_internal_class_ex(&ce, ce_kafka);
 
+    INIT_NS_CLASS_ENTRY(ce, "SimpleKafkaClient", "Consumer", class_SimpleKafkaClient_Consumer_methods);
+    ce_kafka_consumer = zend_register_internal_class(&ce);
+    ce_kafka_consumer->create_object = kafka_new;
+
     kafka_conf_init(INIT_FUNC_ARGS_PASSTHRU);
     kafka_error_init();
-    kafka_consumer_init(INIT_FUNC_ARGS_PASSTHRU);
     kafka_message_init(INIT_FUNC_ARGS_PASSTHRU);
     kafka_metadata_init(INIT_FUNC_ARGS_PASSTHRU);
     kafka_metadata_topic_partition_init(INIT_FUNC_ARGS_PASSTHRU);

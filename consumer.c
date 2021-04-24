@@ -40,47 +40,7 @@
 #include "Zend/zend_exceptions.h"
 #include "consumer_arginfo.h"
 
-static zend_class_entry * ce;
-static zend_object_handlers handlers;
-
-static void kafka_consumer_free(zend_object *object) /* {{{ */
-{
-    kafka_object *intern = php_kafka_from_obj(kafka_object, object);
-    rd_kafka_resp_err_t err;
-    kafka_conf_callbacks_dtor(&intern->cbs);
-
-    if (intern->rk) {
-        err = rd_kafka_consumer_close(intern->rk);
-
-        if (err) {
-            php_error(E_WARNING, "rd_kafka_consumer_close failed: %s", rd_kafka_err2str(err));
-        }
-
-        rd_kafka_destroy(intern->rk);
-        intern->rk = NULL;
-    }
-
-    kafka_conf_callbacks_dtor(&intern->cbs);
-
-    zend_object_std_dtor(&intern->std);
-}
-/* }}} */
-
-static zend_object *kafka_consumer_new(zend_class_entry *class_type) /* {{{ */
-{
-    zend_object* retval;
-    kafka_object *intern;
-
-    intern = ecalloc(1, sizeof(kafka_object)+ zend_object_properties_size(class_type));
-    zend_object_std_init(&intern->std, class_type);
-    object_properties_init(&intern->std, class_type);
-
-    retval = &intern->std;
-    retval->handlers = &handlers;
-
-    return retval;
-}
-/* }}} */
+zend_class_entry * ce_kafka_consumer;
 
 static int has_group_id(rd_kafka_conf_t *conf) { /* {{{ */
 
@@ -703,16 +663,3 @@ ZEND_METHOD(SimpleKafkaClient_Consumer, queryWatermarkOffsets)
     ZVAL_LONG(highResult, high);
 }
 /* }}} */
-
-void kafka_consumer_init(INIT_FUNC_ARGS) /* {{{ */
-{
-    zend_class_entry tmpce;
-
-    INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient", "Consumer", class_SimpleKafkaClient_Consumer_methods);
-    ce = zend_register_internal_class(&tmpce);
-    ce->create_object = kafka_consumer_new;
-
-    handlers = kafka_default_object_handlers;
-    handlers.free_obj = kafka_consumer_free;
-    handlers.offset = XtOffsetOf(kafka_object, std);
-}
