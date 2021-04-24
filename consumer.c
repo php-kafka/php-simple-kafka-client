@@ -125,7 +125,7 @@ ZEND_METHOD(SimpleKafkaClient_Consumer, assign)
 
     ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 0, 1)
         Z_PARAM_OPTIONAL
-        Z_PARAM_ARRAY_HT(htopars)
+        Z_PARAM_ARRAY_HT_OR_NULL(htopars)
     ZEND_PARSE_PARAMETERS_END();
 
     intern = get_kafka_object(getThis());
