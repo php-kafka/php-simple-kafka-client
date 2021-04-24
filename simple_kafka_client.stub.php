@@ -15,4 +15,6 @@ abstract class Kafka
     public function offsetsForTimes(array $topicPartitions, int $timeoutMs): array {}
 
     public function setOAuthBearerTokenFailure(string $errorString): void {}
+
+    public function setOAuthBearerToken(string $token, int $lifetimeMs, string $principalName, ?array $extensions = null): void {}
 }
