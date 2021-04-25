@@ -324,7 +324,9 @@ static void kafka_conf_oauthbearer_token_refresh_cb(rd_kafka_t *rk, const char *
     ZVAL_NULL(&args[1]);
 
     ZVAL_ZVAL(&args[0], &cbs->zrk, 1, 0);
-    ZVAL_STRING(&args[1], oauthbearer_config);
+    if (oauthbearer_config) {
+        ZVAL_STRING(&args[1], oauthbearer_config);
+    }
 
     kafka_call_function(&cbs->oauthbearer_refresh->fci, &cbs->oauthbearer_refresh->fcc, NULL, 2, args);
 
