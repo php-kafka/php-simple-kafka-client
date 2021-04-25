@@ -23,4 +23,6 @@ class Configuration
     public function setOffsetCommitCb(callable $callback): void {}
 
     public function setLogCb(callable $callback): void {}
+
+    public function setOAuthBearerTokenRefreshCb(callable $callback): void {}
 }

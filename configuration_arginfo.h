@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 1790726e9dd0d0664baa412bb345663c4dab71b5 */
+ * Stub hash: b372876d55f3b02bd30dd4c09d20f305b070718c */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_SimpleKafkaClient_Configuration___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
@@ -26,6 +26,8 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_class_SimpleKafkaClient_Configuration_setLogCb arginfo_class_SimpleKafkaClient_Configuration_setErrorCb
 
+#define arginfo_class_SimpleKafkaClient_Configuration_setOAuthBearerTokenRefreshCb arginfo_class_SimpleKafkaClient_Configuration_setErrorCb
+
 
 ZEND_METHOD(SimpleKafkaClient_Configuration, __construct);
 ZEND_METHOD(SimpleKafkaClient_Configuration, dump);
@@ -36,6 +38,7 @@ ZEND_METHOD(SimpleKafkaClient_Configuration, setStatsCb);
 ZEND_METHOD(SimpleKafkaClient_Configuration, setRebalanceCb);
 ZEND_METHOD(SimpleKafkaClient_Configuration, setOffsetCommitCb);
 ZEND_METHOD(SimpleKafkaClient_Configuration, setLogCb);
+ZEND_METHOD(SimpleKafkaClient_Configuration, setOAuthBearerTokenRefreshCb);
 
 
 static const zend_function_entry class_SimpleKafkaClient_Configuration_methods[] = {
@@ -48,5 +51,6 @@ static const zend_function_entry class_SimpleKafkaClient_Configuration_methods[]
 	ZEND_ME(SimpleKafkaClient_Configuration, setRebalanceCb, arginfo_class_SimpleKafkaClient_Configuration_setRebalanceCb, ZEND_ACC_PUBLIC)
 	ZEND_ME(SimpleKafkaClient_Configuration, setOffsetCommitCb, arginfo_class_SimpleKafkaClient_Configuration_setOffsetCommitCb, ZEND_ACC_PUBLIC)
 	ZEND_ME(SimpleKafkaClient_Configuration, setLogCb, arginfo_class_SimpleKafkaClient_Configuration_setLogCb, ZEND_ACC_PUBLIC)
+	ZEND_ME(SimpleKafkaClient_Configuration, setOAuthBearerTokenRefreshCb, arginfo_class_SimpleKafkaClient_Configuration_setOAuthBearerTokenRefreshCb, ZEND_ACC_PUBLIC)
 	ZEND_FE_END
 };

@@ -56,6 +56,7 @@ typedef struct _kafka_conf_callbacks {
     kafka_conf_callback *consume;
     kafka_conf_callback *offset_commit;
     kafka_conf_callback *log;
+    kafka_conf_callback *oauthbearer_refresh;
 } kafka_conf_callbacks;
 
 typedef struct _kafka_conf_object {

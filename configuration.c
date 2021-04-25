@@ -68,6 +68,8 @@ void kafka_conf_callbacks_dtor(kafka_conf_callbacks *cbs) /* {{{ */
     cbs->offset_commit = NULL;
     kafka_conf_callback_dtor(cbs->log);
     cbs->log = NULL;
+    kafka_conf_callback_dtor(cbs->oauthbearer_refresh);
+    cbs->oauthbearer_refresh = NULL;
 } /* }}} */
 
 static void kafka_conf_callback_copy(kafka_conf_callback **to, kafka_conf_callback *from) /* {{{ */
@@ -87,6 +89,7 @@ void kafka_conf_callbacks_copy(kafka_conf_callbacks *to, kafka_conf_callbacks *f
     kafka_conf_callback_copy(&to->stats, from->stats);
     kafka_conf_callback_copy(&to->offset_commit, from->offset_commit);
     kafka_conf_callback_copy(&to->log, from->log);
+    kafka_conf_callback_copy(&to->oauthbearer_refresh, from->oauthbearer_refresh);
 } /* }}} */
 
 static void kafka_conf_free(zend_object *object) /* {{{ */
@@ -302,6 +305,31 @@ static void kafka_conf_log_cb(const rd_kafka_t *rk, int level, const char *facil
     zval_ptr_dtor(&args[1]);
     zval_ptr_dtor(&args[2]);
     zval_ptr_dtor(&args[3]);
+}
+
+static void kafka_conf_oauthbearer_token_refresh_cb(rd_kafka_t *rk, const char *oauthbearer_config, void *opaque)
+{
+    kafka_conf_callbacks *cbs = (kafka_conf_callbacks*) opaque;
+    zval args[2];
+
+    if (!opaque) {
+        return;
+    }
+
+    if (!cbs->oauthbearer_refresh) {
+        return;
+    }
+
+    ZVAL_NULL(&args[0]);
+    ZVAL_NULL(&args[1]);
+
+    ZVAL_ZVAL(&args[0], &cbs->zrk, 1, 0);
+    ZVAL_STRING(&args[1], oauthbearer_config);
+
+    kafka_call_function(&cbs->oauthbearer_refresh->fci, &cbs->oauthbearer_refresh->fcc, NULL, 2, args);
+
+    zval_ptr_dtor(&args[0]);
+    zval_ptr_dtor(&args[1]);
 }
 
 /* {{{ proto SimpleKafkaClient\Configuration::__construct() */
@@ -576,6 +604,38 @@ ZEND_METHOD(SimpleKafkaClient_Configuration, setLogCb)
 
     rd_kafka_conf_set_log_cb(conf->conf, kafka_conf_log_cb);
     rd_kafka_conf_set(conf->conf, "log.queue", "true", errstr, sizeof(errstr));
+}
+/* }}} */
+
+/* {{{ proto void SimpleKafkaClient\Configuration::setOAuthBearerTokenRefreshCb(callable $callback)
+   Sets the OAuthBearer token refresh callback */
+ZEND_METHOD(SimpleKafkaClient_Configuration, setOAuthBearerTokenRefreshCb)
+{
+    zend_fcall_info fci;
+    zend_fcall_info_cache fcc;
+    kafka_conf_object *intern;
+
+	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+	    Z_PARAM_FUNC(fci, fcc)
+	ZEND_PARSE_PARAMETERS_END();
+
+    intern = get_kafka_conf_object(getThis());
+    if (!intern) {
+        return;
+    }
+
+    Z_ADDREF_P(&fci.function_name);
+
+    if (intern->cbs.oauthbearer_refresh) {
+        zval_ptr_dtor(&intern->cbs.oauthbearer_refresh->fci.function_name);
+    } else {
+        intern->cbs.oauthbearer_refresh = ecalloc(1, sizeof(*intern->cbs.oauthbearer_refresh));
+    }
+
+    intern->cbs.oauthbearer_refresh->fci = fci;
+    intern->cbs.oauthbearer_refresh->fcc = fcc;
+
+    rd_kafka_conf_set_oauthbearer_token_refresh_cb(intern->conf, kafka_conf_oauthbearer_token_refresh_cb);
 }
 /* }}} */
 
