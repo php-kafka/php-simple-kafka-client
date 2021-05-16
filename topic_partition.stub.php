@@ -6,7 +6,7 @@ namespace SimpleKafkaClient;
 
 class TopicPartition
 {
-    public function __construct(string $topicName, int $partition, int $offset = 0) {}
+    public function __construct(string $topicName, int $partition, int $offset = 0, mixed $metadata = null) {}
 
     public function getTopicName(): ?string {}
 
@@ -19,4 +19,9 @@ class TopicPartition
     public function getOffset(): int {}
 
     public function setOffset(int $offset): TopicPartition {}
+
+    /** @param mixed $metadata */
+    public function setMetadata($metadata): TopicPartition {}
+
+    public function getMetadata(): mixed {}
 }

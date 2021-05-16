@@ -11,10 +11,15 @@ $topar = new SimpleKafkaClient\TopicPartition("test", RD_KAFKA_PARTITION_UA, 42)
 
 var_dump($topar);
 
+$topar = new SimpleKafkaClient\TopicPartition("test", RD_KAFKA_PARTITION_UA, 42, ['test']);
+
+var_dump($topar);
+
 var_dump(array(
     "topic" => $topar->getTopicName(),
     "partition" => $topar->getPartition(),
     "offset" => $topar->getOffset(),
+    "metadata" => $topar->getMetadata()
 ));
 
 $topar
@@ -31,6 +36,8 @@ object(SimpleKafkaClient\TopicPartition)#1 (3) {
   int(-1)
   ["offset"]=>
   int(0)
+  ["metadata"]=>
+  NULL
 }
 object(SimpleKafkaClient\TopicPartition)#2 (3) {
   ["topic"]=>
@@ -39,6 +46,18 @@ object(SimpleKafkaClient\TopicPartition)#2 (3) {
   int(-1)
   ["offset"]=>
   int(42)
+  ["metadata"]=>
+  NULL
+}
+object(SimpleKafkaClient\TopicPartition)#2 (3) {
+  ["topic"]=>
+  string(4) "test"
+  ["partition"]=>
+  int(-1)
+  ["offset"]=>
+  int(42)
+  ["metadata"]=>
+  NULL
 }
 array(3) {
   ["topic"]=>
@@ -47,6 +66,11 @@ array(3) {
   int(-1)
   ["offset"]=>
   int(42)
+  ["metadata"]=>
+  array(1) {
+    [0]=>
+    string(4) "test"
+  }
 }
 object(SimpleKafkaClient\TopicPartition)#2 (3) {
   ["topic"]=>
