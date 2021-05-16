@@ -25,7 +25,8 @@ var_dump(array(
 $topar
     ->setTopicName("foo")
     ->setPartition(123)
-    ->setOffset(43);
+    ->setOffset(43)
+    ->setMetadata(2);
 
 var_dump($topar);
 --EXPECT--
@@ -79,4 +80,6 @@ object(SimpleKafkaClient\TopicPartition)#2 (3) {
   int(123)
   ["offset"]=>
   int(43)
+  ["metadata"]=>
+  int(2)
 }
