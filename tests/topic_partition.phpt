@@ -30,7 +30,7 @@ $topar
 
 var_dump($topar);
 --EXPECT--
-object(SimpleKafkaClient\TopicPartition)#1 (3) {
+object(SimpleKafkaClient\TopicPartition)#1 (4) {
   ["topic"]=>
   string(4) "test"
   ["partition"]=>
@@ -40,7 +40,7 @@ object(SimpleKafkaClient\TopicPartition)#1 (3) {
   ["metadata"]=>
   NULL
 }
-object(SimpleKafkaClient\TopicPartition)#2 (3) {
+object(SimpleKafkaClient\TopicPartition)#2 (4) {
   ["topic"]=>
   string(4) "test"
   ["partition"]=>
@@ -50,7 +50,7 @@ object(SimpleKafkaClient\TopicPartition)#2 (3) {
   ["metadata"]=>
   NULL
 }
-object(SimpleKafkaClient\TopicPartition)#2 (3) {
+object(SimpleKafkaClient\TopicPartition)#2 (4) {
   ["topic"]=>
   string(4) "test"
   ["partition"]=>
@@ -63,7 +63,7 @@ object(SimpleKafkaClient\TopicPartition)#2 (3) {
     string(4) "test"
   }
 }
-array(3) {
+array(4) {
   ["topic"]=>
   string(4) "test"
   ["partition"]=>
@@ -76,7 +76,7 @@ array(3) {
     string(4) "test"
   }
 }
-object(SimpleKafkaClient\TopicPartition)#2 (3) {
+object(SimpleKafkaClient\TopicPartition)#2 (4) {
   ["topic"]=>
   string(3) "foo"
   ["partition"]=>
