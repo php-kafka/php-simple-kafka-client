@@ -50,7 +50,7 @@ object(SimpleKafkaClient\TopicPartition)#2 (4) {
   ["metadata"]=>
   NULL
 }
-object(SimpleKafkaClient\TopicPartition)#2 (4) {
+object(SimpleKafkaClient\TopicPartition)#1 (4) {
   ["topic"]=>
   string(4) "test"
   ["partition"]=>
@@ -76,7 +76,7 @@ array(4) {
     string(4) "test"
   }
 }
-object(SimpleKafkaClient\TopicPartition)#2 (4) {
+object(SimpleKafkaClient\TopicPartition)#1 (4) {
   ["topic"]=>
   string(3) "foo"
   ["partition"]=>
