@@ -391,10 +391,6 @@ ZEND_METHOD(SimpleKafkaClient_TopicPartition, setMetadata)
         return;
     }
 
-    if(Z_TYPE(intern->metadata) == IS_UNDEF) {
-        RETURN_NULL();
-    }
-
     intern->metadata = *metadata;
 
     RETURN_ZVAL(getThis(), 1, 0);
