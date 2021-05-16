@@ -58,7 +58,10 @@ object(SimpleKafkaClient\TopicPartition)#2 (3) {
   ["offset"]=>
   int(42)
   ["metadata"]=>
-  NULL
+  array(1) {
+    [0]=>
+    string(4) "test"
+  }
 }
 array(3) {
   ["topic"]=>
