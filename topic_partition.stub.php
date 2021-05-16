@@ -23,5 +23,6 @@ class TopicPartition
     /** @param mixed $metadata */
     public function setMetadata($metadata): TopicPartition {}
 
-    public function getMetadata(): mixed {}
+    /** @return mixed */
+    public function getMetadata() {}
 }
