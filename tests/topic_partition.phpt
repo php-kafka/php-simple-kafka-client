@@ -19,7 +19,7 @@ var_dump(array(
     "topic" => $topar->getTopicName(),
     "partition" => $topar->getPartition(),
     "offset" => $topar->getOffset(),
-    "metadata" => $topar->getMetadata()
+    "metadata" => $topar->getMetadata(),
 ));
 
 $topar
