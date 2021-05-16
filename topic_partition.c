@@ -97,30 +97,31 @@ kafka_topic_partition_intern * get_topic_partition_object(zval *z) /* {{{ */
 
 static HashTable *get_debug_info(Z_KAFKA_OBJ *object, int *is_temp) /* {{{ */
 {
-    zval ary;
+    zval arr;
     object_intern *intern;
 
     *is_temp = 1;
 
-    array_init(&ary);
+    array_init(&arr);
 
     intern = kafka_get_debug_object(object_intern, object);
 
     if (!intern) {
-        return Z_ARRVAL(ary);
+        return Z_ARRVAL(arr);
     }
 
     if (intern->topic) {
-        add_assoc_string(&ary, "topic", intern->topic);
+        add_assoc_string(&arr, "topic", intern->topic);
     } else {
-        add_assoc_null(&ary, "topic");
+        add_assoc_null(&arr, "topic");
     }
 
-    add_assoc_long(&ary, "partition", intern->partition);
-    add_assoc_long(&ary, "offset", intern->offset);
-    add_assoc_zval(&ary, "metadata", &intern->metadata);
+    add_assoc_long(&arr, "partition", intern->partition);
+    add_assoc_long(&arr, "offset", intern->offset);
+    Z_TRY_ADDREF_P(&intern->metadata);
+    add_assoc_zval(&arr, "metadata", &intern->metadata);
 
-    return Z_ARRVAL(ary);
+    return Z_ARRVAL(arr);
 }
 /* }}} */
 
