@@ -143,7 +143,7 @@ extern zend_object_handlers kafka_default_object_handlers;
 
 #define phpext_kafka_ptr &simple_kafka_client_module_entry
 
-#define PHP_SIMPLE_KAFKA_CLIENT_VERSION "0.1.3"
+#define PHP_SIMPLE_KAFKA_CLIENT_VERSION "0.1.4"
 
 
 static inline void kafka_call_function(zend_fcall_info *fci, zend_fcall_info_cache *fci_cache, zval *retval, uint32_t param_count, zval params[])
