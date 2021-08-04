@@ -25,7 +25,7 @@
   ## Bugfixes
   - fix for PHP 8.1 (#54, @remicollet)
   ## Internals
-  - add all sources (#54, @remicollet)
+  - add all sources to package.xml (#54, @remicollet)
  </notes>
  <contents>
   <dir name="/">
