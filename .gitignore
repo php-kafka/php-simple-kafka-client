@@ -2,6 +2,7 @@
 *.lo
 *.swp
 .deps
+*.dep
 .libs
 Makefile
 Makefile.fragments
@@ -14,16 +15,19 @@ build
 config.guess
 config.h
 config.h.in
+config.h.in~
 config.log
 config.nice
 config.status
 config.sub
 configure
 configure.in
+configure.ac
 include
 install-sh
 libtool
 ltmain.sh
+ltmain.sh.backup
 missing
 mkinstalldirs
 modules
