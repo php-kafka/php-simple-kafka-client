@@ -39,8 +39,14 @@
 #include "php_simple_kafka_client_int.h"
 #include "ext/spl/spl_iterators.h"
 #include "Zend/zend_interfaces.h"
-#include "metadata_collection_arginfo.h"
 #include "Zend/zend_exceptions.h"
+
+#if PHP_VERSION_ID < 80100
+#define ZEND_BEGIN_ARG_WITH_TENTATIVE_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, type, allow_null) \
+        ZEND_BEGIN_ARG_INFO_EX(name, return_reference, required_num_args, allow_null)
+#endif
+
+#include "metadata_collection_arginfo.h"
 
 typedef struct _object_intern {
     zval                             zmetadata;
