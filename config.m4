@@ -55,9 +55,9 @@ if test "$PHP_SIMPLE_KAFKA_CLIENT" != "no"; then
   yes
 #endif
   ],[
-    AC_MSG_RESULT([>= 1.4.0])
+    AC_MSG_RESULT([>= 1.6.0])
   ],[
-    AC_MSG_ERROR([librdkafka version 1.4.0 or greater required.])
+    AC_MSG_ERROR([librdkafka version 1.6.0 or greater required.])
   ])
 
   LDFLAGS="$ORIG_LDFLAGS"

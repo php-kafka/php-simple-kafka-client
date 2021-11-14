@@ -103,7 +103,7 @@
  <dependencies>
   <required>
    <php>
-    <min>7.3.0</min>
+    <min>7.4.0</min>
     <max>8.99.99</max>
    </php>
    <pearinstaller>
