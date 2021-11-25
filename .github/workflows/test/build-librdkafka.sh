@@ -2,7 +2,7 @@
 
 set -ex
 
-if ! [ -f ~/build-cache/librdkafka/usr/local/include/librdkafka/rdkafka.h ] || ! [ -f ~/build-cache/librdkafka/usr/local/bin/kafkacat ]; then
+if ! [ -f ~/build-cache/librdkafka/usr/local/include/librdkafka/rdkafka.h ] || ! [ -f ~/build-cache/librdkafka/usr/local/bin/kcat ]; then
     echo "librdkafka build is not cached"
 
     git clone --depth 1 --branch "${LIBRDKAFKA_VERSION:-1.6.0}" "${LIBRDKAFKA_REPOSITORY_URL:-https://github.com/edenhill/librdkafka.git}"

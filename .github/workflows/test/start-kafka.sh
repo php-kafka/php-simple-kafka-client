@@ -10,7 +10,7 @@ printf "\n127.0.0.1  kafka\n"|sudo tee /etc/hosts >/dev/null
 echo "Waiting for Kafka to be ready"
 
 for i in $(seq 1 20); do
-    if kafkacat -b 127.0.0.1 -L; then
+    if kcat -b 127.0.0.1 -L; then
         echo "Kafka is ready"
         exit 0
     fi
