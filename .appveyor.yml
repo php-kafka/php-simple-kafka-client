@@ -20,13 +20,13 @@ environment:
       OPCACHE: 1
     - PHP_VER: 8.0
       TS: 0
-      VC: vc15
+      VC: vs16
       ARCH: x64
       OPCACHE: 0
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     - PHP_VER: 8.0
       TS: 1
-      VC: vc15
+      VC: vs16
       ARCH: x64
       OPCACHE: 1
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
