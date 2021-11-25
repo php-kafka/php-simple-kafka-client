@@ -10,13 +10,13 @@ class Collection
 
     public function rewind(): void {}
 
-    /** @return mixed */
-    public function current() {}
+    /** @tentative-return-type */
+    public function current(): mixed {}
 
     public function key(): int {}
 
-    /** @return mixed */
-    public function next() {}
+    /** @tentative-return-type */
+    public function next(): void {}
 
     public function valid(): bool {}
 }

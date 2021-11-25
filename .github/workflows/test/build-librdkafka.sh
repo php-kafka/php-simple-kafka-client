@@ -2,10 +2,10 @@
 
 set -ex
 
-if ! [ -f ~/build-cache/librdkafka/usr/local/include/librdkafka/rdkafka.h ] || ! [ -f ~/build-cache/librdkafka/usr/local/bin/kafkacat ]; then
+if ! [ -f ~/build-cache/librdkafka/usr/local/include/librdkafka/rdkafka.h ] || ! [ -f ~/build-cache/librdkafka/usr/local/bin/kcat ]; then
     echo "librdkafka build is not cached"
 
-    git clone --depth 1 --branch "${LIBRDKAFKA_VERSION:-1.5.0}" "${LIBRDKAFKA_REPOSITORY_URL:-https://github.com/edenhill/librdkafka.git}"
+    git clone --depth 1 --branch "${LIBRDKAFKA_VERSION:-1.6.0}" "${LIBRDKAFKA_REPOSITORY_URL:-https://github.com/edenhill/librdkafka.git}"
 
     cd librdkafka
     ./configure
@@ -18,9 +18,9 @@ if ! [ -f ~/build-cache/librdkafka/usr/local/include/librdkafka/rdkafka.h ] || !
     sudo ldconfig
     cd ..
 
-    git clone --depth 1 --branch "1.6.0" "${LIBRDKAFKA_REPOSITORY_URL:-https://github.com/edenhill/kafkacat.git}"
+    git clone --depth 1 --branch "1.7.0" "${LIBRDKAFKA_REPOSITORY_URL:-https://github.com/edenhill/kcat.git}"
 
-    cd kafkacat
+    cd kcat
     ./configure
     make
     sudo make install DESTDIR=$HOME/build-cache/librdkafka

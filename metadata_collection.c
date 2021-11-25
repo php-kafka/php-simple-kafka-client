@@ -39,8 +39,14 @@
 #include "php_simple_kafka_client_int.h"
 #include "ext/spl/spl_iterators.h"
 #include "Zend/zend_interfaces.h"
-#include "metadata_collection_arginfo.h"
 #include "Zend/zend_exceptions.h"
+
+#if PHP_VERSION_ID < 80100
+#define ZEND_BEGIN_ARG_WITH_TENTATIVE_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, type, allow_null) \
+        ZEND_BEGIN_ARG_INFO_EX(name, return_reference, required_num_args, allow_null)
+#endif
+
+#include "metadata_collection_arginfo.h"
 
 typedef struct _object_intern {
     zval                             zmetadata;
@@ -248,7 +254,7 @@ void kafka_metadata_collection_init(INIT_FUNC_ARGS)
     INIT_NS_CLASS_ENTRY(tmpce, "SimpleKafkaClient\\Metadata", "Collection", class_SimpleKafkaClient_Metadata_Collection_methods);
     ce = zend_register_internal_class(&tmpce);
     ce->create_object = create_object;
-    zend_class_implements(ce, 2, spl_ce_Countable, spl_ce_Iterator);
+    zend_class_implements(ce, 2, zend_ce_countable, zend_ce_iterator);
 
     handlers = kafka_default_object_handlers;
     handlers.get_debug_info = get_debug_info;
