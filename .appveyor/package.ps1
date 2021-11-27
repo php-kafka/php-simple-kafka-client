@@ -28,7 +28,6 @@ $files = @(
     "C:\projects\php_simple_kafka_client\LICENSE",
     "C:\projects\php_simple_kafka_client\README.md",
     "C:\build-cache\deps\bin\librdkafka.dll",
-    "C:\build-cache\deps\bin\librdkafka.pdb",
     "C:\build-cache\deps\LICENSE.LIBRDKAFKA"
 )
 Compress-Archive $files "C:\$zip_bname"
