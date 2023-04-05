@@ -17,6 +17,6 @@ Please read the documentation [here](https://php-kafka.github.io/php-simple-kafk
 Join the [Slack Workspace](https://join.slack.com/t/php-kafka/shared_invite/zt-a73huj9v-Nl3n9RjGgjrE8OI4bfsH6Q) or [Gitter](https://gitter.im/php-kafka/php-simple-kafka-client)
 
 ## Credits
-This extension relies on [librdkafka](https://github.com/edenhill/librdkafka)  
+This extension relies on [librdkafka](https://github.com/confluentinc/librdkafka)  
 This extension is based on [php-rdkafka](https://github.com/arnaud-lb/php-rdkafka)  
 Many thanks to all [contributors](https://github.com/php-kafka/php-simple-kafka-client/graphs/contributors) :heart:
