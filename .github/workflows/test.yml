@@ -12,38 +12,47 @@ jobs:
         strategy:
           matrix:
             include:
-              - php: '8.1.0'
+              - php: '8.2.5'
                 librdkafka: 'v1.8.2'
                 memcheck: '1'
-              - php: '8.1.0'
+              - php: '8.2.5'
                 librdkafka: 'v1.8.2'
-              - php: '8.0.13'
+              - php: '8.1.18'
                 librdkafka: 'v1.8.2'
-              - php: '7.4.26'
+              - php: '8.0.28'
                 librdkafka: 'v1.8.2'
-              - php: '8.1.0'
+              - php: '7.4.33'
+                librdkafka: 'v1.8.2'
+              - php: '8.2.5'
                 librdkafka: 'v1.7.0'
-              - php: '8.0.13'
+              - php: '8.1.18'
                 librdkafka: 'v1.7.0'
-              - php: '7.4.26'
+              - php: '8.0.28'
                 librdkafka: 'v1.7.0'
-              - php: '8.1.0'
+              - php: '7.4.33'
+                librdkafka: 'v1.7.0'
+              - php: '8.2.5'
                 librdkafka: 'v1.6.2'
-              - php: '8.0.13'
+              - php: '8.1.18'
                 librdkafka: 'v1.6.2'
-              - php: '7.4.26'
+              - php: '8.0.28'
                 librdkafka: 'v1.6.2'
+              - php: '7.4.33'
+                librdkafka: 'v1.6.2'
+              - php: '8.2.5'
+                librdkafka: 'master'
+                experimental: true
               - php: '8.1.0'
                 librdkafka: 'master'
                 experimental: true
-              - php: '8.0.13'
+              - php: '8.0.28'
                 librdkafka: 'master'
                 experimental: true
-              - php: '7.4.26'
+              - php: '7.4.33'
                 librdkafka: 'master'
                 experimental: true
 
-        runs-on: 'ubuntu-18.04'
+        runs-on: 'ubuntu-20.04'
         continue-on-error: ${{ !!matrix.experimental }}
         env:
             PHP_VERSION: ${{ matrix.php }}
