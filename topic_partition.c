@@ -97,33 +97,35 @@ kafka_topic_partition_intern * get_topic_partition_object(zval *z) /* {{{ */
 
 static HashTable *get_debug_info(Z_KAFKA_OBJ *object, int *is_temp) /* {{{ */
 {
-    zval ary;
+    zval arr;
     object_intern *intern;
 
     *is_temp = 1;
 
-    array_init(&ary);
+    array_init(&arr);
 
     intern = kafka_get_debug_object(object_intern, object);
 
     if (!intern) {
-        return Z_ARRVAL(ary);
+        return Z_ARRVAL(arr);
     }
 
     if (intern->topic) {
-        add_assoc_string(&ary, "topic", intern->topic);
+        add_assoc_string(&arr, "topic", intern->topic);
     } else {
-        add_assoc_null(&ary, "topic");
+        add_assoc_null(&arr, "topic");
     }
 
-    add_assoc_long(&ary, "partition", intern->partition);
-    add_assoc_long(&ary, "offset", intern->offset);
+    add_assoc_long(&arr, "partition", intern->partition);
+    add_assoc_long(&arr, "offset", intern->offset);
+    Z_TRY_ADDREF_P(&intern->metadata);
+    add_assoc_zval(&arr, "metadata", &intern->metadata);
 
-    return Z_ARRVAL(ary);
+    return Z_ARRVAL(arr);
 }
 /* }}} */
 
-void kafka_topic_partition_init(zval *zobj, char * topic, int32_t partition, int64_t offset) /* {{{ */
+void kafka_topic_partition_init(zval *zobj, char * topic, int32_t partition, int64_t offset, zval *metadata) /* {{{ */
 {
     object_intern *intern;
 
@@ -139,6 +141,12 @@ void kafka_topic_partition_init(zval *zobj, char * topic, int32_t partition, int
 
     intern->partition = partition;
     intern->offset = offset;
+
+    if (!metadata) {
+        ZVAL_NULL(&intern->metadata);
+    } else {
+        intern->metadata = *metadata;
+    }
 } /* }}} */
 
 void kafka_topic_partition_list_to_array(zval *return_value, rd_kafka_topic_partition_list_t *list) /* {{{ */
@@ -153,7 +161,7 @@ void kafka_topic_partition_list_to_array(zval *return_value, rd_kafka_topic_part
         topar = &list->elems[i];
         ZVAL_NULL(&ztopar);
         object_init_ex(&ztopar, ce_kafka_topic_partition);
-        kafka_topic_partition_init(&ztopar, topar->topic, topar->partition, topar->offset);
+        kafka_topic_partition_init(&ztopar, topar->topic, topar->partition, topar->offset, topar->metadata);
         add_next_index_zval(return_value, &ztopar);
     }
 } /* }}} */
@@ -199,7 +207,7 @@ rd_kafka_topic_partition_list_t * array_arg_to_kafka_topic_partition_list(int ar
 } /* }}} */
 
 
-/* {{{ proto void SimpleKafkaClient\TopicPartition::__construct(string $topic, int $partition[, int $offset])
+/* {{{ proto void SimpleKafkaClient\TopicPartition::__construct(string $topic, int $partition[, int $offset, mixed $metadata])
    Constructor */
 ZEND_METHOD(SimpleKafkaClient_TopicPartition, __construct)
 {
@@ -207,15 +215,17 @@ ZEND_METHOD(SimpleKafkaClient_TopicPartition, __construct)
     size_t topic_len;
     zend_long partition;
     zend_long offset = 0;
+    zval *metadata = NULL;
 
-    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 2, 3)
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 2, 4)
         Z_PARAM_STRING(topic, topic_len)
         Z_PARAM_LONG(partition)
         Z_PARAM_OPTIONAL
         Z_PARAM_LONG(offset)
+        Z_PARAM_ZVAL_OR_NULL(metadata)
     ZEND_PARSE_PARAMETERS_END();
 
-    kafka_topic_partition_init(getThis(), topic, partition, offset);
+    kafka_topic_partition_init(getThis(), topic, partition, offset, metadata);
 }
 /* }}} */
 
@@ -343,6 +353,46 @@ ZEND_METHOD(SimpleKafkaClient_TopicPartition, setOffset)
     }
 
     intern->offset = offset;
+
+    RETURN_ZVAL(getThis(), 1, 0);
+}
+/* }}} */
+
+/* {{{ proto int SimpleKafkaClient\TopicPartition::getMetadata()
+   Returns offset */
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, getMetadata)
+{
+    object_intern *intern;
+
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 0, 0)
+    ZEND_PARSE_PARAMETERS_END();
+
+    intern = get_object(getThis());
+    if (!intern) {
+        return;
+    }
+
+    RETURN_ZVAL(&intern->metadata, 1, 0);
+}
+/* }}} */
+
+/* {{{ proto TopicPartition SimpleKafkaClient\TopicPartition::setMetadata($metadata)
+   Sets metadata */
+ZEND_METHOD(SimpleKafkaClient_TopicPartition, setMetadata)
+{
+    zval *metadata = NULL;
+    object_intern *intern;
+
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+        Z_PARAM_ZVAL(metadata)
+    ZEND_PARSE_PARAMETERS_END();
+
+    intern = get_object(getThis());
+    if (!intern) {
+        return;
+    }
+
+    intern->metadata = *metadata;
 
     RETURN_ZVAL(getThis(), 1, 0);
 }

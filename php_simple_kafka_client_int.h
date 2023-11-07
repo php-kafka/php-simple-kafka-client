@@ -69,6 +69,7 @@ typedef struct _kafka_topic_partition_intern {
     char        *topic;
     int32_t     partition;
     int64_t     offset;
+    zval        metadata;
     zend_object std;
 } kafka_topic_partition_intern;
 
@@ -112,6 +113,9 @@ typedef void (*kafka_metadata_collection_ctor_t)(zval *renurn_value, zval *zmeta
 
 #define Z_PARAM_STRING_OR_NULL(dest, dest_len) \
 	Z_PARAM_STRING_EX(dest, dest_len, 1, 0)
+
+#define Z_PARAM_ZVAL_OR_NULL(dest) \
+	Z_PARAM_ZVAL_EX(dest, 1, 0)
 
 #endif
 
@@ -208,7 +212,7 @@ void kafka_metadata_topic_init(INIT_FUNC_ARGS);
 void kafka_metadata_topic_ctor(zval *return_value, zval *zmetadata, const void *metadata_topic);
 void kafka_topic_init(INIT_FUNC_ARGS);
 void kafka_metadata_topic_partition_init(INIT_FUNC_ARGS);
-void kafka_topic_partition_init(zval *z, char *topic, int32_t partition, int64_t offset);
+void kafka_topic_partition_init(zval *z, char *topic, int32_t partition, int64_t offset, zval *metadata);
 void kafka_topic_partition_list_to_array(zval *return_value, rd_kafka_topic_partition_list_t *list);
 
 kafka_topic_partition_intern * get_topic_partition_object(zval *z);
