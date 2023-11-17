@@ -161,29 +161,30 @@ static void kafka_conf_error_cb(rd_kafka_t *rk, int err, const char *reason, voi
     zval_ptr_dtor(&args[2]);
 }
 
-static void kafka_conf_dr_msg_cb(rd_kafka_t *rk, const rd_kafka_message_t *msg, void *opaque)
+void kafka_conf_dr_msg_cb(rd_kafka_t *rk, const rd_kafka_message_t *msg, void *opaque)
 {
     kafka_conf_callbacks *cbs = (kafka_conf_callbacks*) opaque;
-    zval args[2];
+    zval args[3];
 
-    if (!opaque) {
-        return;
-    }
-
-    if (!cbs->dr_msg) {
+    if (!opaque || !cbs->dr_msg) {
         return;
     }
 
     ZVAL_NULL(&args[0]);
     ZVAL_NULL(&args[1]);
+    ZVAL_NULL(&args[2]);
 
     ZVAL_ZVAL(&args[0], &cbs->zrk, 1, 0);
     kafka_message_new(&args[1], msg);
+    if (NULL != msg->_private) {
+        ZVAL_ZVAL(&args[2], msg->_private, 1, 0);
+    }
 
-    kafka_call_function(&cbs->dr_msg->fci, &cbs->dr_msg->fcc, NULL, 2, args);
+    kafka_call_function(&cbs->dr_msg->fci, &cbs->dr_msg->fcc, NULL, 3, args);
 
     zval_ptr_dtor(&args[0]);
     zval_ptr_dtor(&args[1]);
+    zval_ptr_dtor(&args[2]);
 }
 
 static int kafka_conf_stats_cb(rd_kafka_t *rk, char *json, size_t json_len, void *opaque)

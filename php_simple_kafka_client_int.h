@@ -93,13 +93,16 @@ typedef void (*kafka_metadata_collection_ctor_t)(zval *renurn_value, zval *zmeta
 
 #else // PHP 7
 
+#define IS_MIXED 16
+
 #define Z_KAFKA_OBJ zval
 
 #define Z_KAFKA_PROP_OBJ(object) object
 
 #define kafka_get_debug_object(type, object) get_object(object)
 
-#define ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(pass_by_ref, name, type_hint, allow_null, default_value) ZEND_ARG_INFO(pass_by_ref, name)
+#define ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(pass_by_ref, name, type_hint, allow_null, default_value) \
+    ZEND_ARG_INFO(pass_by_ref, name)
 
 #define Z_PARAM_ARRAY_HT_OR_NULL(dest) \
 	Z_PARAM_ARRAY_HT_EX(dest, 1, 0)
@@ -112,6 +115,9 @@ typedef void (*kafka_metadata_collection_ctor_t)(zval *renurn_value, zval *zmeta
 
 #define Z_PARAM_STRING_OR_NULL(dest, dest_len) \
 	Z_PARAM_STRING_EX(dest, dest_len, 1, 0)
+
+#define Z_PARAM_ZVAL_OR_NULL(dest) \
+	Z_PARAM_ZVAL_EX(dest, 1, 0)
 
 #endif
 

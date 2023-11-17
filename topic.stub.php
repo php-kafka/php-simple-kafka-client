@@ -18,7 +18,7 @@ class ProducerTopic extends Topic
 {
     private function __construct() {}
 
-    public function produce(int $partition, int $msgFlags, ?string $payload = null, ?string $key = null): void {}
+    public function produce(int $partition, int $msgFlags, ?string $payload = null, ?string $key = null, mixed $opaque = null): void {}
 
-    public function producev(int $partition, int $msgFlags, ?string $payload = null, ?string $key = null, ?array $headers = null, ?int $timestampMs = null): void {}
+    public function producev(int $partition, int $msgFlags, ?string $payload = null, ?string $key = null, ?array $headers = null, ?int $timestampMs = null, mixed $opaque = null): void {}
 }

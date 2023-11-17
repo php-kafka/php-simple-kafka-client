@@ -113,13 +113,15 @@ ZEND_METHOD(SimpleKafkaClient_ProducerTopic, produce)
     int ret;
     rd_kafka_resp_err_t err;
     kafka_topic_object *intern;
+    zval *opaque = NULL;
 
-    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 2, 4)
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 2, 5)
         Z_PARAM_LONG(partition)
         Z_PARAM_LONG(msgflags)
         Z_PARAM_OPTIONAL
         Z_PARAM_STRING_OR_NULL(payload, payload_len)
         Z_PARAM_STRING_OR_NULL(key, key_len)
+        Z_PARAM_ZVAL_OR_NULL(opaque)
     ZEND_PARSE_PARAMETERS_END();
 
     if (partition != RD_KAFKA_PARTITION_UA && (partition < 0 || partition > 0x7FFFFFFF)) {
@@ -132,9 +134,13 @@ ZEND_METHOD(SimpleKafkaClient_ProducerTopic, produce)
         return;
     }
 
+    if (NULL != opaque) {
+        Z_ADDREF_P(opaque);
+    }
+
     intern = get_kafka_topic_object(getThis());
 
-    ret = rd_kafka_produce(intern->rkt, partition, msgflags | RD_KAFKA_MSG_F_COPY, payload, payload_len, key, key_len, NULL);
+    ret = rd_kafka_produce(intern->rkt, partition, msgflags | RD_KAFKA_MSG_F_COPY, payload, payload_len, key, key_len, opaque);
 
     if (ret == -1) {
         err = rd_kafka_last_error();
@@ -160,12 +166,12 @@ ZEND_METHOD(SimpleKafkaClient_ProducerTopic, producev)
     HashTable *headersParam = NULL;
     HashPosition headersParamPos;
     char *header_key;
-    zval *header_value;
+    zval *header_value, *opaque = NULL;
     rd_kafka_headers_t *headers;
     zend_long timestamp_ms = 0;
     zend_bool timestamp_ms_is_null = 0;
 
-    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 2, 6)
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 2, 7)
         Z_PARAM_LONG(partition)
         Z_PARAM_LONG(msgflags)
         Z_PARAM_OPTIONAL
@@ -173,6 +179,7 @@ ZEND_METHOD(SimpleKafkaClient_ProducerTopic, producev)
         Z_PARAM_STRING_OR_NULL(key, key_len)
         Z_PARAM_ARRAY_HT_OR_NULL(headersParam)
         Z_PARAM_LONG_OR_NULL(timestamp_ms, timestamp_ms_is_null)
+        Z_PARAM_ZVAL_OR_NULL(opaque)
     ZEND_PARSE_PARAMETERS_END();
 
     if (partition != RD_KAFKA_PARTITION_UA && (partition < 0 || partition > 0x7FFFFFFF)) {
@@ -183,6 +190,10 @@ ZEND_METHOD(SimpleKafkaClient_ProducerTopic, producev)
     if (msgflags != 0 && msgflags != RD_KAFKA_MSG_F_BLOCK) {
         zend_throw_exception_ex(spl_ce_InvalidArgumentException, 0, "Invalid value '%ld' for $msgflags", msgflags);
         return;
+    }
+
+    if (NULL != opaque) {
+        Z_ADDREF_P(opaque);
     }
 
     if (timestamp_ms_is_null == 1) {
@@ -224,6 +235,7 @@ ZEND_METHOD(SimpleKafkaClient_ProducerTopic, producev)
             RD_KAFKA_V_KEY(key, key_len),
             RD_KAFKA_V_TIMESTAMP(timestamp_ms),
             RD_KAFKA_V_HEADERS(headers),
+            RD_KAFKA_V_OPAQUE(opaque),
             RD_KAFKA_V_END
     );
 
